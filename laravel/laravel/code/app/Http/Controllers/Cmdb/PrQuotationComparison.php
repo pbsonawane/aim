@@ -34,7 +34,7 @@ class PrQuotationComparison extends Controller
             $approvalstatus = array_unique($approvalstatus);
             $statusquotation = implode(" ",$approvalstatus);
             $data['quotation_status']                    = trim($statusquotation);            
-            $attachmentoptions1   = ['form_params' => array('pr_po_id' => $pr_id, 'attachment_type' => 'qu')];
+            $attachmentoptions1   = ['form_params' => ['pr_po_id' => $pr_id, 'attachment_type' => 'qu']];
             $prpoattachment_resp1 = $this->itam->prpoattachment($attachmentoptions1);
 
             $data['prpoattachment1'] = isset($prpoattachment_resp1['content']) ? $prpoattachment_resp1['content'] : null;

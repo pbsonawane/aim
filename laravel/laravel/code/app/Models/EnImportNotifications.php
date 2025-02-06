@@ -21,7 +21,7 @@ class EnImportNotifications extends Model
     }
 
 
-     protected function getnotifications($inputdata=array(), $count=false)
+     protected function getnotifications($inputdata=[], $count=false)
     {
         $notification_id = _isset($inputdata,'notification_id');
         $searchkeyword = _isset($inputdata,'searchkeyword');

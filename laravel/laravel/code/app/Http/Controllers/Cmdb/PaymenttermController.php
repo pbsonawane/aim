@@ -43,8 +43,8 @@ class PaymenttermController extends Controller
 
     public function paymentterms()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'paymenttermList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("payment_term"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'paymenttermList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["payment_term"]);
         $data['pageTitle']   = trans('title.paymentterm');
         $data['includeView'] = view("Cmdb/paymentterm", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class PaymenttermController extends Controller
     {
         //try
         //{
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -99,7 +99,7 @@ class PaymenttermController extends Controller
 
             $view = 'Cmdb/paymenttermlist';
             //$paymentterm_id = isset($paymentterms[0]['paymentterm_id']) ? $paymentterms[0]['paymentterm_id'] : "";
-            $content = $this->emlib->emgrid($paymentterms, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($paymentterms, $view, $columns = [], $paging);
         }
 
         $response["html"]     = $content;
@@ -135,7 +135,7 @@ class PaymenttermController extends Controller
     public function paymenttermadd(Request $request)
     {
         $data['paymentterm_id']  = '';
-        $paymenttermdata         = array();
+        $paymenttermdata         = [];
         $data['paymenttermdata'] = $paymenttermdata;
         $html                    = view("Cmdb/paymenttermadd", $data);
         echo $html;
@@ -150,7 +150,7 @@ class PaymenttermController extends Controller
      */
     public function paymenttermaddsubmit(Request $request)
     {
-        $data = $this->itam->addpaymentterm(array('form_params' => $request->all()));
+        $data = $this->itam->addpaymentterm(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -165,8 +165,8 @@ class PaymenttermController extends Controller
     public function paymenttermedit(Request $request)
     {
         $paymentterm_id = $request->id;
-        $input_req      = array('paymentterm_id' => $paymentterm_id);
-        $data           = $this->itam->editpaymentterm(array('form_params' => $input_req));
+        $input_req      = ['paymentterm_id' => $paymentterm_id];
+        $data           = $this->itam->editpaymentterm(['form_params' => $input_req]);
 
         $data['paymentterm_id']  = $paymentterm_id;
         $data['paymenttermdata'] = $data['content'];
@@ -184,7 +184,7 @@ class PaymenttermController extends Controller
      */
     public function paymenttermeditsubmit(Request $request)
     {
-        $data = $this->itam->updatepaymentterm(array('form_params' => $request->all()));
+        $data = $this->itam->updatepaymentterm(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -197,7 +197,7 @@ class PaymenttermController extends Controller
      */
     public function paymenttermdelete(Request $request)
     {
-        $data = $this->itam->deletepaymentterm(array('form_params' => $request->all()));
+        $data = $this->itam->deletepaymentterm(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

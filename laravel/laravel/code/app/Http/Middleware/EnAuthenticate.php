@@ -37,7 +37,7 @@ class EnAuthenticate
                 {
                     if($request->ajax())
                     {
-                        $response = array();
+                        $response = [];
                         $response["html"]     = "";
                         $response["is_error"] = true;
                         $response["msg"]      = 'Service token expired.';
@@ -48,7 +48,7 @@ class EnAuthenticate
                     {
                         if($request->ajax())
                         {
-                            $response = array();
+                            $response = [];
                             $response["html"]     = "";
                             $response["is_error"] = true;
                             $response["msg"]      = 'Service token expired.';

@@ -12,7 +12,7 @@ class ApiService extends Controller
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
         curl_setopt($curl, CURLOPT_USERPWD, "$userName:$password");
-        $headers = array('Authorization: Basic ' . base64_encode("$userName:$password"));
+        $headers = ['Authorization: Basic ' . base64_encode("$userName:$password")];
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
         curl_setopt($curl, CURLOPT_POST, 1);

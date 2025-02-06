@@ -87,7 +87,7 @@
 											if(is_array($item['validation']) && count($item['validation']) > 0)
 												$valds = $item['validation'];
 											else
-												$valds = array();	
+												$valds = [];	
 
 										?>
 										<select id="validations" size="2" multiple="multiple" name="validations[]" class="form-control input-sm">

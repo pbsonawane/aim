@@ -42,7 +42,7 @@ class EnSoftwareInstall extends Model
     * @return       Array
     * @tables       en_software_installation
     */
-    protected function getswinstallation($inputdata=array(), $count=false)
+    protected function getswinstallation($inputdata=[], $count=false)
     {
         $query = DB::table('en_software_installation')   
                 ->select(DB::raw('BIN_TO_UUID(sw_install_id) AS sw_install_id'),'asset_id','software_id','created_at')
@@ -73,24 +73,24 @@ class EnSoftwareInstall extends Model
             if($sw_install_data)
             {    
                     
-                    $sw_install_data->update(array('status' => 'd'));            
+                    $sw_install_data->update(['status' => 'd']);            
                     $sw_install_data->save();                     
                     $data['data']['deleted_id'] = $sw_install_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Software Iinstall'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Software Iinstall']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Software Install'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Software Install']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Software Install'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Software Install']);
             $data['status'] = 'error';                             
         }   
         return $data;    

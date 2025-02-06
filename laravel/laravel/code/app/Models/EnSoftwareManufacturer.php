@@ -35,7 +35,7 @@ class EnSoftwareManufacturer extends Model
     * @tables       en_software_manufacturer
     */
 
-    protected function getsoftwaremanufacturer($software_manufacturer_id, $inputdata=array(), $count=false)
+    protected function getsoftwaremanufacturer($software_manufacturer_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -95,24 +95,24 @@ class EnSoftwareManufacturer extends Model
             if($software_manufacturer_data)
             {    
                     
-                    $software_manufacturer_data->update(array('status' => 'd'));            
+                    $software_manufacturer_data->update(['status' => 'd']);            
                     $software_manufacturer_data->save();                     
                     $data['data']['deleted_id'] = $software_manufacturer_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Software Manufacturer'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Software Manufacturer']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Software Manufacturer'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Software Manufacturer']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Software Manufacturer'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Software Manufacturer']);
             $data['status'] = 'error';                             
         }   
         return $data;    

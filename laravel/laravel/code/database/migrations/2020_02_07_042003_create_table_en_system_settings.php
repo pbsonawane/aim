@@ -17,8 +17,8 @@ class CreateTableEnSystemSettings extends Migration
             Schema::create('en_system_settings', function (Blueprint $table) {
                $table->increments('setting_id');
                $table->text('configuration');
-               $table->enum('status',array('y', 'n'))->default('y');
-               $table->enum('type',array('ensysconfig'));
+               $table->enum('status',['y', 'n'])->default('y');
+               $table->enum('type',['ensysconfig']);
            });
        }
     }

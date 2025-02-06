@@ -14,7 +14,7 @@
                             <div class="col-md-4">
                             <select id="prefix" name="prefix" class="form-control input-sm">
                                 <?php
-                                $option = array();
+                                $option = [];
                                 $prefix = trans('commonarr.prefix');
                                 if ($prefix) {
                                     if (is_array($prefix) && count($prefix) > 0) {
@@ -69,7 +69,7 @@
                             <div class="col-md-4">
                             <select id="associated_with" name="associated_with" class="form-control input-sm">
                                 <?php
-                                $option          = array();
+                                $option          = [];
                                 $associated_with = trans('commonarr.associated_with');
                                 if ($associated_with) {
                                     if (is_array($associated_with) && count($associated_with) > 0) {

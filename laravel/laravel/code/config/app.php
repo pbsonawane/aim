@@ -250,7 +250,7 @@ return [
     'api_log_enable'    => true,
     'api_log_path'      => storage_path().'/logs/api.log',
     'default_lang'      => 'en-US',    
-    'lang_arr'          => array(
+    'lang_arr'          => [
                         'ar' => 'ar-TN', //Arabic
                         'de' => 'de-DE', //German
                         'en' => 'en-US', //English
@@ -273,6 +273,6 @@ return [
                         'pl' => 'pl-PL', //Polska
                         'zh' => 'zh-CN', //Chinese
                         'mr' => 'mr-MR', //Marathi 
-                    ),
-    'defaultci' => array('server', 'laptop','desktop'),  
+                    ],
+    'defaultci' => ['server', 'laptop','desktop'],  
 ];

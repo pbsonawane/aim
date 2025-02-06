@@ -31,7 +31,7 @@ class DatacentersController extends Controller
      * @return string
      */ 
 	public function datacenters() {
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'dcList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'dcList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);   
 		$data['pageTitle'] = "Datacenters";
 		$data['includeView'] = view("Admin/datacenters",$data);
@@ -47,7 +47,7 @@ class DatacentersController extends Controller
      * @return json
      */
 	public function dclist() {
-		$paging = array();
+		$paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -83,7 +83,7 @@ class DatacentersController extends Controller
 			$paging['offset'] = $offset;
 			$paging['page'] = $page;
 			$view = 'Admin/dclist';
-			$content = $this->emlib->emgrid($dcs, $view, $columns=array(), $paging);
+			$content = $this->emlib->emgrid($dcs, $view, $columns=[], $paging);
 		}
 		$response["html"] = $content;
 		$response["is_error"] = $is_error;
@@ -99,7 +99,7 @@ class DatacentersController extends Controller
      */	
 	public  function dcadd(Request $request)
     {
-    	$regions = array();
+    	$regions = [];
         $data['dc_id'] = '';
         $limit_offset = limitoffset(0, 0);
 		$form_params['limit'] = $limit_offset['limit'];
@@ -111,7 +111,7 @@ class DatacentersController extends Controller
 						
 		if($regions_resp['is_error'])
 		{
-			$regions = array();
+			$regions = [];
 		}
 		else
 		{
@@ -119,7 +119,7 @@ class DatacentersController extends Controller
 		}
 		//print_r($regions);exit;
 		
-		$data['dcdata'] = array();
+		$data['dcdata'] = [];
 		$data['regions'] = $regions;
         $html = view("Admin/dcadd", $data);
         echo  $html;
@@ -136,7 +136,7 @@ class DatacentersController extends Controller
      */
 	public function dcaddsubmit(Request $request)
     {		
-    	$data =  $this->iam->addDatacenter(array( 'form_params' => $request->all()));
+    	$data =  $this->iam->addDatacenter([ 'form_params' => $request->all()]);
       	echo json_encode($data,true);
     } 
     /**
@@ -151,8 +151,8 @@ class DatacentersController extends Controller
     public function dcedit(Request $request)
 	{	
 		$dc_id = $request->id;
-		$input_req = array('dc_id' => $dc_id);
-		$data =  $this->iam->editDatacenter(array( 'form_params' => $input_req));
+		$input_req = ['dc_id' => $dc_id];
+		$data =  $this->iam->editDatacenter([ 'form_params' => $input_req]);
 		$data['dcdata'] = $data['content'];
 		$data['dc_id'] = $dc_id;
 		$limit_offset = limitoffset(0, 0);
@@ -163,7 +163,7 @@ class DatacentersController extends Controller
         $regions_resp = $this->iam->getRegions($options);
 		if($regions_resp['is_error'])
 		{
-			$regions = array();
+			$regions = [];
 		}
 		else
 		{
@@ -186,7 +186,7 @@ class DatacentersController extends Controller
      */
 	public function dceditsubmit(Request $request)
     {
-       $data =  $this->iam->updateDatacenter(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updateDatacenter([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     } 
     /**
@@ -199,7 +199,7 @@ class DatacentersController extends Controller
      */ 
     public function dcdelete(Request $request)
 	{
-		$data =  $this->iam->deleteDatacenter(array( 'form_params' => $request->all()));
+		$data =  $this->iam->deleteDatacenter([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 }

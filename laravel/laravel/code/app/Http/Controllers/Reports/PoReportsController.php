@@ -46,17 +46,17 @@ class PoReportsController extends Controller
   */
   public function reports()
   {
-    $topfilter              = array('gridsearch' => true, 'jsfunction' => 'reportsList()');
+    $topfilter              = ['gridsearch' => true, 'jsfunction' => 'reportsList()'];
     $data['emgridtop']      = $this->emlib->emgridtop();
     $data['pageTitle']      = trans('title.reports');
-    $reportcategory         = array();
-    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => array()]);
+    $reportcategory         = [];
+    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => []]);
     if(isset($reportcategory_resp['is_error']) && $reportcategory_resp['is_error']==false)
     {
       $reportcategory = _isset(_isset($reportcategory_resp, 'content'), 'records');
     }
-    $reportsdata      = array();
-    $reportsdata_resp = $this->itam->getreports(['form_params' => array()]);
+    $reportsdata      = [];
+    $reportsdata_resp = $this->itam->getreports(['form_params' => []]);
     if(isset($reportsdata_resp['is_error']) && $reportsdata_resp['is_error']==false)
     {
       $reportsdata = _isset(_isset($reportsdata_resp, 'content'), 'records');
@@ -80,7 +80,7 @@ class PoReportsController extends Controller
   {
     try
     {
-      $paging         = array();
+      $paging         = [];
       $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
       $page           = _isset($this->request_params, 'page', config('enconfig.page'));
       $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -114,7 +114,7 @@ class PoReportsController extends Controller
         $paging['showpagination'] = true;
         $paging['jsfunction']     = 'reportsList()';
         $view                     = 'Reports/reportslist';
-        $content                  = $this->emlib->emgrid($reports, $view, $columns = array(), $paging);
+        $content                  = $this->emlib->emgrid($reports, $view, $columns = [], $paging);
       }
       $response["html"]       = $content;
       $response["is_error"]   = $is_error;
@@ -150,7 +150,7 @@ class PoReportsController extends Controller
   */
   public function reportsdetail(Request $request,$report_id = null)
   {
-    $reportsdata = $reportmodules[0] = $mergeArr = array();
+    $reportsdata = $reportmodules[0] = $mergeArr = [];
     $form_params['report_id'] = $report_id;
     $options                  = ['form_params' => $form_params];
     $reportsdata_resp = $this->itam->getreports($options);
@@ -227,7 +227,7 @@ class PoReportsController extends Controller
     $data['reportsdata']    = $reportsdata;
     $data['reportmodules']  = $reportmodules[0];
     $data['report_id']      = $report_id;
-    $topfilter              = array('gridsearch' => false, 'jsfunction' => 'reportdetailsList_po()');
+    $topfilter              = ['gridsearch' => false, 'jsfunction' => 'reportdetailsList_po()'];
     $data['emgridtop']      = $this->emlib->emgridtop($topfilter);
     $data['pageTitle']      = trans('title.reportdetails');
     $data['includeView']    = view("Reports/reports-det", $data);
@@ -246,7 +246,7 @@ class PoReportsController extends Controller
   {
     try
     {
-      $paging         = array();
+      $paging         = [];
       $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
       $page           = _isset($this->request_params, 'page', config('enconfig.page'));
       $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -280,7 +280,7 @@ class PoReportsController extends Controller
         $tableheaders             = _isset(_isset($reports_resp, 'content'), 'tableheaders');
         $paging['total_rows']     = _isset(_isset($reports_resp, 'content'), 'totalrecords');
         if(!is_array($tableheaders))
-          $tableheaders = array();
+          $tableheaders = [];
         $paging['showpagination'] = true;
         $paging['jsfunction']     = 'reportdetailsList_po()';
         $view                     = 'Reports/reportsdetlist';
@@ -531,7 +531,7 @@ class PoReportsController extends Controller
     // $options = ['po_id' => 'c78923f0-16b9-11ec-b078-4a4901e9af12'];
     
     $response = $this->itam->downloadPo($options);
-    $assetoptions = ['form_params' => array('pr_po_id' => $po_id, 'asset_type' => 'po')];
+    $assetoptions = ['form_params' => ['pr_po_id' => $po_id, 'asset_type' => 'po']];
     $response['assetdetails_resp'] = $this->itam->prpoassetdetails($assetoptions);
     // print_r($response['assetdetails_resp']);die;
     $extraarray = array_column($response['assetdetails_resp']['content'],'asset_details');
@@ -624,7 +624,7 @@ class PoReportsController extends Controller
     $selected_value  =  _isset($this->request_params, 'selected_value');
     $reportids       =  _isset($this->request_params, 'reportids');
     $selected_value  = explode(",",$selected_value);
-    $option = array();
+    $option = [];
     switch ($field) 
     {
       case "vendor":
@@ -645,7 +645,7 @@ class PoReportsController extends Controller
       case "location":
         $locationDetailsOptions = "";
         //============= Locations
-        $options                = ['form_params' => array('order_byregion' => true)];
+        $options                = ['form_params' => ['order_byregion' => true]];
         $locationDetails        = $this->iam->getLocations($options);
         $locationDetailsArr     = _isset(_isset($locationDetails, 'content'), 'records');
         if ($locationDetailsArr)
@@ -675,7 +675,7 @@ class PoReportsController extends Controller
 
       case "business_vertical":
         //============= Business Vertical
-        $options                        = ['form_params' => array('order_bybu' => true)];
+        $options                        = ['form_params' => ['order_bybu' => true]];
         $businessVerticalDetails        = $this->iam->getBusinessVertical($options);
         $businessVerticalDetailsArr     = _isset(_isset($businessVerticalDetails, 'content'), 'records');
         $businessVerticalDetailsOptions = "";
@@ -706,7 +706,7 @@ class PoReportsController extends Controller
       
       case "datacenter":
         $options = [
-            'form_params' => array('order_byregion' => true),
+            'form_params' => ['order_byregion' => true],
         ];
         $datacenterDetails        = $this->iam->getDatacenters($options);
         $datacenterDetailsArr     = _isset(_isset($datacenterDetails, 'content'), 'records');
@@ -738,7 +738,7 @@ class PoReportsController extends Controller
       //PO Name
       case "po_name":
         $options = [
-            'form_params' => array('order_byregion' => true),
+            'form_params' => ['order_byregion' => true],
         ];
         $ponameDetails        = $this->itam->purchaseorder($options);
         $ponameDetailsArr     = _isset(_isset($ponameDetails, 'content'), 'records');
@@ -757,7 +757,7 @@ class PoReportsController extends Controller
       //Contarct
       case "contracttype":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $contracttypeDetails        = $this->itam->getcontracttype($options);
         $contracttypeDetailsArr     = _isset(_isset($contracttypeDetails, 'content'), 'records');
@@ -812,7 +812,7 @@ class PoReportsController extends Controller
       //Software
       case "sw_category":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swcatDetails        = $this->itam->getsoftwarecategory($options);
         $swcatDetailsArr     = _isset(_isset($swcatDetails, 'content'), 'records');
@@ -833,7 +833,7 @@ class PoReportsController extends Controller
 
       case "sw_type":
          $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swtypeDetails        = $this->itam->getsoftwaretype($options);
         $swtypeDetailsArr     = _isset(_isset($swtypeDetails, 'content'), 'records');
@@ -854,7 +854,7 @@ class PoReportsController extends Controller
       
       case "sw_manufacturer":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swmanufacturerDetails         = $this->itam->getsoftwaremanufacturer($options);
         $sw_manufacturerDetailsArr     = _isset(_isset($swmanufacturerDetails, 'content'), 'records');
@@ -874,7 +874,7 @@ class PoReportsController extends Controller
       break;
       //Purchase
       case "cost_center":
-        $option                   = array();
+        $option                   = [];
         $costcenterDetails        = $this->itam->getcostcenters($option);
         $costcenterDetailsArr     = _isset(_isset($costcenterDetails, 'content'), 'records');
         $costcenterDetailsOptions ="";
@@ -1004,7 +1004,7 @@ class PoReportsController extends Controller
       break;
   
       default:
-      return json_encode(array());
+      return json_encode([]);
     } 
   }
 }

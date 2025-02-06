@@ -12,10 +12,10 @@
     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [                                                                          
         'Content-Type: application/json',
         'Accept: application/json',                                                                            
-        'Content-Length: ' . strlen($json_data))                                                                       
+        'Content-Length: ' . strlen($json_data)]                                                                       
     ); 
 
     $api_result = curl_exec ($ch);

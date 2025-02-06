@@ -36,7 +36,7 @@ class EnLicenseType extends Model
     */
 
     
-    protected function getlicensetype($license_type_id, $inputdata=array(), $count=false)
+    protected function getlicensetype($license_type_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -96,24 +96,24 @@ class EnLicenseType extends Model
             if($license_type_data)
             {    
                     
-                    $license_type_data->update(array('status' => 'd'));            
+                    $license_type_data->update(['status' => 'd']);            
                     $license_type_data->save();                     
                     $data['data']['deleted_id'] = $license_type_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('License Type'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['License Type']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('License Type'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['License Type']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('License Type'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['License Type']);
             $data['status'] = 'error';                             
         }   
         return $data;    

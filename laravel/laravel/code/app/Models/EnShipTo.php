@@ -31,7 +31,7 @@ class EnShipTo extends Model
      * @return       array
      * @tables       en_ship_to
      */
-    protected function getshiptos($shipto_id, $inputdata = array(), $count = false)
+    protected function getshiptos($shipto_id, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -89,24 +89,24 @@ class EnShipTo extends Model
 
             if ($shipto_data) {
                 //apilog('sdhfksdf'.json_encode($shipto_data));
-                $shipto_data->update(array('status' => 'd'));
+                $shipto_data->update(['status' => 'd']);
                 $shipto_data->save();
                 /*$queries    = DB::getQueryLog();
                 $last_query = end($queries);
                 apilog(json_encode($last_query));   */
 
                 $data['data']['deleted_id'] = $shipto_id;
-                $data['message']['success'] = showmessage('118', array('{name}'), array('Ship To'));
+                $data['message']['success'] = showmessage('118', ['{name}'], ['Ship To']);
                 $data['status']             = 'success';
 
             } else {
                 $data['data']             = null;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Ship To'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Ship To']);
                 $data['status']           = 'error';
             }
         } else {
             $data['data']             = null;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Ship To'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Ship To']);
             $data['status']           = 'error';
         }
         return $data;

@@ -37,7 +37,7 @@ class ModuleController extends Controller
      */
 	public function modules() {
 
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'moduleList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'moduleList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);
 		$data['pageTitle'] = "Modules";
 		$data['includeView'] = view("Admin/modules",$data);
@@ -53,7 +53,7 @@ class ModuleController extends Controller
      * @return json
      */
 	public function modulelist() {
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -85,7 +85,7 @@ class ModuleController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'moduleList()';
 			$view = 'Admin/modulelist';
-			$content = $this->emlib->emgrid($modules, $view, array(), $paging);
+			$content = $this->emlib->emgrid($modules, $view, [], $paging);
 		}
 
 		$response["html"] = $content;
@@ -103,7 +103,7 @@ class ModuleController extends Controller
 	public  function moduleadd(Request $request)
     {
         $data['module_id'] = '';
-		$moduledata = array();
+		$moduledata = [];
 		$data['moduledata'] = $moduledata;
         $html = view("Admin/moduleadd",$data);
         echo  $html;
@@ -119,7 +119,7 @@ class ModuleController extends Controller
      */
 	public function modulesave(Request $request)
     {
-       $data =  $this->iam->addModule(array( 'form_params' => $request->all()));
+       $data =  $this->iam->addModule([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	/**
@@ -134,8 +134,8 @@ class ModuleController extends Controller
 	public function moduleedit(Request $request)
 	{	
 		$module_id = $request->id;
-		$input_req = array('module_id' => $module_id);
-		$data =  $this->iam->getModules(array( 'form_params' => $input_req));
+		$input_req = ['module_id' => $module_id];
+		$data =  $this->iam->getModules([ 'form_params' => $input_req]);
 		
 		$data['module_id'] = $module_id;
 		$data['moduledata'] = $data['content']['records'];
@@ -155,7 +155,7 @@ class ModuleController extends Controller
      */
 	public function moduleupdate(Request $request)
     {
-       $data =  $this->iam->updateModule(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updateModule([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	 /**
@@ -168,7 +168,7 @@ class ModuleController extends Controller
      */
 	public function moduledelete(Request $request)
 	{
-		$data =  $this->iam->deleteModule(array( 'form_params' => $request->all()));
+		$data =  $this->iam->deleteModule([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 	

@@ -26,7 +26,7 @@ class EnContractType extends Model
         return 'contract_type_id';
     }
 
-    protected function getcontracttype($contract_type_id, $inputdata=array(), $count=false)
+    protected function getcontracttype($contract_type_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
 
@@ -87,24 +87,24 @@ class EnContractType extends Model
             if($contract_type_data)
             {    
                     
-                    $contract_type_data->update(array('status' => 'd'));            
+                    $contract_type_data->update(['status' => 'd']);            
                     $contract_type_data->save();                     
                     $data['data']['deleted_id'] = $contract_type_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Contract Type'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Contract Type']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Contract Type'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Contract Type']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Contract Type'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Contract Type']);
             $data['status'] = 'error';                             
         }   
         return $data;    

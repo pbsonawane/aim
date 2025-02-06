@@ -35,7 +35,7 @@
                             <div class="col-md-4">
                             <select id="prefix" name="prefix" class="form-control input-sm">
                                 <?php
-                                $option = array();
+                                $option = [];
                                 $prefix = trans('commonarr.prefix');
                                 if ($prefix) {
                                     if (is_array($prefix) && count($prefix) > 0) {

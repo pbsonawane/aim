@@ -27,7 +27,7 @@ class CrController extends Controller
     /* Load Main UI */
     public function complaintraised()
     {
-        $topfilter           = array('gridsearch' => true, 'gridadvsearch' => true, 'jsfunction' => 'crList() , crDetailsLoad()');
+        $topfilter           = ['gridsearch' => true, 'gridadvsearch' => true, 'jsfunction' => 'crList() , crDetailsLoad()'];
         $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ['users', 'vendors', 'datesearch']);
         $data['pageTitle']   = 'Complaint Raised';
         
@@ -40,7 +40,7 @@ class CrController extends Controller
         //dd($request);        
         try
         {
-            $paging        = array();
+            $paging        = [];
             $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
             $page          = _isset($this->request_params, 'page', config('enconfig.page'));
             $searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -80,7 +80,7 @@ class CrController extends Controller
                 }
             }
             
-            $options        = ['form_params' => array('user_id' => showuserid())];
+            $options        = ['form_params' => ['user_id' => showuserid()]];
             $pos_resp       = $this->iam->getuserprofile($options);
             $pos            = _isset($pos_resp, 'content');
             $department_id  = $pos[0]['department_id'];
@@ -90,7 +90,7 @@ class CrController extends Controller
             // print_r($pos);
             //exit;
             
-            $options_history = ['form_params' => array()];
+            $options_history = ['form_params' => []];
 
             /* $response_historyuser = $this->iam->getUsers($options_history);
             print_r($response_historyuser);
@@ -136,7 +136,7 @@ class CrController extends Controller
                 
                 $po_id                    = isset($pos[0]['cr_id']) ? $pos[0]['cr_id'] : "";
                 
-                $content                  = $this->emlib->emgrid($pos, $view, array(), $paging);
+                $content                  = $this->emlib->emgrid($pos, $view, [], $paging);
                 
                 $response["html"]         = $content;
                 $response["is_error"]     = $is_error;
@@ -172,7 +172,7 @@ class CrController extends Controller
             $postData["approval_status"] = _isset($inputdata, 'approval_status', "");
             $postData["comment"] = _isset($inputdata, 'comment', "");
 
-            $data = $this->itam->approve_reject_cr(array('form_params' => $postData));
+            $data = $this->itam->approve_reject_cr(['form_params' => $postData]);
         } catch (\Exception $e) {
             $data["content"] = "";
             $data["is_error"] = "";
@@ -209,7 +209,7 @@ class CrController extends Controller
                 $form_params['searchkeyword'] = '';
                 $options                      = ['form_params' => $form_params];
                 
-                $optionss = ['form_params' => array('user_id' => showuserid())];            
+                $optionss = ['form_params' => ['user_id' => showuserid()]];            
                 $getCurrentUser = $this->iam->getuserprofile($optionss);
                 $data['currentUser'] = $getCurrentUser['content'][0];  
                 
@@ -289,26 +289,26 @@ class CrController extends Controller
     {
         try {
 
-            $inputdata = array('template_name' => 'purchaserequest');
-            $data = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata = ['template_name' => 'purchaserequest'];
+            $data = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
 
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
             $data['pr_id'] = "";
-            $option = array();
+            $option = [];
             $ciDetails = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
             //Get Approvers List
-            $option['form_params'] = array('advusertype' => "staff");
+            $option['form_params'] = ['advusertype' => "staff"];
             $approversDetails = $this->iam->getUsers($option);
             $approversDetails = _isset(_isset($approversDetails, 'content'), 'records');
             $data['approversDetails'] = $approversDetails;
 
             $data['formAction'] = "add";
-            $option_user = array('form_params' => array('user_id' => showuserid()));
+            $option_user = ['form_params' => ['user_id' => showuserid()]];
             $userdata = $this->iam->getUsers($option_user);
             
            
@@ -349,26 +349,26 @@ class CrController extends Controller
         
         try {
 
-            $inputdata = array('template_name' => 'complaintraised');
-            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata = ['template_name' => 'complaintraised'];
+            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
             
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
             $data['pr_id']     = "";
-            $option            = array();
+            $option            = [];
             $ciDetails         = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
             //Get Approvers List
-            $option['form_params']    = array('advusertype' => "staff");
+            $option['form_params']    = ['advusertype' => "staff"];
             $approversDetails         = $this->iam->getUsers($option);
             $data['approversDetails'] = _isset(_isset($approversDetails, 'content'), 'records');
 
             $data['formAction'] = "add";
 
-            $option_user           = array('form_params' => array('user_id' => showuserid()));
+            $option_user           = ['form_params' => ['user_id' => showuserid()]];
             $userdata              = $this->iam->getUsers($option_user);
             $user_id               = _isset(_isset($userdata, 'content'), 'records');
             $department_name       = $user_id[0]['department_name'];
@@ -402,7 +402,7 @@ class CrController extends Controller
             $request1['files_content_it_remark'] = $files_content;              
         }
         
-        $data = $this->itam->addcritremark(array('form_params' => $request1));
+        $data = $this->itam->addcritremark(['form_params' => $request1]);
         echo json_encode($data, true);
     }
 
@@ -421,7 +421,7 @@ class CrController extends Controller
             $request1['files_content_store_remark'] = $files_content;              
         }
         
-        $data = $this->itam->addcrstoreremark(array('form_params' => $request1));
+        $data = $this->itam->addcrstoreremark(['form_params' => $request1]);
         echo json_encode($data, true);
     }
 
@@ -507,19 +507,19 @@ class CrController extends Controller
     {
         try
         {
-            $inputdata = array('template_name' => 'purchaserequest');
-            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata = ['template_name' => 'purchaserequest'];
+            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
-            $option            = array();
+            $option            = [];
             $ciDetails         = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
 
             //Get Approvers List
-            $option['form_params']    = array('advusertype' => "staff");
+            $option['form_params']    = ['advusertype' => "staff"];
             $approversDetails         = $this->iam->getUsers($option);
             $data['approversDetails'] = _isset(_isset($approversDetails, 'content'), 'records');
 
@@ -532,14 +532,14 @@ class CrController extends Controller
             $purchaserequestdetail         = isset($prs_resp['content']['records'][0]) ? $prs_resp['content']['records'][0] : null;
             $data['purchaserequestdetail'] = $purchaserequestdetail;
 
-            $historyoptions         = ['form_params' => array('pr_po_id' => $pr_id, 'history_type' => 'pr')];
+            $historyoptions         = ['form_params' => ['pr_po_id' => $pr_id, 'history_type' => 'pr']];
             $prpohistorylog_resp    = $this->itam->prpohistorylog($historyoptions);
             $data['prpohistorylog'] = isset($prpohistorylog_resp['content']) ? $prpohistorylog_resp['content'] : null;
 
-            $assetoptions          = ['form_params' => array('pr_po_id' => $pr_id, 'asset_type' => 'pr')];
+            $assetoptions          = ['form_params' => ['pr_po_id' => $pr_id, 'asset_type' => 'pr']];
             $assetdetails_resp     = $this->itam->prpoassetdetails($assetoptions);
             $data['assetdetails']  = isset($assetdetails_resp['content']) ? $assetdetails_resp['content'] : null;
-            $option_user           = array('form_params' => array('user_id' => showuserid()));
+            $option_user           = ['form_params' => ['user_id' => showuserid()]];
             $userdata              = $this->iam->getUsers($option_user);
             $user_id               = _isset(_isset($userdata, 'content'), 'records');
             $department_name       = $user_id[0]['department_name'];
@@ -571,7 +571,7 @@ class CrController extends Controller
 
         $vendore_id = $request->input('vendor_id');
 
-        $option                = array();
+        $option                = [];
         $vendorsDetails        = $this->itam->getvendors($option);
         $vendorsDetailsArr     = _isset(_isset($vendorsDetails, 'content'), 'records');
         $vendorsDetailsOptions = "<option value=''>[" . trans('label.lbl_selectvendor') . "]</option>";
@@ -599,7 +599,7 @@ class CrController extends Controller
         }*/
 
         //============= Ship To Master
-        $option               = array();
+        $option               = [];
         $shiptoDetails        = $this->itam->getshiptos($option);
         $shiptoDetailsArr     = _isset(_isset($shiptoDetails, 'content'), 'records');
         $shiptoDetailsOptions = "<option value=''>[" . trans('label.lbl_selectshipto') . "]</option>";
@@ -610,10 +610,10 @@ class CrController extends Controller
         }
 
         //============= Requester Names Master
-        $option_user                 = array('form_params' => array('user_id' => showuserid()));
+        $option_user                 = ['form_params' => ['user_id' => showuserid()]];
         $userdata                    = $this->iam->getUsers($option_user);
         $user_id                     = _isset(_isset($userdata, 'content'), 'records');
-        $option                      = array('form_params' => array('department_id' => $user_id[0]['department_id']));
+        $option                      = ['form_params' => ['department_id' => $user_id[0]['department_id']]];
         $requesternameDetails        = $this->itam->getrequesternames($option);
         $requesternameDetailsArr     = _isset(_isset($requesternameDetails, 'content'), 'records');
         $requesternameDetailsOptions = "<option value=''>[" . trans('label.lbl_selectrequestername') . "]</option>";
@@ -625,7 +625,7 @@ class CrController extends Controller
         }
 
         //============= Bill To Master
-        $option               = array();
+        $option               = [];
         $billtoDetails        = $this->itam->getbilltos($option);
         $billtoDetailsArr     = _isset(_isset($billtoDetails, 'content'), 'records');
         $billtoDetailsOptions = "<option value=''>[" . trans('label.lbl_selectbillto') . "]</option>";
@@ -636,7 +636,7 @@ class CrController extends Controller
         }
 
         //============= Ship To Contact Master
-        $option                  = array();
+        $option                  = [];
         $shiptoContactDetails    = $this->itam->getcontacts($option);
         $shiptoContactDetailsArr = _isset(_isset($shiptoContactDetails, 'content'), 'records');
 
@@ -668,7 +668,7 @@ class CrController extends Controller
         }
          */
         //============= Delivery Master
-        $option                 = array();
+        $option                 = [];
         $deliveryDetails        = $this->itam->getdelivery($option);
         $deliveryDetailsArr     = _isset(_isset($deliveryDetails, 'content'), 'records');
         $deliveryDetailsOptions = "<option value=''>[" . trans('label.lbl_selectdelivery') . "]</option>";
@@ -679,7 +679,7 @@ class CrController extends Controller
         }
 
         //============= Payment Terms Master
-        $option                     = array();
+        $option                     = [];
         $paymenttermsDetails        = $this->itam->getpaymentterms($option);
         $paymenttermsDetailsArr     = _isset(_isset($paymenttermsDetails, 'content'), 'records');
         $paymenttermsDetailsOptions = "<option value=''>[" . trans('label.lbl_selectpaymentterms') . "]</option>";
@@ -809,10 +809,10 @@ class CrController extends Controller
             $inputdata = $request->all();
             //echo "inputdata ";
             //echo '<pre>'; print_r($inputdata); echo '</pre>';
-            $postData['asset_details']['item']                      = _isset($inputdata, 'item', array());
-            $postData['asset_details']['item_desc']                 = _isset($inputdata, 'item_desc', array());
-            $postData['asset_details']['warranty_support_required'] = _isset($inputdata, 'warranty_support_required', array());
-            $postData['asset_details']['item_qty']                  = _isset($inputdata, 'item_qty', array());
+            $postData['asset_details']['item']                      = _isset($inputdata, 'item', []);
+            $postData['asset_details']['item_desc']                 = _isset($inputdata, 'item_desc', []);
+            $postData['asset_details']['warranty_support_required'] = _isset($inputdata, 'warranty_support_required', []);
+            $postData['asset_details']['item_qty']                  = _isset($inputdata, 'item_qty', []);
             $postData["approval_req"]                               = _isset($inputdata, 'approval_req', "n");
             $postData["form_templ_id"]                              = _isset($inputdata, 'form_templ_id', "");
             $postData["urlpath"]                                    = _isset($inputdata, 'urlpath', "purchaserequest");
@@ -835,10 +835,10 @@ class CrController extends Controller
             );*/
             //$postData['other_details'] = json_encode($otherDetails);
 
-            $postData["approved_status"] = array(); // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
+            $postData["approved_status"] = []; // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
 
-            $approval_details['confirmed'] = _isset($inputdata, 'approvers', array());
-            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', array());
+            $approval_details['confirmed'] = _isset($inputdata, 'approvers', []);
+            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', []);
 
             $postData['approval_details'] = json_encode($approval_details);
             unset($request['approval_req']);
@@ -866,7 +866,7 @@ class CrController extends Controller
             //echo '<pre>'; print_r($postData); echo '</pre>';
             // exit;
 
-            $data = $this->itam->purchaserequestsave(array('form_params' => $postData));
+            $data = $this->itam->purchaserequestsave(['form_params' => $postData]);
 
         } catch (\Exception $e) {
             $data["content"]   = "";
@@ -908,8 +908,8 @@ class CrController extends Controller
             $postData["form_templ_type"] = _isset($inputdata, 'form_templ_type', "default");
             $postData["requester_id"]    = showuserid();
 
-            $postData['approval_details'] = json_encode(array("optional" => array(), 'confirmed' => showuserid()));
-            $postData['approved_status']  = json_encode(array("optional" => array(), 'confirmed' => array(showuserid() => 'approved'), 'convert_to_pr' => array('approved' => showuserid())));
+            $postData['approval_details'] = json_encode(["optional" => [], 'confirmed' => showuserid()]);
+            $postData['approved_status']  = json_encode(["optional" => [], 'confirmed' => [showuserid() => 'approved'], 'convert_to_pr' => ['approved' => showuserid()]]);
             /* For PO Without PR */
             //$postData["po_name"] = _isset($inputdata, 'po_name', "");
             //$postData["po_no"]   = _isset($inputdata, 'po_no', "");
@@ -957,7 +957,7 @@ class CrController extends Controller
             } else {
                 $postData["status"] = _isset($inputdata, 'status', 'pending approval');
             }
-            $pr_ids = array();
+            $pr_ids = [];
             if (!empty($arr['pr_id'])) {
 
                 foreach ($arr['pr_id'] as $value) {
@@ -991,9 +991,9 @@ class CrController extends Controller
             //$postData['other_details'] = json_encode($otherDetails);
 
             // $postData["approved_status"]   = array(); // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
-            $inputdata['approvers']        = array(showuserid());
-            $approval_details['confirmed'] = _isset($inputdata, 'approvers', array());
-            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', array());
+            $inputdata['approvers']        = [showuserid()];
+            $approval_details['confirmed'] = _isset($inputdata, 'approvers', []);
+            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', []);
 
             $postData['approval_details'] = json_encode($approval_details);
             unset($request['approval_req']);
@@ -1025,7 +1025,7 @@ class CrController extends Controller
             $postData["pr_no"]      = generateprnumber();
             $postData["status"]     = 'approved';
 
-            $data = $this->itam->purchaserequestconvertsave(array('form_params' => $postData));
+            $data = $this->itam->purchaserequestconvertsave(['form_params' => $postData]);
 
         } catch (\Exception $e) {
             $data["content"]   = "";
@@ -1052,25 +1052,25 @@ class CrController extends Controller
         try {
             $inputdata = $request->all();
 
-            $item_item_data = array('item' => explode(",", $inputdata['item']));
-            $item_product   = array('item_product' => explode(",", $inputdata['item_product']));
-            $item_desc_data = array('item_desc' => explode(",", $inputdata['item_desc']));
-            $item_wsr_data  = array('warranty_support_required' => explode(",", $inputdata['warranty_support_required']));
-            $item_qty_data  = array('item_qty' => explode(",", $inputdata['item_qty']));
-            $approvers_data = array();
+            $item_item_data = ['item' => explode(",", $inputdata['item'])];
+            $item_product   = ['item_product' => explode(",", $inputdata['item_product'])];
+            $item_desc_data = ['item_desc' => explode(",", $inputdata['item_desc'])];
+            $item_wsr_data  = ['warranty_support_required' => explode(",", $inputdata['warranty_support_required'])];
+            $item_qty_data  = ['item_qty' => explode(",", $inputdata['item_qty'])];
+            $approvers_data = [];
             if ($inputdata['approvers'] != '') {
-                $approvers_data = array('approvers' => explode(",", $inputdata['approvers']));
+                $approvers_data = ['approvers' => explode(",", $inputdata['approvers'])];
             }
-            $approvers_optional_data = array();
+            $approvers_optional_data = [];
             if ($inputdata['approvers_optional'] != '') {
-                $approvers_optional_data = array('approvers_optional' => explode(",", $inputdata['approvers_optional']));
+                $approvers_optional_data = ['approvers_optional' => explode(",", $inputdata['approvers_optional'])];
             }
 
-            $postData['asset_details']['item']                      = _isset($item_item_data, 'item', array());
-            $postData['asset_details']['item_product']              = _isset($item_product, 'item_product', array());
-            $postData['asset_details']['item_desc']                 = _isset($item_desc_data, 'item_desc', array());
-            $postData['asset_details']['warranty_support_required'] = _isset($item_wsr_data, 'warranty_support_required', array());
-            $postData['asset_details']['item_qty']                  = _isset($item_qty_data, 'item_qty', array());
+            $postData['asset_details']['item']                      = _isset($item_item_data, 'item', []);
+            $postData['asset_details']['item_product']              = _isset($item_product, 'item_product', []);
+            $postData['asset_details']['item_desc']                 = _isset($item_desc_data, 'item_desc', []);
+            $postData['asset_details']['warranty_support_required'] = _isset($item_wsr_data, 'warranty_support_required', []);
+            $postData['asset_details']['item_qty']                  = _isset($item_qty_data, 'item_qty', []);
             $postData["approval_req"]                               = _isset($inputdata, 'approval_req', "n");
             $postData["form_templ_id"]                              = _isset($inputdata, 'form_templ_id', "");
             $postData["urlpath"]                                    = _isset($inputdata, 'urlpath', "purchaserequest");
@@ -1082,9 +1082,9 @@ class CrController extends Controller
                 $postData["status"] = _isset($inputdata, 'status', 'pending approval');
             }
 
-            $postData["approved_status"]   = array(); // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
-            $approval_details['confirmed'] = _isset($approvers_data, 'approvers', array());
-            $approval_details['optional']  = _isset($approvers_optional_data, 'approvers_optional', array());
+            $postData["approved_status"]   = []; // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
+            $approval_details['confirmed'] = _isset($approvers_data, 'approvers', []);
+            $approval_details['optional']  = _isset($approvers_optional_data, 'approvers_optional', []);
             $postData['approval_details']  = json_encode($approval_details);
             unset($request['approval_req']);
             unset($request['status']);
@@ -1116,7 +1116,7 @@ class CrController extends Controller
                 $postData["pr_no"] = generateprnumber();
             }
 
-            $data           = $this->itam->purchaserequestsave(array('form_params' => $postData));
+            $data           = $this->itam->purchaserequestsave(['form_params' => $postData]);
             $last_insert_id = $data['content']['insert_id'];
 
             /* Pr File Upload Code */
@@ -1217,7 +1217,7 @@ class CrController extends Controller
                 $postData["title"] = _isset($inputdata,'bv_id', "");
                 print_r($postData);*/
 
-                $data = $this->itam->poreceiveditem(array('form_params' => $inputdata));
+                $data = $this->itam->poreceiveditem(['form_params' => $inputdata]);
             } else {
                 /* For Notify */
                 $postData["mail_notification_to"]      = _isset($inputdata, 'mail_notification_to', "");
@@ -1232,7 +1232,7 @@ class CrController extends Controller
                 $postData["received_date"]    = _isset($inputdata, 'received_date', "");
                 $postData["payment_due_date"] = _isset($inputdata, 'payment_due_date', "");
 
-                $data = $this->itam->prpoformActions(array('form_params' => $postData));
+                $data = $this->itam->prpoformActions(['form_params' => $postData]);
 
                 if (isset($data["is_error"]) && $data["is_error"] == false) {
                     $phpmailer    = new Maillib();
@@ -1274,10 +1274,10 @@ class CrController extends Controller
         // $po_id      = _isset($this->request_params, 'po_id');
         $po_id = $id;
         if ($id == "") {
-            $topfilter           = array('gridsearch' => true, 'jsfunction' => 'poList() , poDetailsLoad()');
+            $topfilter           = ['gridsearch' => true, 'jsfunction' => 'poList() , poDetailsLoad()'];
             $data['show_single'] = "false";
         } else {
-            $topfilter           = array('gridsearch' => false, 'jsfunction' => 'poList() , poDetailsLoad()');
+            $topfilter           = ['gridsearch' => false, 'jsfunction' => 'poList() , poDetailsLoad()'];
             $data['show_single'] = "true";
         }
         $data['po_id']       = $po_id;
@@ -1299,7 +1299,7 @@ class CrController extends Controller
     {
         try
         {
-            $paging        = array();
+            $paging        = [];
             $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
             $page          = _isset($this->request_params, 'page', config('enconfig.page'));
             $searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -1352,7 +1352,7 @@ class CrController extends Controller
                 $po_id                  = isset($pos[0]['po_id']) ? $pos[0]['po_id'] : "";
                 $pos_arr['pos']         = $pos;
                 $pos_arr['show_single'] = $show_single;
-                $content                = $this->emlib->emgrid($pos_arr, $view, array(), $paging);
+                $content                = $this->emlib->emgrid($pos_arr, $view, [], $paging);
             }
 
             $response["html"]     = $content;
@@ -1391,7 +1391,7 @@ class CrController extends Controller
             $pr_po_id = _isset($this->request_params, 'first_po_id');
             if ($pr_po_id != "") {
                 $data['po_id']                 = '';
-                $purchaserequestdetail         = array();
+                $purchaserequestdetail         = [];
                 $data['purchaserequestdetail'] = $purchaserequestdetail;
                 //$data['bv_id'] = '';
                 $form_params['po_id']         = $pr_po_id;
@@ -1407,33 +1407,33 @@ class CrController extends Controller
                 $pr_po_id = isset($prs_resp['content']['records'][0]) ? $prs_resp['content']['records'][0]['po_id'] : null;
 
                 $assetoptions = [
-                    'form_params' => array('pr_po_id' => $pr_po_id, 'asset_type' => 'po')];
+                    'form_params' => ['pr_po_id' => $pr_po_id, 'asset_type' => 'po']];
                 $assetdetails_resp = $this->itam->prpoassetdetails($assetoptions);
 
                 $data['assetdetails'] = isset($assetdetails_resp['content']) ? $assetdetails_resp['content'] : null;
 
                 $receivedassetoptions = [
-                    'form_params' => array('pr_po_id' => $pr_po_id, 'asset_type' => 'po')];
+                    'form_params' => ['pr_po_id' => $pr_po_id, 'asset_type' => 'po']];
                 $receivedassetdetails_resp = $this->itam->prpoassetdetails($receivedassetoptions);
 
                 $data['receivedassetdetails'] = isset($receivedassetdetails_resp['content']) ? $receivedassetdetails_resp['content'] : null;
 
                 $historyoptions = [
-                    'form_params' => array('pr_po_id' => $pr_po_id, 'history_type' => 'po')];
+                    'form_params' => ['pr_po_id' => $pr_po_id, 'history_type' => 'po']];
                 $prpohistorylog_resp    = $this->itam->prpohistorylog($historyoptions);
                 $data['prpohistorylog'] = isset($prpohistorylog_resp['content']) ? $prpohistorylog_resp['content'] : null;
 
                 $invoiceoptions = [
-                    'form_params' => array('po_id' => $pr_po_id)];
+                    'form_params' => ['po_id' => $pr_po_id]];
                 $purchaseinvoices_resp    = $this->itam->purchaseinvoices($invoiceoptions);
                 $data['purchaseinvoices'] = isset($purchaseinvoices_resp['content']) ? $purchaseinvoices_resp['content'] : null;
 
                 $attachmentoptions = [
-                    'form_params' => array('pr_po_id' => $pr_po_id, 'attachment_type' => 'po')];
+                    'form_params' => ['pr_po_id' => $pr_po_id, 'attachment_type' => 'po']];
                 $prpoattachment_resp    = $this->itam->prpoattachment($attachmentoptions);
                 $data['prpoattachment'] = isset($prpoattachment_resp['content']) ? $prpoattachment_resp['content'] : null;
 
-                $purchaserequestdata          = array();
+                $purchaserequestdata          = [];
                 $form_params['template_name'] = 'purchase_request';
                 $options                      = [
                     'form_params' => $form_params,
@@ -1441,18 +1441,18 @@ class CrController extends Controller
                 $purchaserequestdata     = $this->itam->getFormTemplateDefaulteConfigbyTemplateName($options);
                 $data['form_templ_data'] = $purchaserequestdata;
                 /* To get Approvers name fromm IAM */
-                $approval_details_by_data = array('optional' => array(), 'confirmed' => array());
+                $approval_details_by_data = ['optional' => [], 'confirmed' => []];
                 if (isset($data['pr_first_detail']['approval_details']['optional']) && !empty($data['pr_first_detail']['approval_details']['optional'])) {
                     foreach ($data['pr_first_detail']['approval_details']['optional'] as $user_id) {
                         $options_optional = [
-                            'form_params' => array('user_id' => $user_id),
+                            'form_params' => ['user_id' => $user_id],
                         ];
                         $response_optional = $this->iam->getAllUsersWithoputPermission($options_optional);
                         $response_data     = _isset(_isset($response_optional, 'content'), 'records');
 
                         if (!(is_array($response_data) && count($response_data) > 0)) {
-                            $response_data    = array();
-                            $response_data[0] = array();
+                            $response_data    = [];
+                            $response_data[0] = [];
                         }
 
                         $approval_details_by_data['optional'][] = $response_data[0];
@@ -1461,14 +1461,14 @@ class CrController extends Controller
                 if (!empty($data['prpohistorylog'])) {
                     foreach ($data['prpohistorylog'] as $key => $history) {
                         $options_history = [
-                            'form_params' => array('user_id' => $history['created_by']),
+                            'form_params' => ['user_id' => $history['created_by']],
                         ];
                         $response_historyuser = $this->iam->getAllUsersWithoputPermission($options_history);
                         $historyuser_data     = _isset(_isset($response_historyuser, 'content'), 'records');
 
                         if (!(is_array($historyuser_data) && count($historyuser_data) > 0)) {
-                            $historyuser_data    = array();
-                            $historyuser_data[0] = array();
+                            $historyuser_data    = [];
+                            $historyuser_data[0] = [];
                         }
 
                         $data['prpohistorylog'][$key]['created_by_name'] = $historyuser_data[0];
@@ -1477,14 +1477,14 @@ class CrController extends Controller
                 if (isset($data['pr_first_detail']['approval_details']['confirmed']) && !empty($data['pr_first_detail']['approval_details']['confirmed'])) {
                     foreach ($data['pr_first_detail']['approval_details']['confirmed'] as $user_id) {
                         $options_confirmed = [
-                            'form_params' => array('user_id' => $user_id),
+                            'form_params' => ['user_id' => $user_id],
                         ];
                         $response_confirmed = $this->iam->getAllUsersWithoputPermission($options_confirmed);
                         $response_data      = _isset(_isset($response_confirmed, 'content'), 'records');
 
                         if (!(is_array($response_data) && count($response_data) > 0)) {
-                            $response_data    = array();
-                            $response_data[0] = array();
+                            $response_data    = [];
+                            $response_data[0] = [];
                         }
 
                         $approval_details_by_data['confirmed'][] = $response_data[0];
@@ -1531,7 +1531,7 @@ class CrController extends Controller
     {
         $po_id                       = _isset($this->request_params, 'po_id');
         $data['po_id']               = '';
-        $purchaseorderdetail         = array();
+        $purchaseorderdetail         = [];
         $data['purchaseorderdetail'] = $purchaseorderdetail;
         $contents                    = enview("Cmdb/purchaseorderdetailinvoice", $data);
         $response["html"]            = $contents;
@@ -1556,20 +1556,20 @@ class CrController extends Controller
             $pr_id = _isset($this->request_params, 'pr_id', '');
             $po_id = _isset($this->request_params, 'po_id', '');
             // $inputdata = array('template_name' => 'purchaserequest');
-            $inputdata = array('template_name' => 'purchaseorder');
-            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata = ['template_name' => 'purchaseorder'];
+            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
             $data['pr_id']     = $pr_id;
             $data['po_id']     = $po_id;
-            $option            = array();
+            $option            = [];
             $ciDetails         = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
             //Get Approvers List
-            $option['form_params']    = array('advusertype' => "staff");
+            $option['form_params']    = ['advusertype' => "staff"];
             $approversDetails         = $this->iam->getUsers($option);
             $data['approversDetails'] = _isset(_isset($approversDetails, 'content'), 'records');
             /* Fetch Edit Data  Of PR*/
@@ -1582,15 +1582,15 @@ class CrController extends Controller
                 $purchaserequestdetail         = isset($prs_resp['content']['records'][0]) ? $prs_resp['content']['records'][0] : null;
                 $data['purchaserequestdetail'] = $purchaserequestdetail;
             } else {
-                $data['purchaserequestdetail'] = array();
+                $data['purchaserequestdetail'] = [];
             }
             $historyoptions = [
-                'form_params' => array('pr_po_id' => $pr_id, 'history_type' => 'pr')];
+                'form_params' => ['pr_po_id' => $pr_id, 'history_type' => 'pr']];
             $prpohistorylog_resp    = $this->itam->prpohistorylog($historyoptions);
             $data['prpohistorylog'] = isset($prpohistorylog_resp['content']) ? $prpohistorylog_resp['content'] : null;
 
             $assetoptions = [
-                'form_params' => array('pr_po_id' => $pr_id, 'asset_type' => 'pr')];
+                'form_params' => ['pr_po_id' => $pr_id, 'asset_type' => 'pr']];
             $assetdetails_resp = $this->itam->prpoassetdetails($assetoptions);
 
             $data['assetdetails'] = isset($assetdetails_resp['content']) ? $assetdetails_resp['content'] : null;
@@ -1620,10 +1620,10 @@ class CrController extends Controller
     {
         try
         {
-            $add       = $this->itam->getshiptos(array('form_params' => array()));
+            $add       = $this->itam->getshiptos(['form_params' => []]);
             $content   = _isset($add, 'content', '');
             $records   = _isset($content, 'records', '');
-            $addresses = array();
+            $addresses = [];
             if (!empty($records)) {
                 foreach ($records as $value) {
                     $addresses[$value['shipto_id']] = $value['company_name'];
@@ -1633,22 +1633,22 @@ class CrController extends Controller
             $pr_id = _isset($this->request_params, 'pr_id', '');
             $po_id = _isset($this->request_params, 'po_id', '');
             // $inputdata = array('template_name' => 'purchaserequest');
-            $inputdata = array('template_name' => 'converttopr');
-            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata = ['template_name' => 'converttopr'];
+            $data      = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
 
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
             $data['pr_id']     = $pr_id;
             $data['po_id']     = $po_id;
-            $option            = array();
+            $option            = [];
             $ciDetails         = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
 
             $assetoptions = [
-                'form_params' => array()];
+                'form_params' => []];
             $assetdetails_resp = $this->itam->prconversionassetdetails($assetoptions);
 
             $assetdetails = isset($assetdetails_resp['content']) ? $assetdetails_resp['content'] : null;
@@ -1699,10 +1699,10 @@ class CrController extends Controller
                                 $items_arr[$val['item_product']]['item_product']              = $val['item_product'];
                                 $items_arr[$val['item_product']]['warranty_support_required'] = $val['warranty_support_required'];
                                 $items_arr[$val['item_product']]['item_desc']                 = $val['item_desc'];
-                                $items_arr[$val['item_product']]['pr_no']                     = array($prrecord['pr_id'] => $prrecord['pr_no']);
+                                $items_arr[$val['item_product']]['pr_no']                     = [$prrecord['pr_id'] => $prrecord['pr_no']];
                                 $items_arr[$val['item_product']]['pr_shipto']                 =
-                                array(
-                                    $prrecord['pr_id'] => ['address_id' => $prrecord['pr_shipto'], 'location' => (($ship_to_other != 'null') ? $ship_to_other : $addresses[$prrecord['pr_shipto']]), 'quantity' => $qty]);
+                                [
+                                    $prrecord['pr_id'] => ['address_id' => $prrecord['pr_shipto'], 'location' => (($ship_to_other != 'null') ? $ship_to_other : $addresses[$prrecord['pr_shipto']]), 'quantity' => $qty]];
                                 // $items_arr[$val['item']]['item_desc'] = $val['item_desc'];
                             }
 
@@ -1756,7 +1756,7 @@ class CrController extends Controller
             $redirect_url = '/purchaseorders';
         }
         $messages = [
-            'file.mimes' => showmessage('000', array('{name}'), array(trans('label.lbl_attachmentid')), true),
+            'file.mimes' => showmessage('000', ['{name}'], [trans('label.lbl_attachmentid')], true),
         ];
         $validator = Validator::make($input_data, [
             'file'   => 'required',
@@ -1845,7 +1845,7 @@ class CrController extends Controller
         $postData["attach_id"]       = _isset($inputdata, 'attach_id', "");
         $postData["pr_po_id"]        = _isset($inputdata, 'pr_po_id', "");
         $postData["attachment_type"] = _isset($inputdata, 'attachment_type', "");
-        $data                        = $this->itam->deleteattachment(array('form_params' => $postData));
+        $data                        = $this->itam->deleteattachment(['form_params' => $postData]);
         echo json_encode($data, true);
     }
 
@@ -1888,10 +1888,10 @@ class CrController extends Controller
         try
         {
             $inputdata                                        = $request->all();
-            $postData['asset_details']['item']                = _isset($inputdata, 'item', array());
-            $postData['asset_details']['item_desc']           = _isset($inputdata, 'item_desc', array());
-            $postData['asset_details']['item_qty']            = _isset($inputdata, 'item_qty', array());
-            $postData['asset_details']['item_estimated_cost'] = _isset($inputdata, 'item_estimated_cost', array());
+            $postData['asset_details']['item']                = _isset($inputdata, 'item', []);
+            $postData['asset_details']['item_desc']           = _isset($inputdata, 'item_desc', []);
+            $postData['asset_details']['item_qty']            = _isset($inputdata, 'item_qty', []);
+            $postData['asset_details']['item_estimated_cost'] = _isset($inputdata, 'item_estimated_cost', []);
             $postData["approval_req"]                         = _isset($inputdata, 'approval_req', "n");
             $postData["form_templ_id"]                        = _isset($inputdata, 'form_templ_id', "");
             $postData["urlpath"]                              = _isset($inputdata, 'urlpath', "purchaserequest");
@@ -1912,11 +1912,11 @@ class CrController extends Controller
                 }
             }
 
-            $postData["approved_status"] = array();
+            $postData["approved_status"] = [];
             // On Edit - "approved_status" == NULL Means Open For reapproval all approvers and "status" change to "pending approval " on lumen side.
 
-            $approval_details['confirmed'] = _isset($inputdata, 'approvers', array());
-            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', array());
+            $approval_details['confirmed'] = _isset($inputdata, 'approvers', []);
+            $approval_details['optional']  = _isset($inputdata, 'approvers_optional', []);
             $postData['approval_details']  = json_encode($approval_details);
             unset($request['item']);
             unset($request['item_desc']);
@@ -1935,18 +1935,18 @@ class CrController extends Controller
             $postData['formAction'] = _isset($inputdata, 'formAction', "");
             $postData["details"]    = json_encode($request->all());
 
-            $otherDetails = array(
+            $otherDetails = [
                 "discount_per"    => _isset($inputdata, 'discount_per', ""),
                 "discount_amount" => _isset($inputdata, 'discount_amount', ""),
-            );
+            ];
             $postData['other_details'] = json_encode($otherDetails);
             $postData["asset_details"] = json_encode($postData['asset_details']);
             $postData["pr_po_type"]    = "po";
 
-            $data = $this->itam->purchaseordersave(array('form_params' => $postData));
+            $data = $this->itam->purchaseordersave(['form_params' => $postData]);
             echo json_encode($data, true);
         } catch (\Exception $e) {
-            $response             = array();
+            $response             = [];
             $response["html"]     = '';
             $response["is_error"] = true;
             $response["msg"]      = $e->getmessage();
@@ -1954,7 +1954,7 @@ class CrController extends Controller
             save_errlog("purchaseordersave", "This controller function is implemented to save PO details.", $this->request_params, $e->getmessage());
             echo json_encode($response, true);
         } catch (\Error $e) {
-            $response             = array();
+            $response             = [];
             $response["html"]     = '';
             $response["is_error"] = true;
             $response["msg"]      = $e->getmessage();
@@ -1980,12 +1980,12 @@ class CrController extends Controller
             $po_id = _isset($this->request_params, 'po_id', '');
             $pr_id = _isset($this->request_params, 'pr_id', '');
             //$inputdata               = array('template_name' => 'purchaserequest');
-            $inputdata               = array('template_name' => 'purchaseorder');
-            $data                    = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array('form_params' => $inputdata));
+            $inputdata               = ['template_name' => 'purchaseorder'];
+            $data                    = $this->itam->getFormTemplateDefaulteConfigbyTemplateName(['form_params' => $inputdata]);
             $data['form_templ_data'] = $data['content'][0];
             if (isset($data['form_templ_data']['details'])) {
                 $details_arr_org     = json_decode($data['form_templ_data']['details'], true);
-                $details_fld_arr_org = _isset($details_arr_org, 'fields') ? $details_arr_org['fields'] : array();
+                $details_fld_arr_org = _isset($details_arr_org, 'fields') ? $details_arr_org['fields'] : [];
                 if (is_array($details_fld_arr_org) && count($details_fld_arr_org) > 0) {
                     foreach ($details_fld_arr_org as $key => $field) {
                         //echo "<pre> Label : "; print_r($field);  echo "</pre>";
@@ -2008,15 +2008,15 @@ class CrController extends Controller
             if ($data['content']) {
                 $data['form_templ_data'] = $data['content'][0];
             } else {
-                $data['form_templ_data'] = array();
+                $data['form_templ_data'] = [];
             }
             $data['po_id']     = $po_id;
             $data['pr_id']     = $pr_id;
-            $option            = array();
+            $option            = [];
             $ciDetails         = $this->itam->getcitemplates($option);
             $data['ciDetails'] = _isset(_isset($ciDetails, 'content'), 'records');
             //Get Approvers List
-            $option['form_params']    = array('advusertype' => "staff");
+            $option['form_params']    = ['advusertype' => "staff"];
             $approversDetails         = $this->iam->getUsers($option);
             $data['approversDetails'] = _isset(_isset($approversDetails, 'content'), 'records');
 
@@ -2030,12 +2030,12 @@ class CrController extends Controller
             $data['purchaserequestdetail'] = $purchaserequestdetail;
 
             $historyoptions = [
-                'form_params' => array('pr_po_id' => $po_id, 'history_type' => 'po')];
+                'form_params' => ['pr_po_id' => $po_id, 'history_type' => 'po']];
             $prpohistorylog_resp    = $this->itam->prpohistorylog($historyoptions);
             $data['prpohistorylog'] = isset($prpohistorylog_resp['content']) ? $prpohistorylog_resp['content'] : null;
 
             $assetoptions = [
-                'form_params' => array('pr_po_id' => $po_id, 'asset_type' => 'po')];
+                'form_params' => ['pr_po_id' => $po_id, 'asset_type' => 'po']];
             $assetdetails_resp = $this->itam->prpoassetdetails($assetoptions);
 
             $data['assetdetails'] = isset($assetdetails_resp['content']) ? $assetdetails_resp['content'] : null;
@@ -2074,7 +2074,7 @@ class CrController extends Controller
         $invoice_id            = _isset($this->request_params, 'invoice_id', '');
         $options['po_id']      = $po_id;
         $options['invoice_id'] = $invoice_id;
-        $invoice_resp          = $this->itam->purchaseinvoices(array('form_params' => $options));
+        $invoice_resp          = $this->itam->purchaseinvoices(['form_params' => $options]);
         $invoice_data          = isset($invoice_resp['content'][0]) ? $invoice_resp['content'][0] : null;
         return json_encode($invoice_data);
     }
@@ -2086,9 +2086,9 @@ class CrController extends Controller
         $options['history_type'] = $history_type;*/
         $user_id            = showuserid();
         $options['user_id'] = $user_id;
-        $notify_resp        = $this->itam->getnotifications(array('form_params' => $options));
+        $notify_resp        = $this->itam->getnotifications(['form_params' => $options]);
         $notify_data        = isset($notify_resp['content'][0]) ? $notify_resp['content'] : null;
-        $notify_dataArr     = array();
+        $notify_dataArr     = [];
         $notify_data_result = "";
 
         if ($notify_data) {
@@ -2103,9 +2103,9 @@ class CrController extends Controller
 
                 $notify_data_result .= '<li data-id=' . $notification['pr_po_id'] . ' class=" ' . $prpoList . ' br-t of-h notificationmsg"> <a href="#" class="fw600 p12 animated animated-short fadeInDown">Your approval is required for the ' . $purchase_type . ' ##' . @$notification['title'] . '## <span class="mv15 floatright" style="color: #999;">on ' . date("d F Y : H:i A", strtotime($notification['created_at'])) . '</span></a> </li>';
             }
-            return json_encode(array("result" => $notify_data_result));
+            return json_encode(["result" => $notify_data_result]);
         } else {
-            return json_encode(array("result" => "<li class='br-t of-h notificationmsg fw600 p12'>NO Notifications</li>"));
+            return json_encode(["result" => "<li class='br-t of-h notificationmsg fw600 p12'>NO Notifications</li>"]);
         }
     }
 

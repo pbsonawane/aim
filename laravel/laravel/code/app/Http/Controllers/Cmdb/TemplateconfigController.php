@@ -35,8 +35,8 @@ class TemplateconfigController extends Controller
     {	
         try{
             $request['template_name'] = $template_name;	
-            $inputdata	= array('template_name' => $request['template_name']);
-            $data		= $this->itam->getFormTemplateDefaulteConfigbyTemplateName(array( 'form_params' => $inputdata));
+            $inputdata	= ['template_name' => $request['template_name']];
+            $data		= $this->itam->getFormTemplateDefaulteConfigbyTemplateName([ 'form_params' => $inputdata]);
             
 			//api call to get all ensysconfig list and decide to load data from ensysconfig or not
 			$ensyscall = is_ensyscall($template_name);
@@ -51,16 +51,16 @@ class TemplateconfigController extends Controller
 					
 					if(isset($ensysdata) && is_array($ensysdata) && count($ensysdata) > 0){
 					
-						$configdata = array("content" =>["form_templ_id"=>$data['content'][0]['form_templ_id'],
+						$configdata = ["content" =>["form_templ_id"=>$data['content'][0]['form_templ_id'],
 														 "details" =>json_encode($ensysdata),
 														 "is_error" => '',
 														 "msg" => "Template Config record/s found." //internal msg
-														]);
+														]];
 										
 						$disabled_fields = get_ensys_disabledfields($template_name);
 						
 						if(isset($disabled_fields) && is_array($disabled_fields) && count($disabled_fields) > 0){
-							$temp = array();
+							$temp = [];
 							if(isset($disabled_fields['content']) && ($disabled_fields['content'] != "")){
 								foreach($disabled_fields['content'] as $key=>$val){
 									array_push($temp,$key);
@@ -74,15 +74,15 @@ class TemplateconfigController extends Controller
 						}
 					}
 					else{
-						$configdata = array("content" =>[],
+						$configdata = ["content" =>[],
 											"is_error" => true,
 											"msg" => "Template Config record/s not found." //internal msg
-										);
+										];
 					}
 				}
 				else{
-					$inputdata  = array('config_id' => $data['content'][0]['form_templ_id']);
-					$configdata = $this->itam->getFormDataConfig(array( 'form_params' => $inputdata));
+					$inputdata  = ['config_id' => $data['content'][0]['form_templ_id']];
+					$configdata = $this->itam->getFormDataConfig([ 'form_params' => $inputdata]);
 				}
 				
                 $data['form_templ_id']	 = $data['content'][0]['form_templ_id'];
@@ -93,7 +93,7 @@ class TemplateconfigController extends Controller
                 if(isset($data['form_templ_data']['details']))
                 {
                     $details_arr_org	 = json_decode($data['form_templ_data']['details'], true);
-                    $details_fld_arr_org = _isset($details_arr_org, 'fields') ? $details_arr_org['fields'] : array();
+                    $details_fld_arr_org = _isset($details_arr_org, 'fields') ? $details_arr_org['fields'] : [];
                     if(is_array($details_fld_arr_org) && count($details_fld_arr_org) > 0)
                     {
                         foreach($details_fld_arr_org as $key => $field)
@@ -185,7 +185,7 @@ class TemplateconfigController extends Controller
 			}
 		}else
 		{
-			$data = $this->itam->formdataconfigupdate(array( 'form_params' => $request->all()));
+			$data = $this->itam->formdataconfigupdate([ 'form_params' => $request->all()]);
 		}
 		
         echo json_encode($data,true);

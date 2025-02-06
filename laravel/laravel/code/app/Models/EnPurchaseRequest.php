@@ -22,7 +22,7 @@ class EnPurchaseRequest extends Model
 		return 'pr_id'; 
 	}
 	
-	protected function getprs($pr_id, $inputdata=array(), $count=false)
+	protected function getprs($pr_id, $inputdata=[], $count=false)
 	{	
 		//$user_bv_ids = array('13883632-2b95-11e9-9038-0242ac110004','68cf0180-35ca-11ea-bd9c-0242ac110003');
 		$searchkeyword = _isset($inputdata,'searchkeyword');
@@ -204,11 +204,11 @@ class EnPurchaseRequest extends Model
 			$remark 			= 	json_decode($res['remark']);
 			array_push($remark, $tmp_remark);
 		} else {
-			$remark 			= 	array("" . date('Y-m-d h:i:s') . " " . trim($inputdata['add_remark'])." ( " . trim($inputdata['requestername']) . " )" );
+			$remark 			= 	["" . date('Y-m-d h:i:s') . " " . trim($inputdata['add_remark'])." ( " . trim($inputdata['requestername']) . " )" ];
 		}
 		return $res 			= 	DB::table('en_form_data_pr')->
 									where('pr_id', '=', DB::raw('UUID_TO_BIN("'.$inputdata['pr_id'].'")'))->
-									update(array('remark' => json_encode($remark)));
+									update(['remark' => json_encode($remark)]);
 	}
 
 
@@ -229,20 +229,20 @@ class EnPurchaseRequest extends Model
 			$remark 			= 	json_decode($res['remark']);
 			if($remark == "")
 			{
-				$remark = array();
+				$remark = [];
 			}
 			array_push($remark, $tmp_remark);
 		} else {
-			$remark 			= 	array("" . date('Y-m-d h:i:s') . " " . trim($inputdata['add_remark']) );
+			$remark 			= 	["" . date('Y-m-d h:i:s') . " " . trim($inputdata['add_remark']) ];
 			
 		}
 	
 		return $res 			= 	DB::table('en_form_data_po')->
 									where('po_id', '=', DB::raw('UUID_TO_BIN("'.$inputdata['po_id'].'")'))->
-									update(array('remark' => json_encode($remark)));
+									update(['remark' => json_encode($remark)]);
 	}
 
-	protected function get_track_pr_list($inputdata=array(), $count=false)
+	protected function get_track_pr_list($inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -298,7 +298,7 @@ class EnPurchaseRequest extends Model
             return $data;    
     }
 
-    protected function get_track_pr_list_for_export($inputdata=array(), $count=false)
+    protected function get_track_pr_list_for_export($inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         

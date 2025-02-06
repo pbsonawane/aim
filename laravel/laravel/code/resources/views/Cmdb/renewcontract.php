@@ -162,7 +162,7 @@
                                         $contractasset = json_decode($assets_json[0]['asset_id'],true);
                                     }
                                     else
-                                        $contractasset = array();
+                                        $contractasset = [];
                             ?>
                         <SELECT id="asset_id"  name="asset_id[]" size="10" multiple style="width:250px" >
                         <?php 

@@ -36,7 +36,7 @@ class PodController extends Controller
      */
 	public function pods() {
 
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'podList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'podList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);
 		$data['pageTitle'] = "Pods";
 		$data['includeView'] = view("Admin/pods",$data);
@@ -52,7 +52,7 @@ class PodController extends Controller
      * @return json
      */
 	public function podlist() {
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -84,7 +84,7 @@ class PodController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'podList()';
 			$view = 'Admin/podlist';
-			$content = $this->emlib->emgrid($pods, $view, array(), $paging);
+			$content = $this->emlib->emgrid($pods, $view, [], $paging);
 		}
 
 		$response["html"] = $content;
@@ -102,11 +102,11 @@ class PodController extends Controller
 	public  function podadd(Request $request)
     {
         $data['pod_id'] = $is_error = $msg = '';
-		$poddata = $regions = array();
+		$poddata = $regions = [];
 		$data['poddata'] = $poddata;
 		
 		$options = [
-            'form_params' => array()];
+            'form_params' => []];
 
 		$regions_resp = $this->iam->getRegions($options);
 		
@@ -141,7 +141,7 @@ class PodController extends Controller
      */
 	public function podsave(Request $request)
     {
-       $data =  $this->iam->addPod(array( 'form_params' => $request->all()));
+       $data =  $this->iam->addPod([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	/**
@@ -155,11 +155,11 @@ class PodController extends Controller
 	*/
 	public function podedit(Request $request)
 	{	
-		$region_dcs = array();
+		$region_dcs = [];
 		$is_error = $msg = "";	
 		$pod_id = $request->id;
-		$input_req = array('pod_id' => $pod_id);
-		$podcontent =  $this->iam->getPods(array( 'form_params' => $input_req));
+		$input_req = ['pod_id' => $pod_id];
+		$podcontent =  $this->iam->getPods([ 'form_params' => $input_req]);
 		
 		$data['pod_id'] = $pod_id;
 		$data['poddata'] = $podcontent['content']['records'];
@@ -168,14 +168,14 @@ class PodController extends Controller
 		
 		if($pod_region_id != '')  // Fetching all DCs of selected region
 		{	
-			$region_dcs_data =  $this->iam->getRegionDc(array( 'form_params' => array('region_id' => $pod_region_id)));
+			$region_dcs_data =  $this->iam->getRegionDc([ 'form_params' => ['region_id' => $pod_region_id]]);
 			$region_dcs = $region_dcs_data['content'];
 		}	
 		
 		
 		
 		$options = [
-            'form_params' => array()];
+            'form_params' => []];
 
 		$regions_resp = $this->iam->getRegions($options);
 		
@@ -212,7 +212,7 @@ class PodController extends Controller
 	*/
 	public function podupdate(Request $request)
     {
-       $data =  $this->iam->updatePod(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updatePod([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	/**
@@ -225,7 +225,7 @@ class PodController extends Controller
 	*/
 	public function poddelete(Request $request)
 	{
-		$data =  $this->iam->deletePod(array( 'form_params' => $request->all()));
+		$data =  $this->iam->deletePod([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 	
@@ -239,7 +239,7 @@ class PodController extends Controller
 	*/
 	public function getregiondcs(Request $request)
 	{
-		$data =  $this->iam->getRegionDc(array( 'form_params' => $request->all()));
+		$data =  $this->iam->getRegionDc([ 'form_params' => $request->all()]);
 		$final_data = $data['content'];
        	echo json_encode($final_data,true);
 	}

@@ -32,17 +32,17 @@
 				
 				
 				$item_count           = count($item_qt_arr);
-				$item_arr_new         = array();
-				$vendor_wise_arr      = array();
-				$vendor_wise_arr_new  = array();
-				$vendor_wise_arr_full = array();
-				$vendor_approve_arr  = array(); 
-				$vendor_approve_arr_all  = array(); 
+				$item_arr_new         = [];
+				$vendor_wise_arr      = [];
+				$vendor_wise_arr_new  = [];
+				$vendor_wise_arr_full = [];
+				$vendor_approve_arr  = []; 
+				$vendor_approve_arr_all  = []; 
 
 				$pr_po_id = 0;
 				if ($item_count > 0) {
 				    foreach ($item_qt_arr as $key => $value) {
-				        $temp_item_arr                       = array();
+				        $temp_item_arr                       = [];
 				        $temp_item_arr['selected_item_id']   = $value['selected_item_id'];
 				        $temp_item_arr['selected_item_name'] = $value['selected_item_name'];
 				        $pr_po_id = $value['pr_po_id'];
@@ -167,8 +167,8 @@
 						
 						  </tr>
 						   <?php 
-						   $min_tot_arr =array();
-						    $min_rate_arr =array();
+						   $min_tot_arr =[];
+						    $min_rate_arr =[];
 						   for ($j = 0; $j < count($item_arr_new); $j++) 
 						   {
 		$converted_po=isset($vendor_approve_arr_all[$j]['converted_as_po'])?$vendor_approve_arr_all[$j]['converted_as_po']:'no';
@@ -207,7 +207,7 @@
 								    ?>
 								 </tr>
 							   <?php 
-							   $min_temp =array();
+							   $min_temp =[];
 							   for($k=1; $k<=3;$k++)
 							   { 
 							  	?>

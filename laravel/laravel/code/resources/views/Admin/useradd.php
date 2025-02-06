@@ -30,7 +30,7 @@
 										$userRole = json_decode($userdata[0]['role_id'],true);
 									}
 									else
-										$userRole = array();
+										$userRole = [];
 							?>
                 			<!--<select id="roleid" name="role_id[]" multiple="multiple"  style="display: none;">-->
                             <select id="roleid" name="role_id[]" data-placeholder="Select Role" class="chosen-select" multiple tabindex="6">

@@ -40,7 +40,7 @@ class EnEmailTemplate extends Model
     * @return       Array
     * @tables       en_email_template
     */
-    protected function getemailtemplates($template_id, $inputdata=array(), $count=false)
+    protected function getemailtemplates($template_id, $inputdata=[], $count=false)
     {
         apilog('---send mail module');
         apilog(json_encode($inputdata));
@@ -114,7 +114,7 @@ class EnEmailTemplate extends Model
     * @tables       en_email_template
     */
 
-    protected function getemailtemplatescategory($template_id, $inputdata=array(), $count=false)
+    protected function getemailtemplatescategory($template_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
 
@@ -177,7 +177,7 @@ class EnEmailTemplate extends Model
 
             DB::table('en_email_template')->where('template_id', DB::raw('UUID_TO_BIN("'.$template_id.'")'))->delete();                
             $data['data']['deleted_id'] = $template_id;
-            $data['message']['success']= showmessage('118', array('{name}'), array('Template'));
+            $data['message']['success']= showmessage('118', ['{name}'], ['Template']);
             $data['status'] = 'success';
                
                          
@@ -185,7 +185,7 @@ class EnEmailTemplate extends Model
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Template'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Template']);
             $data['status'] = 'error';                             
         }   
         return $data;    
@@ -216,13 +216,13 @@ class EnEmailTemplate extends Model
             }
            //DB::table('en_email_template')->where('template_id', DB::raw('UUID_TO_BIN("'.$template_id.'")'))->delete();                
             $data['data']['deleted_id'] = $template_id;
-            $data['message']['success']= showmessage('140', array('{name}'), array($status_name));
+            $data['message']['success']= showmessage('140', ['{name}'], [$status_name]);
             $data['status'] = 'success';
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('105', array('{name}'), array('Status'));
+            $data['message']['error'] = showmessage('105', ['{name}'], ['Status']);
             $data['status'] = 'error';                             
         }   
         return $data;    

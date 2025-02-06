@@ -25,10 +25,10 @@ class EnContract extends Model
     {
         return 'contract_id';
     }
-    protected function getcontract($contract_id, $inputdata=array(), $count=false)
+    protected function getcontract($contract_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
-        $contracts = array();
+        $contracts = [];
         $contract_id_ = $searchkeyword = null;
         $contract_id = _isset($inputdata, "contract_id");
         $advcontract_type_id = _isset($inputdata, "advcontract_type_id");
@@ -110,7 +110,7 @@ class EnContract extends Model
             if($contract_data)
             {    
                     
-                    $contract_data->update(array('status' => 'd'));            
+                    $contract_data->update(['status' => 'd']);            
                     $contract_data->save();                     
                     $data['data']['deleted_id'] = $contract_id;
                     $data['message']['success']= 'Record Deleted Successfully.';
@@ -222,7 +222,7 @@ class EnContract extends Model
     }
 	
 	
-		protected function getallassets($asset_id, $inputdata=array(), $count=false)
+		protected function getallassets($asset_id, $inputdata=[], $count=false)
     {
     
         $searchkeyword = _isset($inputdata,'searchkeyword');
@@ -289,13 +289,13 @@ class EnContract extends Model
             ->update(['contract_status' => $contract_status]);
 
             $data['data']['deleted_id'] = $contract_id;
-            $data['message']['success']= showmessage('140', array('{name}'), array('Status'));
+            $data['message']['success']= showmessage('140', ['{name}'], ['Status']);
             $data['status'] = 'success';
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('105', array('{name}'), array('Status'));
+            $data['message']['error'] = showmessage('105', ['{name}'], ['Status']);
             $data['status'] = 'error';                             
         }   
         return $data;    

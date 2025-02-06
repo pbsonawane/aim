@@ -19,7 +19,7 @@ class EnReportNotifications extends Model
         return 'notification_id';
     }
 
-    protected function getnotifications($notification_id, $inputdata=array(), $count=false)
+    protected function getnotifications($notification_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

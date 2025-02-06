@@ -32,7 +32,7 @@ class EnAssetDetails extends Model
     * @tables       en_assets
     */
 	
-	protected function getassets($asset_id, $inputdata=array(), $count=false)
+	protected function getassets($asset_id, $inputdata=[], $count=false)
     {
         
 	}

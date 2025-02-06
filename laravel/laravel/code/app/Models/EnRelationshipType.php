@@ -24,7 +24,7 @@ class EnRelationshipType extends Model
         return 'rel_type_id';
     }
 
-    protected function getrelationshiptype($rel_type_id, $inputdata=array(), $count=false)
+    protected function getrelationshiptype($rel_type_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

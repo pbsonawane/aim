@@ -23,7 +23,7 @@ class CreateEnSessiontokens extends Migration
             	$table->string('method',10);
             	$table->string('ip',30);
             	$table->string('agent');
-				$table->enum("auth",array("y","n"))->default("n")->comment('y=Authenticated, n=NotAuthenticated');
+				$table->enum("auth",["y","n"])->default("n")->comment('y=Authenticated, n=NotAuthenticated');
 				$table->timestamp('authtime')->comment('the time when authentication done');
 				$table->timestamps();
 			});

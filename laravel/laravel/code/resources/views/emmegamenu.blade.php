@@ -10,7 +10,7 @@
     <div class="wsmenu clearfix">
         <ul class="wsmenu-list">
             <?php
-            $menu = array();
+            $menu = [];
             $menu = trans('enmenu.menu');
             $usersids = Session::get('user_id');
             // Replacing config array with multilingual messages array config('enmenu.menu');
@@ -20,12 +20,12 @@
                 // foreach($menu as $mnu_module => $mnu_details)
                 // {
                     
-                    $mnu_links = isset($menu['itam']['links']) ? $menu['itam']['links'] : array();
+                    $mnu_links = isset($menu['itam']['links']) ? $menu['itam']['links'] : [];
                 if (is_array($mnu_links) && count($mnu_links) > 0)
                 {
                     foreach($mnu_links as $sub_links)
                     {
-                    $sublinks = isset($sub_links['sublinks']) ? $sub_links['sublinks'] : array();
+                    $sublinks = isset($sub_links['sublinks']) ? $sub_links['sublinks'] : [];
             ?>
             <li aria-haspopup="true"><span class="wsmenu-click"><i class="wsmenu-arrow fa fa-angle-down"></i></span><a href="#" class="navtext"><span><font>&nbsp;</font></span> 
             <span><?php echo $sub_links['title'];?></span></a>
@@ -38,7 +38,7 @@
                                             $cur=0;
                                             foreach($sublinks as $link)
                                             {
-                                                $pbi_usr_id = array('d4f1ef18-0ae3-11ec-beda-4e89be533080','4fdd3e2e-fdf7-11ec-8955-5ea741a655e9','9ab9c0a8-3f19-11ed-96bd-5ea741a655e9','04ca1fe0-3f17-11ed-96e2-5ea741a655e9','a58c0822-3f16-11ed-84d8-5ea741a655e9');
+                                                $pbi_usr_id = ['d4f1ef18-0ae3-11ec-beda-4e89be533080','4fdd3e2e-fdf7-11ec-8955-5ea741a655e9','9ab9c0a8-3f19-11ed-96bd-5ea741a655e9','04ca1fe0-3f17-11ed-96e2-5ea741a655e9','a58c0822-3f16-11ed-84d8-5ea741a655e9'];
                                                 // if (check_accessrights($link['key'])) 
                                                 // { 
                                                     if($cur == 0)

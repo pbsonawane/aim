@@ -21,7 +21,7 @@ class EnPrPoQuotationcomparison extends Model
     {
         return 'quotation_cmp_id';
     }
-    protected function getQuotationcomparison($inputdata = array())
+    protected function getQuotationcomparison($inputdata = [])
     {
         $pr_po_id         = _isset($inputdata, 'pr_po_id');
         $selected_item_id = _isset($inputdata, 'selected_item_id');
@@ -44,7 +44,7 @@ class EnPrPoQuotationcomparison extends Model
         $data = $query->get();
         return $data;
     }
-    protected function getQuotationcomparisonAll($inputdata = array())
+    protected function getQuotationcomparisonAll($inputdata = [])
     {
         $pr_po_id         = _isset($inputdata, 'pr_po_id');
         $selected_item_id = _isset($inputdata, 'selected_item_id');
@@ -66,7 +66,7 @@ class EnPrPoQuotationcomparison extends Model
         $data = $query->get();
         return $data;
     }
-    protected function getQuotationcomparisonDetails($inputdata = array())
+    protected function getQuotationcomparisonDetails($inputdata = [])
     {
         $pr_po_id = _isset($inputdata, 'pr_po_id');
 

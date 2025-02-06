@@ -10,7 +10,7 @@ class Emlib {
         //$this->myiam = $myiam;
       
     }
-	function emgridtop($options = array(), $advview = "", $advsearch_options = array(),$advsearch_setting = array())
+	function emgridtop($options = [], $advview = "", $advsearch_options = [],$advsearch_setting = [])
 	{
 		$gridadvsearch = isset($options['gridadvsearch']) ? $options['gridadvsearch'] : false;
 		$data['gridadvsearch'] = $gridadvsearch;
@@ -24,15 +24,15 @@ class Emlib {
 		$data['gridcollspase'] = isset($options['gridcollspase']) ? $options['gridcollspase'] : false;
 		$data['gridexpand'] = isset($options['gridexpand']) ? $options['gridexpand'] : false;
 		$data['importdevices'] = isset($options['importdevices']) ? $options['importdevices'] : false;
-		$data['extradata'] = isset($options['extradata']) ? $options['extradata'] : array();
+		$data['extradata'] = isset($options['extradata']) ? $options['extradata'] : [];
 		return view('emgridtop',$data);
 		//$view = View::make('emgridtop', $data);
 		//$contents = $view->render();
 		//return $contents;
 	}
-	function emadvsearch($advview = "emadvsearch", $options = array(),$jsfunction = '',$advsearch_setting = array())
+	function emadvsearch($advview = "emadvsearch", $options = [],$jsfunction = '',$advsearch_setting = [])
 	{
-		$default_options = array("bv", "dc","deptype");
+		$default_options = ["bv", "dc","deptype"];
 		$element_options = is_array($options) && count($options) > 0 ? $options : $default_options;
 		$data['element_options'] = $element_options;
 		// for default parameters masters
@@ -43,7 +43,7 @@ class Emlib {
         $options = ['form_params' => $form_params];
         if (in_array("usertypes", $element_options))
 		{	
-			 $data['usertypes'] =array('staff' => 'staff' , 'client' => 'client');
+			 $data['usertypes'] =['staff' => 'staff' , 'client' => 'client'];
 		}	
 		if (in_array("roles", $element_options))
 		{	
@@ -165,13 +165,13 @@ class Emlib {
         return view($advview, $data);
 		//return $advsearch;
 	}
-	function emgrid($dbdata, $view="", $columns = array(), $paging = array(),$show_all="y")
+	function emgrid($dbdata, $view="", $columns = [], $paging = [],$show_all="y")
 	{
 
 
 		// $pr_id_arrays = array_column($pr_id_status,'difference_prpo_asset_count','pr_id');
 
-		$view_data = $return_array = array();
+		$view_data = $return_array = [];
 		$showpagination = isset($paging['showpagination']) ? $paging['showpagination'] : false;
 		$showserial = isset($paging['showserial']) ? $paging['showserial'] : false;
 		$limit = $paging['limit'];
@@ -240,7 +240,7 @@ class Emlib {
 		$tbl = '</table>';
 		return $tbl;
 	}
-	function tblhead($columns, $pdfconfig = array())
+	function tblhead($columns, $pdfconfig = [])
 	{
 		$showserial = isset($pdfconfig['showserial']) ? $pdfconfig['showserial'] : false;
 		$header = '<thead><tr bgcolor="#CCCCCC">';
@@ -257,7 +257,7 @@ class Emlib {
 		$header .= '</tr></thead>';
 		return $header;
 	}
-	function tblheadprint($columns, $pdfconfig = array())
+	function tblheadprint($columns, $pdfconfig = [])
 	{
 		$showserial = isset($pdfconfig['showserial']) ? $pdfconfig['showserial'] : false;
 		$header = '<thead><tr>';
@@ -274,7 +274,7 @@ class Emlib {
 		$header .= '</tr></thead>';
 		return $header;
 	}
-	function emprint($columns, $dbdata, $prnconfig = array())
+	function emprint($columns, $dbdata, $prnconfig = [])
 	{
 		$html = '';
 		$showserial = isset($prnconfig['showserial']) ? $prnconfig['showserial'] : false;
@@ -315,7 +315,7 @@ class Emlib {
 		return $html;
 		exit;
 	}
-	function empdf($title, $columns = array(), $dbdata = array(), $pdfconfig = array(), $coverpage = array(), $html = '')
+	function empdf($title, $columns = [], $dbdata = [], $pdfconfig = [], $coverpage = [], $html = '')
 	{
 		$this->cm->load->helper('tcpdf');
 		$obj_pdf = initpdf($title);
@@ -388,7 +388,7 @@ class Emlib {
 		printpdf($objpdf, $filename);
 		exit;
 	}
-	function emcsv($title, $filename, $columns, $dbdata, $csvconfig = array())
+	function emcsv($title, $filename, $columns, $dbdata, $csvconfig = [])
 	{
 		ob_start();
 		$filename = str_ireplace(' ', "_", strtolower($filename)).'_'.date('dmY_Hi');
@@ -438,7 +438,7 @@ class Emlib {
 		force_download($filename.'.csv', trim($csv_data));
 		exit;
 	}
-	function emexcel($title, $filename, $columns, $dbdata,$excelconfig = array(),$from_date = '',$to_date = '')
+	function emexcel($title, $filename, $columns, $dbdata,$excelconfig = [],$from_date = '',$to_date = '')
 	{
 		$showserial = isset($excelconfig['showserial']) ? $excelconfig['showserial'] : false;
 		$page = isset($excelconfig['page']) ? $excelconfig['page'] : false;
@@ -474,12 +474,12 @@ class Emlib {
 		$objPHPExcel->getActiveSheet()->getStyle('E1')->getFill()->getStartColor()->setARGB('#FFF');
 		$objPHPExcel->getActiveSheet()->setCellValue('J1', $this->datetime_display);
 		$objPHPExcel->getActiveSheet()->getStyle('A1:T1')->applyFromArray(
-			array(
-				'font'  => array(
+			[
+				'font'  => [
 					'bold'  => true,
-					'color' => array('rgb' => '000000'),
-				)
-			)
+					'color' => ['rgb' => '000000'],
+				]
+			]
 		);
 		$objPHPExcel->getActiveSheet()->mergeCells('C2:F2');
 			if($from_date != '' && $to_date != '')
@@ -551,16 +551,16 @@ class Emlib {
 			$objPHPExcel->getActiveSheet()->getStyle('C4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 			$objPHPExcel->getActiveSheet()->getStyle(current($excelcol).$fieldrow.":".end($excelcol).$fieldrow)->applyFromArray(
-						array(
-							'fill' => array(
+						[
+							'fill' => [
 								'type' => PHPExcel_Style_Fill::FILL_SOLID,
-								'color' => array('rgb' => '538DD5')
-							),
-							'font'  => array(
+								'color' => ['rgb' => '538DD5']
+							],
+							'font'  => [
 								'bold'  => true,
-								'color' => array('rgb' => 'FFFFFF'),
-							)
-						)
+								'color' => ['rgb' => 'FFFFFF'],
+							]
+						]
 			);
 			$filename=$filename.date("Y-m-d h:i:s").".xlsx"; //save our workbook as this file name
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $configArr = (array) new Configsettings;        
         $itemsArr = (array) new Enconfig;  
-        $items = isset($itemsArr['item']) ? $itemsArr['item'] : array();        
+        $items = isset($itemsArr['item']) ? $itemsArr['item'] : [];        
         if(count($items) > 0)
         {
             foreach($items as $k => $item)

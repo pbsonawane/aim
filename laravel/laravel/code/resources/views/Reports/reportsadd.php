@@ -103,7 +103,7 @@
             {
               $reports_fields_arr  = json_decode($reportsdata[0]['filter_fields'],true);
               $module_fields_arr   = json_decode($module_fields,true);
-              $module_fields_common = $module_fields_diff = array();
+              $module_fields_common = $module_fields_diff = [];
               if (is_array($reports_fields_arr) && is_array($module_fields_arr)) 
               {
                 //commented as mismatching indexes

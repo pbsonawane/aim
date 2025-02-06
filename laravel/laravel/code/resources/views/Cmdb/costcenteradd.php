@@ -76,7 +76,7 @@ if (is_array($depts) && count($depts) > 0)
 {
     foreach ($depts as $dept)
     {
-        $deptdata_ids = isset($costcenterdata[0]['departments']) ? json_decode($costcenterdata[0]['departments']) : array();
+        $deptdata_ids = isset($costcenterdata[0]['departments']) ? json_decode($costcenterdata[0]['departments']) : [];
         ?>
 										<option value="<?php echo $dept['department_id'] ?>" <?php if (in_array($dept['department_id'],$deptdata_ids))
         {

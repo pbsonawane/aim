@@ -39,7 +39,7 @@ class EnContacts extends Model
      * @return       array
      * @tables       en_ci_contacts
      */
-    protected function getcontacts($contact_id = null, $inputdata = array(), $count = false)
+    protected function getcontacts($contact_id = null, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -77,7 +77,7 @@ class EnContacts extends Model
             return $data;
         }
     }
-    protected function getcontacts_shipto($contact_id = null, $inputdata = array(), $count = false)
+    protected function getcontacts_shipto($contact_id = null, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -116,7 +116,7 @@ class EnContacts extends Model
             return $data;
         }
     }
-    protected function getcontacts_billto($contact_id = null, $inputdata = array(), $count = false)
+    protected function getcontacts_billto($contact_id = null, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -170,20 +170,20 @@ class EnContacts extends Model
             $contact_data = EnContacts::where('contact_id', DB::raw('UUID_TO_BIN("' . $contact_id . '")'))->where('status', '!=', 'd')->first();
             if ($contact_data) {
 
-                $contact_data->update(array('status' => 'd'));
+                $contact_data->update(['status' => 'd']);
                 $contact_data->save();
                 $data['data']['deleted_id'] = $contact_id;
-                $data['message']['success'] = showmessage('118', array('{name}'), array('Contact'));
+                $data['message']['success'] = showmessage('118', ['{name}'], ['Contact']);
                 $data['status']             = 'success';
 
             } else {
                 $data['data']             = null;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Contact'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Contact']);
                 $data['status']           = 'error';
             }
         } else {
             $data['data']             = null;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Contact'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Contact']);
             $data['status']           = 'error';
         }
         return $data;

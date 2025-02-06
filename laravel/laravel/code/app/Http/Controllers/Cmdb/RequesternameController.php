@@ -59,8 +59,8 @@ Requestername Controller function is implemented to initiate a page to get list 
         $requestername_resp = $this->itam->syncrequesteruser($options);
         Sync Reqeuster Data END*/ 
 
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'requesternameList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("fname"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'requesternameList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["fname"]);
         $data['pageTitle']   = trans('title.requesternames');
         $data['includeView'] = view("Cmdb/requesternames", $data);
         return view('template', $data);
@@ -118,7 +118,7 @@ Requestername Controller function is implemented to initiate a page to get list 
      */
     public function requesternameList()
     {
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -138,7 +138,7 @@ Requestername Controller function is implemented to initiate a page to get list 
         $form_params['searchkeyword'] = $searchkeyword;
 
         // Show listing as per department wise
-        $option_user                 = array('form_params' => array('user_id' => showuserid()));
+        $option_user                 = ['form_params' => ['user_id' => showuserid()]];
         $userdata                    = $this->iam->getUsers($option_user);
         $user_id                     = _isset(_isset($userdata, 'content'), 'records');
         $form_params['department_id'] = $user_id[0]['department_id'];
@@ -148,12 +148,12 @@ Requestername Controller function is implemented to initiate a page to get list 
 
         $requesternames     = _isset(_isset($requestername_resp, 'content'), 'records');
         if ($requesternames == '') {
-            $requesternames = array();
+            $requesternames = [];
         }
-        $department_resp = $this->iam->getDepartment(array());
+        $department_resp = $this->iam->getDepartment([]);
         $dept_data      = _isset(_isset($department_resp, 'content'), 'records');
         //echo "<pre>"; print_r($dept_data);exit;
-        $all_dept = array();
+        $all_dept = [];
         
         if (isset($dept_data) && is_array($dept_data) && count($dept_data) > 0) {
             foreach ($dept_data as $dept) {
@@ -178,7 +178,7 @@ Requestername Controller function is implemented to initiate a page to get list 
             $paging['jsfunction']     = 'requesternameList()';
 
             $view    = 'Cmdb/requesternamelist';
-            $content = $this->emlib->emgrid($requesternames, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($requesternames, $view, $columns = [], $paging);
         }
         $response["html"]     = $content;
         $response["is_error"] = $is_error;
@@ -205,18 +205,18 @@ Requestername Controller function is implemented to initiate a page to get list 
         $data['department_id']          = '';
 
          // Show listing as per department wise
-        $option_user                 = array('form_params' => array('user_id' => showuserid()));
+        $option_user                 = ['form_params' => ['user_id' => showuserid()]];
         $userdata                    = $this->iam->getUsers($option_user);
         $user_id                     = _isset(_isset($userdata, 'content'), 'records');
         $data['department_id'] = $user_id[0]['department_id'];
 
         $department_resp                = $this->iam->getDepartment($options);
         if ($department_resp['is_error']) {
-            $departments = array();
+            $departments = [];
         } else {
             $departments = _isset(_isset($department_resp, 'content'), 'records');
         }
-        $requesternamedata         = array();
+        $requesternamedata         = [];
         $data['requesternamedata'] = $requesternamedata;
         $data['departments']  = $departments;
         $html                = view("Cmdb/requesternameadd", $data);
@@ -232,7 +232,7 @@ Requestername Controller function is implemented to initiate a page to get list 
      */
     public function requesternameaddsubmit(Request $request)
     {
-        $data = $this->itam->addrequestername(array('form_params' => $request->all()));
+        $data = $this->itam->addrequestername(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -248,8 +248,8 @@ Requestername Controller function is implemented to initiate a page to get list 
     {
         $requestername_id = $request->id;
 
-        $input_req  = array('requestername_id' => $requestername_id);        
-        $data       = $this->itam->editrequestername(array('form_params' => $input_req));
+        $input_req  = ['requestername_id' => $requestername_id];        
+        $data       = $this->itam->editrequestername(['form_params' => $input_req]);
 
         $data['requestername_id']  = $requestername_id;
          $limit_offset          = limitoffset(0, 0);
@@ -261,7 +261,7 @@ Requestername Controller function is implemented to initiate a page to get list 
         $options             = ['form_params' => $form_params];
         $department_resp       = $this->iam->getDepartment($options);
         if ($department_resp['is_error']) {
-            $departments = array();
+            $departments = [];
         } else {
             $departments = _isset(_isset($department_resp, 'content'), 'records');
         }
@@ -281,7 +281,7 @@ Requestername Controller function is implemented to initiate a page to get list 
      */
     public function requesternameeditsubmit(Request $request)
     {
-        $data = $this->itam->updaterequestername(array('form_params' => $request->all()));
+        $data = $this->itam->updaterequestername(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -294,7 +294,7 @@ Requestername Controller function is implemented to initiate a page to get list 
      */
     public function requesternamedelete(Request $request)
     {
-        $data = $this->itam->deleterequestername(array('form_params' => $request->all()));
+        $data = $this->itam->deleterequestername(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

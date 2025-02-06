@@ -46,8 +46,8 @@ class EmailTemplateController extends Controller
     public function emailtemplates()
     {
         //send_email_function('third','snehal.chaturvedi@esds.co.in', array('{name}' => "snehal", '{ASST_NAME}' => 'ADMIN')); die;
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'emailtemplatelist()', 'gridadvsearch' => true);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("template_category"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'emailtemplatelist()', 'gridadvsearch' => true];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["template_category"]);
         $data['pageTitle'] = trans('title.emailtemplate');
         $data['includeView'] = view("Emailtemplate/emailtemplatelist", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class EmailTemplateController extends Controller
     public function emailtemplatelist(){
 
 
-            $paging = array();
+            $paging = [];
             $fromtime = $totime = '';
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
             $exporttype = _isset($this->request_params, 'exporttype');
@@ -96,12 +96,12 @@ class EmailTemplateController extends Controller
 
                 if($msg == "Emailtemplate record/s not found."){
                     $is_error = false;
-                    $emailtemplates = array();
+                    $emailtemplates = [];
                  $paging['total_rows'] = count($emailtemplates);
                // $paging['showpagination'] = true;
                 $paging['jsfunction'] = 'emailtemplatelist()';
                 $view = 'Emailtemplate/emailtemplatejslist';
-                $content = $this->emlib->emgrid($emailtemplates, $view, $columns = array(), $paging);
+                $content = $this->emlib->emgrid($emailtemplates, $view, $columns = [], $paging);
                 }
                 
             }
@@ -117,7 +117,7 @@ class EmailTemplateController extends Controller
               
                 $view = 'Emailtemplate/emailtemplatejslist';
                 $template_id = isset($emailtemplates[0]['template_id']) ? $emailtemplates[0]['template_id'] : "";
-                $content = $this->emlib->emgrid($emailtemplates, $view, $columns = array(), $paging);
+                $content = $this->emlib->emgrid($emailtemplates, $view, $columns = [], $paging);
             }
             $response["html"] = $content;
             $response["is_error"] = $is_error;
@@ -140,33 +140,33 @@ class EmailTemplateController extends Controller
         $form_params['page'] = 0;
         $form_params['offset'] = 0;
         $form_params['searchkeyword'] = '';
-        $data['templatecategorydata'] = array();
+        $data['templatecategorydata'] = [];
         $data['template_category'] = '';
         $options = ['form_params' => $form_params];
         $templatecategory_resp = $this->itam->getetemplatecategory($options);
         if ($templatecategory_resp['is_error']){
-            $templatecategory = array();
+            $templatecategory = [];
         }else{
             $templatecategory = _isset(_isset($templatecategory_resp, 'content'), 'records');
         }
-        $data['templatecategorydata'] = array();
+        $data['templatecategorydata'] = [];
         $data['templatecategory'] = $templatecategory;
 
 
-        $data['emailquotedata'] = array();
+        $data['emailquotedata'] = [];
         $data['email_quote'] = '';
         $emailquotes_resp = $this->itam->getemailquotes($options);
         if ($emailquotes_resp['is_error']){
-            $emailquotes = array();
+            $emailquotes = [];
         }else{
             $emailquotes = _isset(_isset($emailquotes_resp, 'content'), 'records');
         }
-        $data['emailquotedata'] = array();
+        $data['emailquotedata'] = [];
         $data['emailquotes'] = $emailquotes;
        // echo "<pre>";print_r($data['emailquotes']); die;
 
         $data['template_id'] = '';
-        $templatedata = array();
+        $templatedata = [];
         $data['templatedata'] = $templatedata;
         $html = view("Emailtemplate/emailtemplate", $data);
         echo $html; 
@@ -181,7 +181,7 @@ class EmailTemplateController extends Controller
      */
     public function emailtemplateaddsubmit(Request $request)
     {
-        $data = $this->itam->addemailtemplate(array('form_params' => $request->all()));
+        $data = $this->itam->addemailtemplate(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -196,7 +196,7 @@ class EmailTemplateController extends Controller
 
     public function emailquoteaddsubmit(Request $request){
 
-        $data = $this->itam->addemailquote(array('form_params' => $request->all()));
+        $data = $this->itam->addemailquote(['form_params' => $request->all()]);
         $data1= "";
         $form_params['limit'] = 0;
         $form_params['page'] = 0;
@@ -206,7 +206,7 @@ class EmailTemplateController extends Controller
         $emailquotes = '';
         $emailquotes_resp = $this->itam->getemailquotes($options);
         if ($emailquotes_resp['is_error']){
-            $emailquotes = array();
+            $emailquotes = [];
         }else{
             $emailquotes = _isset(_isset($emailquotes_resp, 'content'), 'records');
         }
@@ -237,8 +237,8 @@ class EmailTemplateController extends Controller
     public function emailtemplateedit(Request $request)
     {
         $template_id = $request->id;
-        $input_req = array('template_id' => $template_id);
-        $data = $this->itam->editemailtemplate(array('form_params' => $input_req));
+        $input_req = ['template_id' => $template_id];
+        $data = $this->itam->editemailtemplate(['form_params' => $input_req]);
 
         $data['template_id'] = $template_id;
         $data['templatedata'] = $data['content'];
@@ -246,28 +246,28 @@ class EmailTemplateController extends Controller
         $form_params['page'] = 0;
         $form_params['offset'] = 0;
         $form_params['searchkeyword'] = '';
-        $data['templatecategorydata'] = array();
+        $data['templatecategorydata'] = [];
         $data['template_category'] = '';
         $options = ['form_params' => $form_params];
         $templatecategory_resp = $this->itam->getetemplatecategory($options);
         if ($templatecategory_resp['is_error']){
-            $templatecategory = array();
+            $templatecategory = [];
         }else{
             $templatecategory = _isset(_isset($templatecategory_resp, 'content'), 'records');
         }
-        $data['templatecategorydata'] = array();
+        $data['templatecategorydata'] = [];
         $data['templatecategory'] = $templatecategory;
 
 
-        $data['emailquotedata'] = array();
+        $data['emailquotedata'] = [];
         $data['email_quote'] = '';
         $emailquotes_resp = $this->itam->getemailquotes($options);
         if ($emailquotes_resp['is_error']){
-            $emailquotes = array();
+            $emailquotes = [];
         }else{
             $emailquotes = _isset(_isset($emailquotes_resp, 'content'), 'records');
         }
-        $data['emailquotedata'] = array();
+        $data['emailquotedata'] = [];
         $data['emailquotes'] = $emailquotes;
        // echo "<pre>";print_r($data['emailquotes']); die;
 
@@ -286,7 +286,7 @@ class EmailTemplateController extends Controller
     public function emailtemplateeditsubmit(Request $request)
     {
 
-        $data = $this->itam->updateemailtemplate(array('form_params' => $request->all()));
+        $data = $this->itam->updateemailtemplate(['form_params' => $request->all()]);
        echo json_encode($data, true);
     }
 
@@ -301,7 +301,7 @@ class EmailTemplateController extends Controller
      */
     public function emailtemplatedelete(Request $request)
     {
-        $data = $this->itam->deleteemailtemplate(array('form_params' => $request->all()));
+        $data = $this->itam->deleteemailtemplate(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -316,7 +316,7 @@ class EmailTemplateController extends Controller
      */
 
     public function emailtemplatechangestatus(Request $request){
-        $data = $this->itam->updateemailtemplatestatus(array('form_params' => $request->all()));
+        $data = $this->itam->updateemailtemplatestatus(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 

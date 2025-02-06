@@ -28,7 +28,7 @@ class RoleController extends Controller
         $this->emlib = new Emlib;
         $this->request = $request;
         $this->request_params = $this->request->all();
-		$this->roletype = array('client' => 'Client', 'staff' => 'Staff');
+		$this->roletype = ['client' => 'Client', 'staff' => 'Staff'];
     }
 
     /**
@@ -40,7 +40,7 @@ class RoleController extends Controller
      */
     public function roles()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'roleList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'roleList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Role";
         $data['includeView'] = view("Admin/roles", $data);
@@ -57,7 +57,7 @@ class RoleController extends Controller
      */
     public function rolelist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -87,7 +87,7 @@ class RoleController extends Controller
             $paging['showpagination'] = true;
             $paging['jsfunction'] = 'roleList()';
             $view = 'Admin/rolelist';
-            $content = $this->emlib->emgrid($roles, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($roles, $view, $columns = [], $paging);
         }
         $response["html"] = $content;
         $response["is_error"] = $is_error;
@@ -104,7 +104,7 @@ class RoleController extends Controller
      */
     public function roleadd()
     {
-        $roledata = array();
+        $roledata = [];
 		$data['roletype'] = $this->roletype;
         $data['roledata'] = $roledata;
         $html = view("Admin/roleadd", $data);
@@ -124,7 +124,7 @@ class RoleController extends Controller
      */
     public function rolesave(Request $request)
     {
-        $data = $this->iam->addRole(array('form_params' => $request->all()));
+        $data = $this->iam->addRole(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -140,8 +140,8 @@ class RoleController extends Controller
     public function roleedit(Request $request)
     {
         $roleid =$request->input('roleid');
-		$input_req = array('role_id' => $roleid);
-        $data =  $this->iam->editRole(array('form_params' => $input_req));
+		$input_req = ['role_id' => $roleid];
+        $data =  $this->iam->editRole(['form_params' => $input_req]);
         $data['roleid'] = $roleid;
 		$data['roledata'] = $data['content'];
 		$data['roletype'] = $this->roletype;
@@ -162,7 +162,7 @@ class RoleController extends Controller
      */
     public function roleupdate(Request $request)
     {
-        $data = $this->iam->updateRole(array('form_params' => $request->all()));
+        $data = $this->iam->updateRole(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -177,8 +177,8 @@ class RoleController extends Controller
     public function roledelete(Request $request)
     {
         $roleid = $request->input('roleid');
-		$input_req = array('role_id' => $roleid);
-        $data = $this->iam->deleterole(array('form_params' => $input_req));
+		$input_req = ['role_id' => $roleid];
+        $data = $this->iam->deleterole(['form_params' => $input_req]);
         echo json_encode($data, true);
     }
     /**
@@ -192,8 +192,8 @@ class RoleController extends Controller
     public function rolepermissions(Request $request)
     {
         $roleid = $request->input('roleid');
-		$input_req = array('role_id' => $roleid);
-        $data = $this->iam->rolepermissions(array('form_params' => $input_req));
+		$input_req = ['role_id' => $roleid];
+        $data = $this->iam->rolepermissions(['form_params' => $input_req]);
         $data['roleid'] = $roleid;
         if($data['content'])
         {
@@ -204,7 +204,7 @@ class RoleController extends Controller
             $data['role_name'] = '';//$data['content'][0]['role_name'];
         }
         else{
-            $data['rolepermissiondata'] = array();
+            $data['rolepermissiondata'] = [];
             $data['role_name'] = '';
         }
 		 
@@ -226,11 +226,11 @@ class RoleController extends Controller
 
       
         $roleid = $request->input('role_id');
-        $accessrightsArr = _isset($this->request_params, 'accessrightsArr') ? $request->input('accessrightsArr'): array();
+        $accessrightsArr = _isset($this->request_params, 'accessrightsArr') ? $request->input('accessrightsArr'): [];
         $permission_id = $request->input('permission_id');
-        $input_req = array('role_id' => $roleid, 'accessrightsArr'=> $accessrightsArr , 'permission_id' => $permission_id); 
+        $input_req = ['role_id' => $roleid, 'accessrightsArr'=> $accessrightsArr , 'permission_id' => $permission_id]; 
 
-        $data = $this->iam->assignrolepermissions(array('form_params' => $input_req));
+        $data = $this->iam->assignrolepermissions(['form_params' => $input_req]);
         echo json_encode($data, true);
     }
 }

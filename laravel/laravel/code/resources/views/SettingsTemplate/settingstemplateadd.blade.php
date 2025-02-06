@@ -105,7 +105,7 @@
                     <div class="col-md-9">
                     <?php $cmn_teplate_type = trans('commonarr.template_type'); ?>
                         <select  class="form-control input-sm"  name="type"  id="type">
-                            <option value=""><?php echo showmessage(trans('label.lbl_select'), array(':attribute'), array(trans('label.lbl_default_template')), true, true); ?></option>
+                            <option value=""><?php echo showmessage(trans('label.lbl_select'), [':attribute'], [trans('label.lbl_default_template')], true, true); ?></option>
                             <?php 
                            if(is_array($cmn_teplate_type) && count($cmn_teplate_type) > 0 )
                             {

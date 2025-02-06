@@ -78,7 +78,7 @@ class DomainAccessService
                              $locale  = isset($locale) ? $locale : config('app.locale');
                             if( $user_id != '' && $username != '' && $displayname != '' && $token != '')
                             {
-                                $data = array("displayname" => $displayname,"user_id" => $user_id,"username" => $username,"token" => $token,"issuperadmin"=>$issuperadmin,"userfullname"=>$userfullname);
+                                $data = ["displayname" => $displayname,"user_id" => $user_id,"username" => $username,"token" => $token,"issuperadmin"=>$issuperadmin,"userfullname"=>$userfullname];
                                 //save token
                                 if ($role_id !="") 
                                 {

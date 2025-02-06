@@ -39,7 +39,7 @@ class PermissionController extends Controller
      */
     public function permissions()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'permissionList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'permissionList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Permission";
         $data['includeView'] = view("Admin/permissions", $data);
@@ -56,7 +56,7 @@ class PermissionController extends Controller
      */
     public function permissionlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -87,7 +87,7 @@ class PermissionController extends Controller
             $paging['showpagination'] = true;
             $paging['jsfunction'] = 'permissionList()';
             $view = 'Admin/permissionlist';
-            $content = $this->emlib->emgrid($permissions, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($permissions, $view, $columns = [], $paging);
         }
         $response["html"] = $content;
         $response["is_error"] = $is_error;
@@ -104,12 +104,12 @@ class PermissionController extends Controller
      */
     public function permissionadd(Request $request)
     {
-        $categories = $permissiondata = array();
-        $modules = $this->iam->getModules(array('form_params' => $request->all()));
-        $data['modules'] = is_array($modules['content']['records']) ? $modules['content']['records'] : array();
+        $categories = $permissiondata = [];
+        $modules = $this->iam->getModules(['form_params' => $request->all()]);
+        $data['modules'] = is_array($modules['content']['records']) ? $modules['content']['records'] : [];
         $data['permissiondata'] = $permissiondata;
-        $categories = is_array($this->permissioncategories(true)) ? $this->permissioncategories(true) : array();
-        $data['categories'] = is_array($categories['content']) && count($categories['content']) > 0 ? $categories['content'] : array();
+        $categories = is_array($this->permissioncategories(true)) ? $this->permissioncategories(true) : [];
+        $data['categories'] = is_array($categories['content']) && count($categories['content']) > 0 ? $categories['content'] : [];
         $html = view("Admin/permissionadd", $data);
         echo $html;
     }
@@ -129,7 +129,7 @@ class PermissionController extends Controller
      */
     public function permissionsave(Request $request)
     {
-        $data = $this->iam->addPermission(array('form_params' => $request->all()));
+        $data = $this->iam->addPermission(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -145,14 +145,14 @@ class PermissionController extends Controller
     public function permissionedit(Request $request)
     {
         $permissionid = $request->input('permissionid');
-        $input_req = array('permission_id' => $permissionid);
-        $data = $this->iam->editPermission(array('form_params' => $input_req));
-        $modules = $this->iam->getModules(array('form_params' => $request->all()));
-        $data['modules'] = is_array($modules['content']['records']) ? $modules['content']['records'] : array();
+        $input_req = ['permission_id' => $permissionid];
+        $data = $this->iam->editPermission(['form_params' => $input_req]);
+        $modules = $this->iam->getModules(['form_params' => $request->all()]);
+        $data['modules'] = is_array($modules['content']['records']) ? $modules['content']['records'] : [];
         $data['permissionid'] = $permissionid;
         $data['permissiondata'] = $data['content'];
-        $categories = is_array($this->permissioncategories(true)) ? $this->permissioncategories(true) : array();
-        $data['categories'] = is_array($categories['content']) && count($categories['content']) > 0 ? $categories['content'] : array();
+        $categories = is_array($this->permissioncategories(true)) ? $this->permissioncategories(true) : [];
+        $data['categories'] = is_array($categories['content']) && count($categories['content']) > 0 ? $categories['content'] : [];
         $html = view("Admin/permissionadd", $data);
         echo $html;
     }
@@ -173,7 +173,7 @@ class PermissionController extends Controller
      */
     public function permissionupdate(Request $request)
     {
-        $data = $this->iam->updatePermission(array('form_params' => $request->all()));
+        $data = $this->iam->updatePermission(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -188,8 +188,8 @@ class PermissionController extends Controller
     public function permissiondelete(Request $request)
     {
         $permissionid = $request->input('permissionid');
-        $input_req = array('permission_id' => $permissionid);
-        $data = $this->iam->deletePermission(array('form_params' => $input_req));
+        $input_req = ['permission_id' => $permissionid];
+        $data = $this->iam->deletePermission(['form_params' => $input_req]);
         echo json_encode($data, true);
     }
 

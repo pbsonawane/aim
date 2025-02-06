@@ -45,7 +45,7 @@ class EnSoftwareLicense extends Model
     * @tables       en_software_license
     */
 
-    protected function getsoftwarelicense($software_id, $inputdata=array(), $count=false)
+    protected function getsoftwarelicense($software_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -106,7 +106,7 @@ class EnSoftwareLicense extends Model
     * @tables       en_software_license
     */
 
-    protected function getsoftwarelicenseedit($software_license_id, $inputdata=array(), $count=false)
+    protected function getsoftwarelicenseedit($software_license_id, $inputdata=[], $count=false)
     {
         
         $query = DB::table('en_software_license AS sl')   
@@ -144,23 +144,23 @@ class EnSoftwareLicense extends Model
             if($software_license_data)
             {    
                     
-                    $software_license_data->update(array('status' => 'd'));            
+                    $software_license_data->update(['status' => 'd']);            
                     $software_license_data->save();                     
                     $data['data']['deleted_id'] = $software_license_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Software License'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Software License']);
                     $data['status'] = 'success';
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Software License'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Software License']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Software License'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Software License']);
             $data['status'] = 'error';                             
         }   
         return $data;    
@@ -175,7 +175,7 @@ class EnSoftwareLicense extends Model
     * @return       Array
     * @tables       en_software_license
     */
-    protected function swpurchasecount($software_id=null,$inputdata=array())
+    protected function swpurchasecount($software_id=null,$inputdata=[])
     { 
         /*$query = DB::table('en_software_license')
                ->select(DB::raw('sum(max_installation) as sumdata'))

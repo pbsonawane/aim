@@ -43,8 +43,8 @@ class ContractTypeController extends Controller
 
     public function contracttypes()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'contracttypeList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("contract_type"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'contracttypeList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["contract_type"]);
         $data['pageTitle'] = trans('title.contract_type');
         $data['includeView'] = view("Cmdb/contracttypes", $data);
         return view('template', $data);
@@ -61,7 +61,7 @@ class ContractTypeController extends Controller
 
     public function contracttypeList()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -99,7 +99,7 @@ class ContractTypeController extends Controller
             $paging['jsfunction'] = 'contracttypeList()';
             
             $view = 'Cmdb/contracttypelist';
-            $content = $this->emlib->emgrid($contracttypes, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($contracttypes, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -117,7 +117,7 @@ class ContractTypeController extends Controller
     public function contracttypeadd(Request $request)
     {
         $data['contract_type_id'] = '';
-        $contracttypedata = array();
+        $contracttypedata = [];
         $data['contracttypedata'] = $contracttypedata;
         $html = view("Cmdb/contracttypeadd", $data);
         echo $html;
@@ -134,7 +134,7 @@ class ContractTypeController extends Controller
     public function contracttypeaddsubmit(Request $request)
     {
         if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-        $data = $this->itam->addcontracttype(array('form_params' => $request->all()));
+        $data = $this->itam->addcontracttype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -149,8 +149,8 @@ class ContractTypeController extends Controller
     public function contracttypeedit(Request $request)
     {
         $contract_type_id = $request->id;
-        $input_req = array('contract_type_id' => $contract_type_id);
-        $data = $this->itam->editcontracttype(array('form_params' => $input_req));
+        $input_req = ['contract_type_id' => $contract_type_id];
+        $data = $this->itam->editcontracttype(['form_params' => $input_req]);
 
         $data['contract_type_id'] = $contract_type_id;
         $data['contracttypedata'] = $data['content'];
@@ -170,7 +170,7 @@ class ContractTypeController extends Controller
      */
     public function contracttypeeditsubmit(Request $request)
     {
-        $data = $this->itam->updatecontracttype(array('form_params' => $request->all()));
+        $data = $this->itam->updatecontracttype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -183,7 +183,7 @@ class ContractTypeController extends Controller
      */
     public function contracttypedelete(Request $request)
     {
-        $data = $this->itam->deletecontracttype(array('form_params' => $request->all()));
+        $data = $this->itam->deletecontracttype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

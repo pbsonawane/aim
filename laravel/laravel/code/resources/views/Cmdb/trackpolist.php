@@ -36,7 +36,7 @@
 					$project_name           = '';
 					$segment                = '';
 					$project                = '';
-					$component              = array();
+					$component              = [];
 					$request_initiated_date = $val['created_at'];
 
 					$created_date           = new DateTime($val['created_at']);
@@ -48,8 +48,8 @@
 					$status                 = $val['status'];
 					// $remark                 = $val['remark'] != 'null' ? implode("<br/>", json_decode($val['remark']) ) : '';       
 					$dependancy             = $fname. " " . $lname;
-					$component_desc = array();
-					$component_qty = array();
+					$component_desc = [];
+					$component_qty = [];
 
 					if(!empty($val['details'])) {
                         $json_data            = json_decode($val['details'], true);
@@ -59,7 +59,7 @@
                     }
                     if(!empty($val['asset_details'])) {
                         //get item_id from asset_deatails
-                        $item_id_array        = array();  
+                        $item_id_array        = [];  
                         $asset_details_json   = explode('#',$val['asset_details']);
                         foreach ($asset_details_json as $key => $value) {
                           	$item_id_list       = json_decode($value, true);
@@ -70,7 +70,7 @@
 
                         if(!empty($val['asset_name'])) {
                           	//get item_name and id from asset_name
-							$item_name_array      = array();
+							$item_name_array      = [];
 							$asset_name_json      = explode(',',$val['asset_name']);
 							foreach ($asset_name_json as $key => $value) {
 	                            $tmp_item_name                  = json_decode($value, true);

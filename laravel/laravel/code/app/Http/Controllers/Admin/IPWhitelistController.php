@@ -36,7 +36,7 @@ class IPWhitelistController extends Controller
      */
 	public function whitelistip() 
 	{
-		$topfilter_tokenip = array('gridsearch' => true,'jsfunction' => 'ipList()');
+		$topfilter_tokenip = ['gridsearch' => true,'jsfunction' => 'ipList()'];
 		$data['emgridtop_tokenip'] = $this->emlib->emgridtop($topfilter_tokenip);
 		$data['pageTitle'] = "IP Whitelist";
 		$data['includeView'] = view("Admin/ipwhitelist",$data);
@@ -54,7 +54,7 @@ class IPWhitelistController extends Controller
      */
 	public function adduserwhitelistedips(Request $request)
 	{
-		$data =  $this->iam->addUserWhitelistedIps(array( 'form_params' => $request->all()));
+		$data =  $this->iam->addUserWhitelistedIps([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 	/**
@@ -70,7 +70,7 @@ class IPWhitelistController extends Controller
 	*/
 	public function gettokenwhitelist() 
 	{
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -102,7 +102,7 @@ class IPWhitelistController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'ipList()';
 			$view = 'Admin/tokenwhitelist';
-			$content = $this->emlib->emgrid($tokenips, $view, array(), $paging);
+			$content = $this->emlib->emgrid($tokenips, $view, [], $paging);
 		}
 
 		$response["html"] = $content;
@@ -122,7 +122,7 @@ class IPWhitelistController extends Controller
 	*/
 	public function approveuserwhitelistedips(Request $request)
 	{
-		$data =  $this->iam->approveUserWhitelistedips(array( 'form_params' => $request->all()));
+		$data =  $this->iam->approveUserWhitelistedips([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 	
@@ -139,7 +139,7 @@ class IPWhitelistController extends Controller
 	{
 		$is_error = false;
         $msg = $content="";
-		$form_params = array();
+		$form_params = [];
 		
 		$options = [
             'form_params' => $form_params];
@@ -180,13 +180,13 @@ class IPWhitelistController extends Controller
 	*/
 	public function deletewhitelistip(Request $request)
 	{	
-		$input_data = array();
+		$input_data = [];
 		$input_data['flag'] = $request->flag;
 		if($input_data['flag'] == 'subnet')
 			$input_data['delete_subnet'] = trim($request->delete_subnet,",");
 		else
 			$input_data['delete_ip'] = trim($request->delete_ip,",");
-		$data =  $this->iam->deleteWhiteListIp(array( 'form_params' => $input_data));
+		$data =  $this->iam->deleteWhiteListIp([ 'form_params' => $input_data]);
        	echo json_encode($data,true);
 	}
 	

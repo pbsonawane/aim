@@ -42,8 +42,8 @@ class ContactController extends Controller
 
     public function contacts()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'contactList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("fname"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'contactList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["fname"]);
         $data['pageTitle']   = trans('title.contacts');
         $data['includeView'] = view("Cmdb/contacts", $data);
         return view('template', $data);
@@ -59,7 +59,7 @@ class ContactController extends Controller
      */
     public function contactlist()
     {
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -92,7 +92,7 @@ class ContactController extends Controller
             $paging['jsfunction']     = 'contactList()';
 
             $view    = 'Cmdb/contactlist';
-            $content = $this->emlib->emgrid($contacts, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($contacts, $view, $columns = [], $paging);
         }
         $response["html"]     = $content;
         $response["is_error"] = $is_error;
@@ -109,7 +109,7 @@ class ContactController extends Controller
     public function contactadd(Request $request)
     {
         $data['contact_id']  = '';
-        $contactdata         = array();
+        $contactdata         = [];
         $data['contactdata'] = $contactdata;
         $html                = view("Cmdb/contactadd", $data);
         echo $html;
@@ -124,7 +124,7 @@ class ContactController extends Controller
      */
     public function contactaddsubmit(Request $request)
     {
-        $data = $this->itam->addcontact(array('form_params' => $request->all()));
+        $data = $this->itam->addcontact(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -139,8 +139,8 @@ class ContactController extends Controller
     public function contactedit(Request $request)
     {
         $contact_id = $request->id;
-        $input_req  = array('contact_id' => $contact_id);
-        $data       = $this->itam->editcontact(array('form_params' => $input_req));
+        $input_req  = ['contact_id' => $contact_id];
+        $data       = $this->itam->editcontact(['form_params' => $input_req]);
 
         $data['contact_id']  = $contact_id;
         $data['contactdata'] = $data['content'];
@@ -158,7 +158,7 @@ class ContactController extends Controller
      */
     public function contacteditsubmit(Request $request)
     {
-        $data = $this->itam->updatecontact(array('form_params' => $request->all()));
+        $data = $this->itam->updatecontact(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -171,7 +171,7 @@ class ContactController extends Controller
      */
     public function contactdelete(Request $request)
     {
-        $data = $this->itam->deletecontact(array('form_params' => $request->all()));
+        $data = $this->itam->deletecontact(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

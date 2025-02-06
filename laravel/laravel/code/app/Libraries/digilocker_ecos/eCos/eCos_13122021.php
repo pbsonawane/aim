@@ -40,7 +40,7 @@ class eCos{
 		
 		$api_url = $this->api_auth_url . 'tokens';
 
-		$params = array();
+		$params = [];
 		$params['auth']['tenantName'] = $this->tenantName;
 		$params['auth']['passwordCredentials']['username'] = $this->username;
 		$params['auth']['passwordCredentials']['password'] = $this->password;
@@ -153,9 +153,9 @@ class eCos{
 		
 		$url = $api_url;
 		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+		curl_setopt($curl, CURLOPT_HTTPHEADER, [
 			'X-Auth-Token: ' . $this->token
-		));
+		]);
 		//curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		//curl_setopt($curl, CURLINFO_HEADER_OUT, true);
@@ -213,7 +213,7 @@ class eCos{
         return $res;
 	}
 	
-	private function apiCall($api_url, $token = NULL, $params = NULL, $request = NULL, $headers = array()){
+	private function apiCall($api_url, $token = NULL, $params = NULL, $request = NULL, $headers = []){
 		
 		//$headers = array();
 		

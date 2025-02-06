@@ -338,7 +338,7 @@ class ItamService
         $data = $this->remoteapi->apicall("POST", $this->url, 'add_attachment_contract', $options);
         return $data;
     }
-    public function getattachfile($options = array())
+    public function getattachfile($options = [])
     {
         $data = $this->remoteapi->apicall("POST", $this->url, 'view_attachment_contract', $options);
         return $data;

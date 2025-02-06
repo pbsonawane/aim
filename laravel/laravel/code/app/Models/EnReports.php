@@ -47,7 +47,7 @@ class EnReports extends Model
         return 'report_id';
     }
     
-    protected function getreport($report_id, $inputdata=array(), $count=false)
+    protected function getreport($report_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -122,7 +122,7 @@ class EnReports extends Model
         else      
             return $data;
     }
-    protected function getcontractreport($result,$inputdata=array(), $count=false)
+    protected function getcontractreport($result,$inputdata=[], $count=false)
     {
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
@@ -206,7 +206,7 @@ class EnReports extends Model
         else      
             return $data;    
     }
-    protected function getsoftwarereport($result,$inputdata=array(), $count=false)
+    protected function getsoftwarereport($result,$inputdata=[], $count=false)
     {
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
@@ -304,7 +304,7 @@ class EnReports extends Model
             return $data;    
     }
     //
-    protected function getpurchasereport($result,$inputdata=array(), $count=false)
+    protected function getpurchasereport($result,$inputdata=[], $count=false)
     {
         $index = array_search('billing_address',$result['filter_fields']);
         if($index !== FALSE){
@@ -320,12 +320,12 @@ class EnReports extends Model
         $searchkeyword = _isset($inputdata,'searchkeyword');
         
         $bvdcloc        = _isset($inputdata,'bvdcloc');
-        $location_id    = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : array();
-        $location       = isset($bvdcloc['location']) ? $bvdcloc['location'] : array();
-        $bv_id    = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : array();
-        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : array();
-        $dc_id      = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : array();
-        $datacenter = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : array();
+        $location_id    = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : [];
+        $location       = isset($bvdcloc['location']) ? $bvdcloc['location'] : [];
+        $bv_id    = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : [];
+        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : [];
+        $dc_id      = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : [];
+        $datacenter = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : [];
 
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
         {
@@ -478,7 +478,7 @@ class EnReports extends Model
         else      
             return $data;    
     }
-    protected function getpurchasereport_pr($result,$inputdata=array(), $count=false)
+    protected function getpurchasereport_pr($result,$inputdata=[], $count=false)
     {   
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
@@ -489,12 +489,12 @@ class EnReports extends Model
         $searchkeyword = _isset($inputdata,'searchkeyword');
         
         $bvdcloc        = _isset($inputdata,'bvdcloc');
-        $location_id    = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : array();
-        $location       = isset($bvdcloc['location']) ? $bvdcloc['location'] : array();
-        $bv_id    = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : array();
-        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : array();
-        $dc_id      = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : array();
-        $datacenter = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : array();
+        $location_id    = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : [];
+        $location       = isset($bvdcloc['location']) ? $bvdcloc['location'] : [];
+        $bv_id    = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : [];
+        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : [];
+        $dc_id      = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : [];
+        $datacenter = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : [];
 
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
         {
@@ -555,7 +555,7 @@ class EnReports extends Model
             return $data;     
     }
     //
-    protected function getassetsreport($result,$inputdata=array(), $count=false)
+    protected function getassetsreport($result,$inputdata=[], $count=false)
     {
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
@@ -565,12 +565,12 @@ class EnReports extends Model
 
         $searchkeyword     = _isset($inputdata,'searchkeyword');
         $bvdcloc           = _isset($inputdata,'bvdcloc');
-        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : array();
-        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : array();
-        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : array();
-        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : array();
-        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : array();
-        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : array();
+        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : [];
+        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : [];
+        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : [];
+        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : [];
+        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : [];
+        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : [];
 
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
         {
@@ -625,7 +625,7 @@ class EnReports extends Model
                 //User Acess rights BV LOC DC
                 $query->when($location_id, function ($query) use ($location_id)
                 {
-                    $location_arr = array();
+                    $location_arr = [];
                     if (is_array($location_id) && !empty($location_id)) 
                     {
                         foreach ($location_id as $loc) 
@@ -637,7 +637,7 @@ class EnReports extends Model
                 });
                 $query->when($bv_id, function ($query) use ($bv_id)
                 {
-                    $bv_arr = array();
+                    $bv_arr = [];
                     if (is_array($bv_id) && !empty($bv_id)) 
                     {
                         foreach ($bv_id as $bv) 
@@ -708,7 +708,7 @@ class EnReports extends Model
     }
     //
     //
-    protected function getcmdbreport($result,$inputdata=array(), $count=false)
+    protected function getcmdbreport($result,$inputdata=[], $count=false)
     {
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
@@ -728,12 +728,12 @@ class EnReports extends Model
         }
         
         $bvdcloc           = _isset($inputdata,'bvdcloc');
-        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : array();
-        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : array();
-        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : array();
-        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : array();
-        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : array();
-        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : array();
+        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : [];
+        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : [];
+        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : [];
+        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : [];
+        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : [];
+        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : [];
 
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
         {
@@ -795,7 +795,7 @@ class EnReports extends Model
                 //User Acess rights BV LOC DC
                 $query->when($location_id, function ($query) use ($location_id)
                 {
-                    $location_arr = array();
+                    $location_arr = [];
                     if (is_array($location_id) && !empty($location_id)) 
                     {
                         foreach ($location_id as $loc) 
@@ -807,7 +807,7 @@ class EnReports extends Model
                 });
                 $query->when($bv_id, function ($query) use ($bv_id)
                 {
-                    $bv_arr = array();
+                    $bv_arr = [];
                     if (is_array($bv_id) && !empty($bv_id)) 
                     {
                         foreach ($bv_id as $bv) 
@@ -887,14 +887,14 @@ class EnReports extends Model
     }
     //
     //
-    protected function getallcompreport($result,$inputdata=array(), $count=false)
+    protected function getallcompreport($result,$inputdata=[], $count=false)
     {
         $filter_fields      = $result['filter_fields'];
         $filters            = $result['filters'];
         $filter_date_field  = $result['filter_date_field'];
         $filter_date_value  = $result['filter_date_value'];
         $filter_date_range  = $result['filter_date_range'];
-        $ramArr = $hddArr   = $attachArr = $noramsArr = $nohddArr = $totalramArr = $totalmemArr     = $totalcostArr =  array();
+        $ramArr = $hddArr   = $attachArr = $noramsArr = $nohddArr = $totalramArr = $totalmemArr     = $totalcostArr =  [];
 
         $searchkeyword      = _isset($inputdata,'searchkeyword');
         $cifields           = _isset($inputdata,'cifields');
@@ -976,12 +976,12 @@ class EnReports extends Model
             }
         }
         $bvdcloc           = _isset($inputdata,'bvdcloc');
-        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : array();
-        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : array();
-        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : array();
-        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : array();
-        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : array();
-        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : array();
+        $location_id       = isset($bvdcloc['location_id']) ? $bvdcloc['location_id'] : [];
+        $location          = isset($bvdcloc['location']) ? $bvdcloc['location'] : [];
+        $bv_id             = isset($bvdcloc['bv_id']) ? $bvdcloc['bv_id'] : [];
+        $business_vertical = isset($bvdcloc['businessvertical']) ? $bvdcloc['businessvertical'] : [];
+        $dc_id             = isset($bvdcloc['dc_id']) ? $bvdcloc['dc_id'] : [];
+        $datacenter        = isset($bvdcloc['datacenter']) ? $bvdcloc['datacenter'] : [];
 
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
         {
@@ -1034,7 +1034,7 @@ class EnReports extends Model
                 //User Acess rights BV LOC DC
                 $query->when($location_id, function ($query) use ($location_id)
                 {
-                    $location_arr = array();
+                    $location_arr = [];
                     if (is_array($location_id) && !empty($location_id)) 
                     {
                         foreach ($location_id as $loc) 
@@ -1046,7 +1046,7 @@ class EnReports extends Model
                 });
                 $query->when($bv_id, function ($query) use ($bv_id)
                 {
-                    $bv_arr = array();
+                    $bv_arr = [];
                     if (is_array($bv_id) && !empty($bv_id)) 
                     {
                         foreach ($bv_id as $bv) 
@@ -1273,7 +1273,7 @@ class EnReports extends Model
             return $data;    
     }
     //
-    protected function getfilters($filters=array(),$query=null,$cifilterfields=array())
+    protected function getfilters($filters=[],$query=null,$cifilterfields=[])
     {
       foreach($filters as $filter)
       {
@@ -1303,7 +1303,7 @@ class EnReports extends Model
                 $filter['criteria_value'] = $filter['criteria_value'];
             }
 
-            $criteria_value_arr = array();
+            $criteria_value_arr = [];
             if (is_array($filter['criteria_value']) && !empty($filter['criteria_value'])) 
             {
                 foreach ($filter['criteria_value'] as $criteria_value) 
@@ -1458,13 +1458,13 @@ class EnReports extends Model
                 return date('Y-01-01 00:00'); 
                 break;
             case "this_week":
-                return array("start" => $Monday, "end" => $Sunday);
+                return ["start" => $Monday, "end" => $Sunday];
                 break;
             case "this_month":
-                return array("start" => date('Y-m-01 00:00:00',strtotime('this month')), "end" => date('Y-m-t 12:59:59',strtotime('this month')));
+                return ["start" => date('Y-m-01 00:00:00',strtotime('this month')), "end" => date('Y-m-t 12:59:59',strtotime('this month'))];
                 break;
             case "this_year":
-                return array("start" => date('Y-01-01 00:00:00'), "end" => date('Y-12-31 12:59:59'));
+                return ["start" => date('Y-01-01 00:00:00'), "end" => date('Y-12-31 12:59:59')];
                 break;                               
             default:
                 return date("Y-m-d 00:00");

@@ -32,7 +32,7 @@ class EnFormTemplateDefault extends Model
     {
         return 'form_templ_id';
     }
-    protected function getformTemplateDefault($form_templ_id, $inputdata=array(), $count=false)
+    protected function getformTemplateDefault($form_templ_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

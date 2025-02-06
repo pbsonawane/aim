@@ -48,15 +48,15 @@ class AssetController extends Controller
 		//echo 'sdsds'; exit;
         //ini_set('max_execution_time', '1000');
        // ini_set("memory_limit","-1");
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'assetTracking()', 'gridadvsearch' => true);
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'assetTracking()', 'gridadvsearch' => true];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ['userlist']);
-        $citemps = array();
-        $defaultci = $this->itam->getallcitemplates(array());
+        $citemps = [];
+        $defaultci = $this->itam->getallcitemplates([]);
         if($ci_templ_id != "")
         {   
             if ($defaultci['is_error'])
             {
-                $citemps = array();
+                $citemps = [];
             }
             else
             {                  
@@ -97,15 +97,15 @@ class AssetController extends Controller
     // Asset Sku Issue
     function assetsSku($asset_id = "",$ci_templ_id = "",$po_id = "",$asset_sku="")
     {	
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'assetTracking()', 'gridadvsearch' => true);
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'assetTracking()', 'gridadvsearch' => true];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ['userlist']);
-        $citemps = array();
-        $defaultci = $this->itam->getallcitemplates(array());
+        $citemps = [];
+        $defaultci = $this->itam->getallcitemplates([]);
         if($ci_templ_id != "")
         {   
             if ($defaultci['is_error'])
             {
-                $citemps = array();
+                $citemps = [];
             }
             else
             {                  
@@ -183,7 +183,7 @@ class AssetController extends Controller
         try
         {
             $is_error = $msg = "";
-            $data = array();
+            $data = [];
             $form_params['ci_templ_id'] = $request->input('ci_templ_id');
             $options = ['form_params' => $form_params];
             $citemplates = $this->itam->getitembycategory($options);               
@@ -225,8 +225,8 @@ class AssetController extends Controller
     {
         $is_error = false;
         $msg = '';
-        $data = array();
-        $option = array();
+        $data = [];
+        $option = [];
         $citemplates = $this->itam->getciitems($option);
 
         $view = View::make("Cmdb/citemplatedata", $data);
@@ -265,8 +265,8 @@ class AssetController extends Controller
     try
     {
         $is_error = $msg = "";
-        $data = array();
-        $citemplates = $this->itam->assetdashboard(array());    
+        $data = [];
+        $citemplates = $this->itam->assetdashboard([]);    
             // dd($citemplates);
         $data['citemplates'] = _isset($citemplates,'content');      
         $view = View::make("Asset/assetdashboard", $data);
@@ -308,8 +308,8 @@ function LicenseDashboard1()
          try
     {
         $is_error = $msg = "";
-        $data = array();
-        $citemplates = $this->itam->licensedashboard(array());    
+        $data = [];
+        $citemplates = $this->itam->licensedashboard([]);    
 //dd($citemplates);
         $data['citemplates'] = _isset($citemplates,'content');      
         $view = View::make("Asset/licensedashboard", $data);
@@ -359,7 +359,7 @@ function asset(Request $request)
         //ini_set("memory_limit","-1");
     try
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'assetslist()', 'gridadvsearch' => false);
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'assetslist()', 'gridadvsearch' => false];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', '');
         $is_error = $msg = "";
         $data['ci_templ_id'] = _isset($this->request_params, 'ci_templ_id');
@@ -400,7 +400,7 @@ function assetlist(Request $request)
     try
     {  
         // /print_r(config('enconfig'));
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -443,7 +443,7 @@ function assetlist(Request $request)
                 $paging['jsfunction'] = 'assetslist()';
                 $view = 'Asset/assetlist';
                 
-                $show_fields = array();         
+                $show_fields = [];         
                 $columns = $show_fields;
                 $content = $this->emlib->emgrid($assetlits, $view, $columns, $paging);
             }
@@ -496,7 +496,7 @@ function assetlist(Request $request)
                 $bvdata = $this->iam->getBusinessVertical($options);
                 $locdata = $this->iam->getLocations($options);
                 $vendordata = $this->itam->getvendors($options);
-                $form_params = array();
+                $form_params = [];
                 $form_params['ci_templ_id'] = $request->input('ci_templ_id');
                 $form_params['ci_type_id'] = $request->input('ci_type_id');
                 $options = [
@@ -512,7 +512,7 @@ function assetlist(Request $request)
                     $data['locdata'] = _isset(_isset($locdata,'content'),'records');
                     $data['bvdata'] = _isset(_isset($bvdata,'content'),'records');
                     $data['vendordata'] = _isset(_isset($vendordata,'content'),'records');
-                    $data['editdata'] =  $data['asset_details'] = $data['childdata'] =  array();
+                    $data['editdata'] =  $data['asset_details'] = $data['childdata'] =  [];
                     $data['asset_id'] = ""; 
 
                     $data["skucodes"] = _isset($skucodes,'content');
@@ -562,7 +562,7 @@ function assetlist(Request $request)
                     }
                 }
 
-                $data = $this->itam->addasset(array('form_params' => $farray));
+                $data = $this->itam->addasset(['form_params' => $farray]);
             //$data["content"]   = "";
             //$data["is_error"]  = "";
             //$data["msg"]       = $e->getmessage();
@@ -571,13 +571,13 @@ function assetlist(Request $request)
             }
             catch (\Exception $e)
             {
-                $data = array();
+                $data = [];
                 save_errlog("assetsave","This controller function is implemented to get Asset add.",$this->request_params,$e->getmessage());  
                 echo json_encode($data, true);
             }
             catch (\Error $e)
             {
-               $data = array();
+               $data = [];
                save_errlog("assetsave","This controller function is implemented to get Asset add.",$this->request_params,$e->getmessage());  
                echo json_encode($data, true);
            }
@@ -588,7 +588,7 @@ function assetlist(Request $request)
        {
          try
          { 
-            $option=array();
+            $option=[];
             $callfrom = $request->input('callfrom');    
             $returntype = $request->input('given');    
             $limit_offset = limitoffset(0, 0);
@@ -612,7 +612,7 @@ function assetlist(Request $request)
                 $vendordata = $this->itam->getvendors($options);
             }
 
-            $form_params = array();
+            $form_params = [];
             $form_params['asset_id'] = $request->input('asset_id');
             $form_params['ci_templ_id'] = $request->input('ci_templ_id');
             $form_params['ci_type_id'] = $request->input('ci_type_id');
@@ -638,7 +638,7 @@ function assetlist(Request $request)
             $data['assets'] = _isset(_isset($assetdata,'content'),'assets');
             
          //  echo "<pre>"; print_r($data); die();
-            $childdata = array();
+            $childdata = [];
             $childs = _isset(_isset($editdata,'content'),'childs');
             //print_r($editdata);die();    
             if(is_array($childs) && count($childs) > 0)
@@ -664,14 +664,14 @@ function assetlist(Request $request)
         }
         catch (\Exception $e)
         {
-            $data = array();
+            $data = [];
             $html = "";
 
             save_errlog("assetedit","This controller function is implemented to edit asset.",$this->request_params,$e->getmessage());  
         }
         catch (\Error $e)
         {
-           $data = array();
+           $data = [];
            $html = "";
            save_errlog("assetedit","This controller function is implemented to edit asset.",$this->request_params,$e->getmessage());  
        }
@@ -704,7 +704,7 @@ function updateasset(Request $request)
         }
     }
            //print_r($farray); exit;
-    $data = $this->itam->updateasset(array('form_params' => $farray));
+    $data = $this->itam->updateasset(['form_params' => $farray]);
 
 }
 catch (\Exception $e)
@@ -739,7 +739,7 @@ function deleteasset(Request $request)
     $request->request->add(['callfrom' => 'assetdashboard']);
     $data = $this->assetedit($request);
     $is_error = $msg = "";
-    $user_details = array();
+    $user_details = [];
     $limit_offset = limitoffset(0, 0);
     $page = $limit_offset['page'];
     $limit = $limit_offset['limit'];
@@ -753,10 +753,10 @@ function deleteasset(Request $request)
 
         $deptdata = $this->iam->getDepartment($options);
         $data['dept'] = _isset(_isset($deptdata,'content'),'records');
-        $defaultci = $this->itam->getallcitemplates(array());
+        $defaultci = $this->itam->getallcitemplates([]);
         if ($defaultci['is_error'])
         {
-            $citemps = array();
+            $citemps = [];
         }
         else
         {                  
@@ -797,7 +797,7 @@ function deleteasset(Request $request)
     function assetrelationshipdelete(Request $request)
     {
         try{
-            $data = $this->itam->deleteassetrelationship(array('form_params' => $request->all()));
+            $data = $this->itam->deleteassetrelationship(['form_params' => $request->all()]);
             echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -834,12 +834,12 @@ function deleteasset(Request $request)
         $form_params['callfor_id']    = $request->input('asset_id');
         $options                      = ['form_params' => $form_params];
         //$assetlist                    = $this->itam->assets($options);
-        $option = array();
+        $option = [];
         $citemplates = $this->itam->getciitems($option);
         $data['citemplates'] = _isset(_isset($citemplates,'content'),'records');
-        $assetlists                   = array();
+        $assetlists                   = [];
         $reltypelist                  = $this->itam->getrelationshiptype($options);
-        $reltypelists                 = array();
+        $reltypelists                 = [];
 
        /* if (!$assetlist['is_error'])
         {
@@ -871,7 +871,7 @@ function deleteasset(Request $request)
    {
     try
     {
-        $data = $this->itam->addassetrelationship(array('form_params' => $request->all()));
+        $data = $this->itam->addassetrelationship(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -909,7 +909,7 @@ function deleteasset(Request $request)
         $data['location_id'] = $request->input('location_id');
         $data['tag'] = $request->input('tag');
         $data['asset_ci_templ_id'] = $request->input('asset_ci_templ_id');
-        $option = array();
+        $option = [];
         $citypes = $this->itam->citypes($option);
         $citemplates = $this->itam->getciitems($option);
         $data['citemplates'] = _isset(_isset($citemplates,'content'),'records');
@@ -963,7 +963,7 @@ function deleteasset(Request $request)
         function attachassetsave(Request $request)
         {
             $assetdata = $request->all();
-            $data = $this->itam->attachassetsave(array('form_params' => $assetdata));
+            $data = $this->itam->attachassetsave(['form_params' => $assetdata]);
             echo json_encode($data, true);
         }
 
@@ -993,7 +993,7 @@ function deleteasset(Request $request)
 
             if($request->input('ci_templ_id') == 'USER'){
 
-                $option1 = array();
+                $option1 = [];
                 $userlist = $this->iam->getUsers($option1);
                 if ($userlist['is_error'])
                 {
@@ -1058,7 +1058,7 @@ function deleteasset(Request $request)
 
     function assethistory(Request $request)
     {
-        $userids = array();
+        $userids = [];
         $form_params['asset_id'] =  $request->input('asset_id');;
         $options = ['form_params' => $form_params];
         $historydata = $this->itam->assethistory($options); 
@@ -1076,7 +1076,7 @@ function deleteasset(Request $request)
         foreach($userids as $userid)
         {
             $options_optional = [
-             'form_params' => array('user_id' => $userid,'status' => "s,y,d,n"),
+             'form_params' => ['user_id' => $userid,'status' => "s,y,d,n"],
          ];
          $response_optional = $this->iam->getUsers($options_optional);
          $response_data = _isset(_isset($response_optional, 'content'), 'records');
@@ -1088,7 +1088,7 @@ function deleteasset(Request $request)
 }
 function assignassethistory(Request $request)
 {
-    $userids = array();
+    $userids = [];
     $form_params['asset_id'] =  $request->input('asset_id');;
     $options = ['form_params' => []];
     $deptdata = $this->iam->getDepartment($options);
@@ -1107,13 +1107,13 @@ function assetrelationship(Request $request)
     $options = ['form_params' => $form_params];         
     $asset_rel_data = $this->itam->get_asset_relationship($options);
     $asset_rel_data = _isset($asset_rel_data,'content');
-    $final = $user_details = array();
+    $final = $user_details = [];
     if(is_array($asset_rel_data) && count($asset_rel_data) > 0){
 
         for($i=0; $i<count($asset_rel_data);$i++){
             $dt = $asset_rel_data[$i];
             if($dt['child_asset_name'] == ''){
-                $option1   = ['form_params' => array('user_id' => $dt['child_asset_id'])];
+                $option1   = ['form_params' => ['user_id' => $dt['child_asset_id']]];
                 $user_details = $this->iam->getUsers($option1);
                 $user_details = _isset(_isset($user_details, 'content'), 'records');
                 $dt['child_asset_name'] = ucfirst($user_details[0]['firstname']." ".$user_details[0]['lastname']);
@@ -1189,7 +1189,7 @@ function statuschange(Request $request)
     $data['deptdata'] = _isset(_isset($deptdata,'content'),'records');
     $data['bvdata'] = _isset(_isset($bvdata,'content'),'records');
         //============= Requester Names Master
-    $option                      = array('form_params' => array());
+    $option                      = ['form_params' => []];
     $requesternameDetails        = $this->itam->getrequesternames($option);
     $data['requesternameDetailsArr']     = _isset(_isset($requesternameDetails, 'content'), 'records');
 
@@ -1200,7 +1200,7 @@ function statuschangesubmit(Request $request)
 {
     
     $cahangedata = $request->all();
-    $farray = array();
+    $farray = [];
     if(is_array($cahangedata) && count($cahangedata) > 0)
     {
         foreach($cahangedata as $key => $change)
@@ -1209,7 +1209,7 @@ function statuschangesubmit(Request $request)
         }
     }
     
-    $data = $this->itam->statuschangesubmit(array('form_params' => $farray));    
+    $data = $this->itam->statuschangesubmit(['form_params' => $farray]);    
     
     echo json_encode($data, true);
 }
@@ -1237,9 +1237,9 @@ function importfile(Request $request)
         }
 
         $messages  = [
-            'ci_templ_id.required'  => showmessage('000', array('{name}'), array(trans('label.lbl_ci')), true),
-            'file.required'         => showmessage('000', array('{name}'), array(trans('label.lbl_csvfile')), true),
-            'file.size'             => showmessage('msg_max_allowed_size', array('{name}'), array('2 MB'), true),
+            'ci_templ_id.required'  => showmessage('000', ['{name}'], [trans('label.lbl_ci')], true),
+            'file.required'         => showmessage('000', ['{name}'], [trans('label.lbl_csvfile')], true),
+            'file.size'             => showmessage('msg_max_allowed_size', ['{name}'], ['2 MB'], true),
             'extension.required'    => "",
             'extension.in'          => showmessage("162"),
         ];
@@ -1307,7 +1307,7 @@ function importfile(Request $request)
                     }
                     else
                     {
-                        $col_array          = $data_array = array();
+                        $col_array          = $data_array = [];
                         $data['content']    = "";
                         $data['is_error']   = TRUE;
                         $data['msg']        = "File not open";
@@ -1330,7 +1330,7 @@ function importfile(Request $request)
         }
     }
     catch(\Exception $e){
-        $col_array          = $data_array = array();
+        $col_array          = $data_array = [];
         $data['content']    = "";
         $data['is_error']   = TRUE;
         $data['msg']        = $e->getMessage();
@@ -1364,7 +1364,7 @@ function importsave(Request $request)
         $bvdata = _isset(_isset($bvdata,'content'),'records');
         $vendordata = _isset(_isset($vendordata,'content'),'records');
         $deptdata = _isset(_isset($deptdata,'content'),'records');
-        $fbv = $floc = $fvendor = array();
+        $fbv = $floc = $fvendor = [];
         if(is_array($bvdata) && count($bvdata) > 0)
         {
          foreach($bvdata as $bv)
@@ -1438,7 +1438,7 @@ if($fname != '')
                 }*/
             }            
         }
-        $assets = array();
+        $assets = [];
 
        /* if(is_array($data_array) && count($data_array) > 0)
         {
@@ -1523,20 +1523,20 @@ if($fname != '')
                         //validate required title
                         if(isset($farray) && is_array($farray) && count($farray) > 0){
                             if(isset($farray["title"]) && empty($farray["title"])){
-                                $resp = array();
+                                $resp = [];
                                 $resp['content']    = null;
                                 $resp['is_error']   = true;
-                                $resp['msg']        = showmessage('123', array('{name}'), array(trans('label.lbl_title')), true);
+                                $resp['msg']        = showmessage('123', ['{name}'], [trans('label.lbl_title')], true);
                                 $resp['html']       = '';
                                 
                                 echo json_encode($resp,true);
                                 exit;
                             }
                         }else{
-                            $resp = array();
+                            $resp = [];
                             $resp['content']    = null;
                             $resp['is_error']   = true;
-                            $resp['msg']        = showmessage('123', array('{name}'), array(trans('label.lbl_title')), true);
+                            $resp['msg']        = showmessage('123', ['{name}'], [trans('label.lbl_title')], true);
                             $resp['html']       = '';
 
                             echo json_encode($resp,true);
@@ -1568,7 +1568,7 @@ function swonassetdashboard(Request $request)
     $resp = $this->itam->swonassetdashboard($options);
     if ($resp['is_error'])
     {
-        $softwaredata = array();
+        $softwaredata = [];
     }
     else
     {
@@ -1583,7 +1583,7 @@ function swonassetdashboard(Request $request)
 
 function assetcontract(Request $request)
 {
-    $userids = array();
+    $userids = [];
     $form_params['asset_id'] =  $request->input('asset_id');;
     $options = ['form_params' => $form_params];
     $contractdata = $this->itam->assetcontract($options); 
@@ -1614,8 +1614,8 @@ function assetcontract(Request $request)
 
     function import()
     {
-        $notifications = $this->itam->importnotification(array());
-        $citemplates = $this->itam->getciitems(array());
+        $notifications = $this->itam->importnotification([]);
+        $citemplates = $this->itam->getciitems([]);
         $data['notifications'] = _isset(_isset($notifications,'content'),'records');
         $data['citemplates'] = _isset(_isset($citemplates,'content'),'records');
         $data['pageTitle'] = trans('title.asset_import');//assets;

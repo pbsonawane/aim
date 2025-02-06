@@ -19,7 +19,7 @@ class EnReportCategory extends Model
     {
         return 'report_cat_id';
     }
-    protected function getreportCategory($report_cat_id, $inputdata=array(), $count=false)
+    protected function getreportCategory($report_cat_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

@@ -22,7 +22,7 @@ class EnInvoice extends Model
         return 'invoice_id';
     }
 	
-	protected function getinvoices($po_id, $invoice_id = "", $inputdata=array(), $count=false)
+	protected function getinvoices($po_id, $invoice_id = "", $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

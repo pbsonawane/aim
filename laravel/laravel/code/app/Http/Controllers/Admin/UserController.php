@@ -41,8 +41,8 @@ class UserController extends Controller
      */
     public function users()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'userList()', 'gridadvsearch' => true);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array('roles','usertypes','departments','designations','organizations'));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'userList()', 'gridadvsearch' => true];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ['roles','usertypes','departments','designations','organizations']);
         $data['pageTitle'] = "User";
         $data['includeView'] = view("Admin/users", $data);
         return view('template', $data);
@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function userlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -93,7 +93,7 @@ class UserController extends Controller
             $paging['jsfunction'] = 'userList()';
             $view = 'Admin/userlist';
 			
-			$show_fields = array();
+			$show_fields = [];
 			
 			$show_fields_data = $this->userfields();
 			if($show_fields_data != '')
@@ -119,7 +119,7 @@ class UserController extends Controller
      */
     public function useradd()
     {
-        $userdata = array();
+        $userdata = [];
         $alldata = $this->userdata();
         $data['alldata'] = $alldata;
         $data['userid'] = '';
@@ -164,7 +164,7 @@ class UserController extends Controller
     {
         $params['userid'] = $request->input('userid');
         $params['status'] = $request->input('status');
-        $data = $this->iam->suspenduser(array('form_params' => $params));
+        $data = $this->iam->suspenduser(['form_params' => $params]);
         echo json_encode($data, true);
     }
 
@@ -181,7 +181,7 @@ class UserController extends Controller
         if($request->input('selected') != '')
             $selected = $request->input('selected');
         else
-            $selected = array();
+            $selected = [];
                 $limit_offset = limitoffset(0, 0);
         $option = '';
         $form_params['limit'] = $limit_offset['limit'];
@@ -214,7 +214,7 @@ class UserController extends Controller
         if($request->input('selected') != '')
             $selectedarray = json_decode($request->input('selected'),true);
         else
-            $selectedarray = array();
+            $selectedarray = [];
       
         $limit_offset = limitoffset(0, 0);
         $option = '';
@@ -281,7 +281,7 @@ class UserController extends Controller
        $role_id = _isset($this->request_params, 'role_id') ? $request->input('role_id'): '';
        $farray['role_id'] = $role_id;
        //print_r($farray);
-        $data = $this->iam->addUser(array('form_params' => $farray));
+        $data = $this->iam->addUser(['form_params' => $farray]);
         echo json_encode($data, true);
     }
     /**
@@ -294,7 +294,7 @@ class UserController extends Controller
      */
     public function orgsave(Request $request)
     {
-        $data = $this->iam->createOrg(array('form_params' => $request->all()));
+        $data = $this->iam->createOrg(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -323,8 +323,8 @@ class UserController extends Controller
     public function useredit(Request $request)
     {
         $userid =$request->input('userid');
-		$input_req = array('user_id' => $userid);
-        $data =  $this->iam->editUser(array('form_params' => $input_req));
+		$input_req = ['user_id' => $userid];
+        $data =  $this->iam->editUser(['form_params' => $input_req]);
         $alldata = $this->userdata();
         $data['alldata'] = $alldata;
         $data['userid'] = $userid;
@@ -364,7 +364,7 @@ class UserController extends Controller
        }
        $role_id = _isset($this->request_params, 'role_id') ? $request->input('role_id'): '';
        $farray['role_id'] = $role_id;
-        $data = $this->iam->updateUser(array('form_params' => $farray));
+        $data = $this->iam->updateUser(['form_params' => $farray]);
         echo json_encode($data, true);
     }
 
@@ -379,8 +379,8 @@ class UserController extends Controller
     public function userdelete(Request $request)
     {
         $userid = $request->input('userid');
-		$input_req = array('user_id' => $userid);
-        $data = $this->iam->deleteuser(array('form_params' => $input_req));
+		$input_req = ['user_id' => $userid];
+        $data = $this->iam->deleteuser(['form_params' => $input_req]);
         echo json_encode($data, true);
     }
 	
@@ -395,8 +395,8 @@ class UserController extends Controller
 	public function userfields()
 	{
 		$return_data = "[]";
-		$input_req = array('type' => 'user');
-        $regions_resp =  $this->iam->getFields(array('form_params' => $input_req));
+		$input_req = ['type' => 'user'];
+        $regions_resp =  $this->iam->getFields(['form_params' => $input_req]);
 		$dislay_data = _isset(_isset($regions_resp,'content'),'records'); //$data['content']['records'];
 		$totalrecords =  _isset(_isset($regions_resp,'content'),'totalrecords');
 		if($totalrecords > 0)
@@ -417,11 +417,11 @@ class UserController extends Controller
      */
 	public function userdisplaysetting(Request $request)
 	{	
-		$data['display_fields'] = array();
+		$data['display_fields'] = [];
 		$type = $request->type;
 
-		$input_req = array('type' => $type);
-		$regions_resp =  $this->iam->getFields(array('form_params' => $input_req));
+		$input_req = ['type' => $type];
+		$regions_resp =  $this->iam->getFields(['form_params' => $input_req]);
 		
 		$display_data = _isset(_isset($regions_resp,'content'),'records'); //$data['content']['records'];
 		$totalrecords =  _isset(_isset($regions_resp,'content'),'totalrecords');
@@ -445,8 +445,8 @@ class UserController extends Controller
      */
 	public function userdisplaysettingsave(Request $request)
 	{	
-	   $input_data = array('selected_fields' => trim($request->selected_fields,","),'type' => $request->type);
-       $data =  $this->iam->saveUserFields(array( 'form_params' => $input_data));
+	   $input_data = ['selected_fields' => trim($request->selected_fields,","),'type' => $request->type];
+       $data =  $this->iam->saveUserFields([ 'form_params' => $input_data]);
        echo json_encode($data,true);
 	}
 	
@@ -462,7 +462,7 @@ class UserController extends Controller
 	public function userassignentities(Request $request)
 	{	
         $userinfo = $request->userinfo;
-		$data['userdata'] = array();
+		$data['userdata'] = [];
         $data['userinfo'] = json_decode($userinfo,true);
         
     
@@ -472,7 +472,7 @@ class UserController extends Controller
         $modules_resp = $this->iam->getUserModules($options);
         if ($modules_resp['is_error'])
         {
-            $modules = array();
+            $modules = [];
         }
         else
         {
@@ -484,7 +484,7 @@ class UserController extends Controller
     }
     public function usermoduleupdate(Request $request)
     {
-        $data = $this->iam->usermoduleupdate(array('form_params' => $request->all()));
+        $data = $this->iam->usermoduleupdate(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 	
@@ -505,7 +505,7 @@ class UserController extends Controller
         $bv_resp = $this->iam->getUserBvs($options);
         if ($bv_resp['is_error'])
         {
-            $bvs = array();
+            $bvs = [];
         }
         else
         {
@@ -530,7 +530,7 @@ class UserController extends Controller
 	public function userbvupdate(Request $request)
 	{	
 
-        $data = $this->iam->userBvUpdate(array('form_params' => $request->all()));
+        $data = $this->iam->userBvUpdate(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 	
@@ -551,7 +551,7 @@ class UserController extends Controller
         $regions_resp = $this->iam->userRegions($options);
         if ($regions_resp['is_error'])
         {
-            $regions = array();
+            $regions = [];
         }
         else
         {
@@ -564,11 +564,11 @@ class UserController extends Controller
     }
 	public function regiondcspods(Request $request)
 	{	
-		$result_res = array();
+		$result_res = [];
 		$locations_str  = $dc_str = $pod_str = "";
         $user_id = $request->input('user_id');
 		$region_ids = $request->input('region_ids');
-		$region_array = array();
+		$region_array = [];
 		if($region_ids != '')
 		{
 			$region_ids = trim($region_ids,",");
@@ -583,7 +583,7 @@ class UserController extends Controller
 		
         if ($regions_resp['is_error'])
         {
-            $result_res = array();
+            $result_res = [];
         }
         else
         {
@@ -628,11 +628,11 @@ class UserController extends Controller
     }
 	public function dcspods(Request $request)
 	{	
-		$result_res = array();
+		$result_res = [];
 		$pod_str = "";
         $user_id = $request->input('user_id');
 		$dc_ids = $request->input('dc_ids');
-		$region_array = array();
+		$region_array = [];
 		if($dc_ids != '')
 		{
 			$dc_ids = trim($dc_ids,",");
@@ -647,7 +647,7 @@ class UserController extends Controller
 		
         if ($regions_resp['is_error'])
         {
-            $result_res = array();
+            $result_res = [];
         }
         else
         {
@@ -681,14 +681,14 @@ class UserController extends Controller
      */
 	public function userregionupdate(Request $request)
 	{	
-        $data = $this->iam->userEntitiesSave(array('form_params' => $request->all()));
+        $data = $this->iam->userEntitiesSave(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 	
 	
     public function getuserprofile(Request $request){
     
-        $data =  $this->iam->getuserprofile(array('form_params' => $request->all()));
+        $data =  $this->iam->getuserprofile(['form_params' => $request->all()]);
         $uploadfilepath=$data['content'][0]['profile_photo'];
         $data['alldata'] = $data;
         $data['userdata'] = $data['content'][0];

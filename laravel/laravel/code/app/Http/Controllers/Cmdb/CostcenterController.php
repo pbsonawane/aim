@@ -44,8 +44,8 @@ class CostcenterController extends Controller
     public function costcenters()
     {
 
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'costcenterList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("cc_name"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'costcenterList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["cc_name"]);
         $data['pageTitle'] = trans('title.costcenter');
         $data['includeView'] = view("Cmdb/costcenters", $data);
         return view('template', $data);
@@ -64,7 +64,7 @@ class CostcenterController extends Controller
     {
         //try
         //{
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -88,16 +88,16 @@ class CostcenterController extends Controller
 
         $cc_resp = $this->itam->getcostcenters($options);
         $costcenters = _isset(_isset($cc_resp, 'content'), 'records');
-        if($costcenters == '') $costcenters = array();
+        if($costcenters == '') $costcenters = [];
 
         //$cc_id          = isset($cc_resp['content']['records'][0]) ? $cc_resp['content']['records'][0]['cc_id'] : null;
 
         //$ccoptions      = ['form_params' => array('cc_id' => $cc_id)];
 
-        $location_resp = $this->iam->getLocations(array());
+        $location_resp = $this->iam->getLocations([]);
         $loc_data = _isset(_isset($location_resp, 'content'), 'records');
         //echo "<pre>"; print_r($loc_data);
-        $all_loc = array();
+        $all_loc = [];
         if(isset($loc_data) && is_array($loc_data) && count($loc_data) > 0){
         foreach ($loc_data as $loc)
         {
@@ -133,7 +133,7 @@ class CostcenterController extends Controller
 
             $view = 'Cmdb/costcenterlist';
 
-            $content = $this->emlib->emgrid($costcenters, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($costcenters, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -182,7 +182,7 @@ class CostcenterController extends Controller
         $dept_resp = $this->iam->getDepartment($options);
         if ($dept_resp['is_error'])
         {
-            $depts = array();
+            $depts = [];
         }
         else
         {
@@ -193,14 +193,14 @@ class CostcenterController extends Controller
         $location_resp = $this->iam->getLocations($options);
         if ($location_resp['is_error'])
         {
-            $locations = array();
+            $locations = [];
         }
         else
         {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
 
-        $costcenterdata = array();
+        $costcenterdata = [];
         $data['depts'] = $depts;
         $data['locations'] = $locations;
         $data['costcenterdata'] = $costcenterdata;
@@ -217,7 +217,7 @@ class CostcenterController extends Controller
      */
     public function costcenteraddsubmit(Request $request)
     {
-        $data = $this->itam->addcostcenter(array('form_params' => $request->all()));
+        $data = $this->itam->addcostcenter(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -233,8 +233,8 @@ class CostcenterController extends Controller
     public function costcenteredit(Request $request)
     {
         $cc_id = $request->id;
-        $input_req = array('cc_id' => $cc_id);
-        $data = $this->itam->editcostcenter(array('form_params' => $input_req));
+        $input_req = ['cc_id' => $cc_id];
+        $data = $this->itam->editcostcenter(['form_params' => $input_req]);
         $data['cc_id'] = $cc_id;
         $data['department_id'] = '';
         $limit_offset = limitoffset(0, 0);
@@ -246,7 +246,7 @@ class CostcenterController extends Controller
         $dept_resp = $this->iam->getDepartment($options);
         if ($dept_resp['is_error'])
         {
-            $depts = array();
+            $depts = [];
         }
         else
         {
@@ -257,7 +257,7 @@ class CostcenterController extends Controller
         $location_resp = $this->iam->getLocations($options);
         if ($location_resp['is_error'])
         {
-            $locations = array();
+            $locations = [];
         }
         else
         {
@@ -281,7 +281,7 @@ class CostcenterController extends Controller
      */
     public function costcentereditsubmit(Request $request)
     {
-        $data = $this->itam->updatecostcenter(array('form_params' => $request->all()));
+        $data = $this->itam->updatecostcenter(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -294,7 +294,7 @@ class CostcenterController extends Controller
      */
     public function costcenterdelete(Request $request)
     {
-        $data = $this->itam->deletecostcenter(array('form_params' => $request->all()));
+        $data = $this->itam->deletecostcenter(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

@@ -1008,7 +1008,7 @@ class IamService
      */
     public function userPassword()
     {
-        $data = $this->remoteapi->apicall("POST", $this->url, 'userpassword', array());
+        $data = $this->remoteapi->apicall("POST", $this->url, 'userpassword', []);
         return $data;
     }
 

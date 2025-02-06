@@ -37,7 +37,7 @@ class EnSoftwareType extends Model
     */
 
 
-    protected function getsoftwaretype($software_type_id, $inputdata=array(), $count=false)
+    protected function getsoftwaretype($software_type_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -97,24 +97,24 @@ class EnSoftwareType extends Model
             if($software_type_data)
             {    
                     
-                    $software_type_data->update(array('status' => 'd'));            
+                    $software_type_data->update(['status' => 'd']);            
                     $software_type_data->save();                     
                     $data['data']['deleted_id'] = $software_type_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Software Type'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Software Type']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Software Type'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Software Type']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = sshowmessage('123', array('{name}'), array('Software Type'));
+            $data['message']['error'] = sshowmessage('123', ['{name}'], ['Software Type']);
             $data['status'] = 'error';                             
         }   
         return $data;    

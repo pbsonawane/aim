@@ -39,7 +39,7 @@ class DesignationController extends Controller
      */
     public function designations()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'designationList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'designationList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Designation";
         $data['includeView'] = view("Admin/designations", $data);
@@ -56,7 +56,7 @@ class DesignationController extends Controller
      */
     public function designationlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -87,7 +87,7 @@ class DesignationController extends Controller
             $paging['showpagination'] = true;
             $paging['jsfunction'] = 'designationList()';
             $view = 'Admin/designationlist';
-            $content = $this->emlib->emgrid($designations, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($designations, $view, $columns = [], $paging);
         }
         $response["html"] = $content;
         $response["is_error"] = $is_error;
@@ -104,7 +104,7 @@ class DesignationController extends Controller
      */
     public function designationadd()
     {
-        $designationdata = array();
+        $designationdata = [];
         $data['designationdata'] = $designationdata;
         $html = view("Admin/designationadd", $data);
         echo $html;
@@ -120,7 +120,7 @@ class DesignationController extends Controller
      */
     public function designationsave(Request $request)
     {
-        $data = $this->iam->addDesignation(array('form_params' => $request->all()));
+        $data = $this->iam->addDesignation(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -136,8 +136,8 @@ class DesignationController extends Controller
     public function designationedit(Request $request)
     {
         $designationid =$request->input('designationid');
-		$input_req = array('designation_id' => $designationid);
-        $data =  $this->iam->editDesignation(array('form_params' => $input_req));
+		$input_req = ['designation_id' => $designationid];
+        $data =  $this->iam->editDesignation(['form_params' => $input_req]);
         $data['designationid'] = $designationid;
 		$data['designationdata'] = $data['content'];
         $html = view("Admin/designationadd",$data);
@@ -154,7 +154,7 @@ class DesignationController extends Controller
      */
     public function designationupdate(Request $request)
     {
-        $data = $this->iam->updateDesignation(array('form_params' => $request->all()));
+        $data = $this->iam->updateDesignation(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -169,8 +169,8 @@ class DesignationController extends Controller
     public function designationdelete(Request $request)
     {
         $designationid = $request->input('designationid');
-		$input_req = array('designation_id' => $designationid);
-        $data = $this->iam->deleteDesignation(array('form_params' => $input_req));
+		$input_req = ['designation_id' => $designationid];
+        $data = $this->iam->deleteDesignation(['form_params' => $input_req]);
         echo json_encode($data, true);
     }
 }

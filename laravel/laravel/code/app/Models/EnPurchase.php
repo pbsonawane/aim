@@ -22,7 +22,7 @@ class EnPurchase extends Model
         return 'pr_id';
     }
 	
-	protected function getprs($pr_id, $inputdata=array(), $count=false)
+	protected function getprs($pr_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

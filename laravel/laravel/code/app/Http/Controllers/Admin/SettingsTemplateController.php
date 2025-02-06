@@ -32,7 +32,7 @@ class SettingsTemplateController extends Controller
      */     
 	public function settingstemplate() {
 		
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'settingtemplateList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'settingtemplateList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);   
 		$data['pageTitle'] = "Settings Template";
 		$data['includeView'] = view("SettingsTemplate/settingstemplate",$data);
@@ -48,7 +48,7 @@ class SettingsTemplateController extends Controller
      * @return json
      */    
 	public function settingstemplatelist() {
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -80,7 +80,7 @@ class SettingsTemplateController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'settingtemplateList()';				
 			$view = 'SettingsTemplate/settingstemplatelist';
-			$content = $this->emlib->emgrid($regions, $view, array(), $paging);
+			$content = $this->emlib->emgrid($regions, $view, [], $paging);
 		}
 		
 		$response["html"] = $content;
@@ -100,7 +100,7 @@ class SettingsTemplateController extends Controller
     {
         $data['action'] = "add";
         $data['form_templ_id'] = '';
-		$data['form_templ_data'] = array();
+		$data['form_templ_data'] = [];
         $html = view('SettingsTemplate.settingstemplateadd', $data);
         echo  $html;        
     }   
@@ -118,7 +118,7 @@ class SettingsTemplateController extends Controller
      */     
     public function settingstemplatesubmit(Request $request)
     {
-       $data =  $this->iam->addSettingstemplate(array( 'form_params' => $request->all()));
+       $data =  $this->iam->addSettingstemplate([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
     /**
@@ -132,8 +132,8 @@ class SettingsTemplateController extends Controller
     public  function settingstemplateedit(Request $request)
     {
         
-        $inputdata= array('form_templ_id' => $request->id);
-        $data =  $this->iam->editSettingstemplate(array( 'form_params' => $inputdata));
+        $inputdata= ['form_templ_id' => $request->id];
+        $data =  $this->iam->editSettingstemplate([ 'form_params' => $inputdata]);
         $data['form_templ_id'] = $request->id;
         $data['form_templ_data'] = $data['content'][0];
         $data['action'] = "edit";
@@ -156,7 +156,7 @@ class SettingsTemplateController extends Controller
      */         
     public function settingstemplateupdate(Request $request)
     {
-       $data =  $this->iam->updateSettingstemplate(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updateSettingstemplate([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
     /**
@@ -170,7 +170,7 @@ class SettingsTemplateController extends Controller
      */       
     public function settingstemplatedelete(Request $request)
     {
-        $data =  $this->iam->deleteSettingstemplate(array( 'form_params' => $request->all()));
+        $data =  $this->iam->deleteSettingstemplate([ 'form_params' => $request->all()]);
         echo json_encode($data,true);
     }
 }

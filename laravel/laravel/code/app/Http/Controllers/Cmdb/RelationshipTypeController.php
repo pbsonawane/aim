@@ -43,8 +43,8 @@ class RelationshipTypeController extends Controller
 
     public function relationshiptypes()
     {
-        $topfilter              = array('gridsearch' => true, 'jsfunction' => 'relationshiptypeList()', 'gridadvsearch' => false);
-        $data['emgridtop']      = $this->emlib->emgridtop($topfilter, '', array("rel_type"));
+        $topfilter              = ['gridsearch' => true, 'jsfunction' => 'relationshiptypeList()', 'gridadvsearch' => false];
+        $data['emgridtop']      = $this->emlib->emgridtop($topfilter, '', ["rel_type"]);
         $data['pageTitle']      = trans('title.relationshiptype');
         $data['includeView']    = view("Cmdb/relationshiptypes", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class RelationshipTypeController extends Controller
     {
       try
       {
-        $paging         = array();
+        $paging         = [];
         $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $page           = _isset($this->request_params, 'page', config('enconfig.page'));
         $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -98,7 +98,7 @@ class RelationshipTypeController extends Controller
             $paging['jsfunction']     = 'relationshiptypeList()';
             
             $view                     = 'Cmdb/relationshiptypelist';
-            $content                  = $this->emlib->emgrid($relationshiptypes, $view, $columns = array(), $paging);
+            $content                  = $this->emlib->emgrid($relationshiptypes, $view, $columns = [], $paging);
         }
 
         $response["html"]       = $content;
@@ -135,7 +135,7 @@ class RelationshipTypeController extends Controller
    public function relationshiptypeadd(Request $request)
    {
        $data['rel_type_id']          = '';
-       $relationshiptypedata         = array();
+       $relationshiptypedata         = [];
        $data['relationshiptypedata'] = $relationshiptypedata;
        $html                         = view("Cmdb/relationshiptypeadd", $data);
        echo $html;
@@ -154,7 +154,7 @@ class RelationshipTypeController extends Controller
    {
       try{
        if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-       $data = $this->itam->addrelationshiptype(array('form_params' => $request->all()));
+       $data = $this->itam->addrelationshiptype(['form_params' => $request->all()]);
        echo json_encode($data, true);
       }
       catch (\Exception $e)
@@ -188,8 +188,8 @@ class RelationshipTypeController extends Controller
    public function relationshiptypeedit(Request $request)
    {
        $relationship_type_id = $request->id;
-       $input_req            = array('rel_type_id' => $relationship_type_id);
-       $data                 = $this->itam->editrelationshiptype(array('form_params' => $input_req));
+       $input_req            = ['rel_type_id' => $relationship_type_id];
+       $data                 = $this->itam->editrelationshiptype(['form_params' => $input_req]);
        $data['rel_type_id']  = $relationship_type_id;
        $data['relationshiptypedata'] = $data['content'];
        $html                 = view("Cmdb/relationshiptypeadd", $data);
@@ -209,7 +209,7 @@ class RelationshipTypeController extends Controller
    public function relationshiptypeeditsubmit(Request $request)
    {
       try{
-       $data = $this->itam->updaterelationshiptype(array('form_params' => $request->all()));
+       $data = $this->itam->updaterelationshiptype(['form_params' => $request->all()]);
        echo json_encode($data, true);
       }
       catch (\Exception $e)
@@ -242,7 +242,7 @@ class RelationshipTypeController extends Controller
    public function relationshiptypedelete(Request $request)
    {
       try{
-       $data = $this->itam->deleterelationshiptype(array('form_params' => $request->all()));
+       $data = $this->itam->deleterelationshiptype(['form_params' => $request->all()]);
        echo json_encode($data, true);
       }
       catch (\Exception $e)

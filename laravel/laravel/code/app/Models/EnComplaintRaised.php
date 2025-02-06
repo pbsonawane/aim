@@ -39,7 +39,7 @@ class EnComplaintRaised extends Model
         return 'cr_id';
     }
 
-    protected function getcrs($cr_id, $inputdata = array(), $count = false)
+    protected function getcrs($cr_id, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         $requester_id  = _isset($inputdata, 'requester_id');
@@ -120,7 +120,7 @@ class EnComplaintRaised extends Model
     }
     }
 
-    protected function get_track_cr_list($inputdata=array(), $count=false)
+    protected function get_track_cr_list($inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

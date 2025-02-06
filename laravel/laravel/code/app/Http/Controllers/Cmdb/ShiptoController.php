@@ -43,8 +43,8 @@ class ShiptoController extends Controller
 
     public function shiptos()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'shiptoList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("address"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'shiptoList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["address"]);
         $data['pageTitle']   = trans('title.shipto');
         $data['includeView'] = view("Cmdb/shipto", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class ShiptoController extends Controller
     {
         //try
         //{
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -88,13 +88,13 @@ class ShiptoController extends Controller
         $shipto_resp = $this->itam->getshiptos($options);
         $shiptos     = _isset(_isset($shipto_resp, 'content'), 'records');
         if ($shiptos == '') {
-            $shiptos = array();
+            $shiptos = [];
         }
 
-        $location_resp = $this->iam->getLocations(array());
+        $location_resp = $this->iam->getLocations([]);
         $loc_data      = _isset(_isset($location_resp, 'content'), 'records');
         //echo "<pre>"; print_r($loc_data);
-        $all_loc = array();
+        $all_loc = [];
         if (isset($loc_data) && is_array($loc_data) && count($loc_data) > 0) {
             foreach ($loc_data as $loc) {
                 $location_id           = isset($loc['location_id']) ? $loc['location_id'] : "";
@@ -127,7 +127,7 @@ class ShiptoController extends Controller
 
             $view = 'Cmdb/shiptolist';
 
-            $content = $this->emlib->emgrid($shiptos, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($shiptos, $view, $columns = [], $paging);
         }
 
         $response["html"]     = $content;
@@ -159,12 +159,12 @@ class ShiptoController extends Controller
         $options                      = ['form_params' => $form_params];
         $location_resp                = $this->iam->getLocations($options);
         if ($location_resp['is_error']) {
-            $locations = array();
+            $locations = [];
         } else {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
 
-        $shiptodata = array();
+        $shiptodata = [];
 
         $data['locations']  = $locations;
         $data['shiptodata'] = $shiptodata;
@@ -181,7 +181,7 @@ class ShiptoController extends Controller
      */
     public function shiptoaddsubmit(Request $request)
     {
-        $data = $this->itam->addshipto(array('form_params' => $request->all()));
+        $data = $this->itam->addshipto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -197,8 +197,8 @@ class ShiptoController extends Controller
     public function shiptoedit(Request $request)
     {
         $shipto_id             = $request->id;
-        $input_req             = array('shipto_id' => $shipto_id);
-        $data                  = $this->itam->editshipto(array('form_params' => $input_req));
+        $input_req             = ['shipto_id' => $shipto_id];
+        $data                  = $this->itam->editshipto(['form_params' => $input_req]);
         $data['shipto_id']     = $shipto_id;
         $limit_offset          = limitoffset(0, 0);
         $form_params['limit']  = $limit_offset['limit'];
@@ -209,7 +209,7 @@ class ShiptoController extends Controller
         $options             = ['form_params' => $form_params];
         $location_resp       = $this->iam->getLocations($options);
         if ($location_resp['is_error']) {
-            $locations = array();
+            $locations = [];
         } else {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
@@ -230,7 +230,7 @@ class ShiptoController extends Controller
      */
     public function shiptoeditsubmit(Request $request)
     {
-        $data = $this->itam->updateshipto(array('form_params' => $request->all()));
+        $data = $this->itam->updateshipto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -243,7 +243,7 @@ class ShiptoController extends Controller
      */
     public function shiptodelete(Request $request)
     {
-        $data = $this->itam->deleteshipto(array('form_params' => $request->all()));
+        $data = $this->itam->deleteshipto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

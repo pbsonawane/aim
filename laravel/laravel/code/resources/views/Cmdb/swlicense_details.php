@@ -156,8 +156,8 @@
                   <?php
 
 
-                     $arr1 = array();
-                     $arr2 = array();   
+                     $arr1 = [];
+                     $arr2 = [];   
                      
                      if (is_array($swallocations) && count($swallocations) > 0)
                      {

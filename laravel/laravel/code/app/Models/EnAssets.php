@@ -43,7 +43,7 @@ class EnAssets extends Model
     * @tables       en_assets
     */
 	
-	protected function getassets($inputdata=array(), $count=false)
+	protected function getassets($inputdata=[], $count=false)
     {
         $parent_asset_id = _isset($inputdata,'parent_asset_id');
         $asset_id = _isset($inputdata,'asset_id');
@@ -175,7 +175,7 @@ class EnAssets extends Model
             return $data;    
     }
 	
-	protected function getallassets($asset_id, $inputdata=array(), $count=false)
+	protected function getallassets($asset_id, $inputdata=[], $count=false)
     {
     
         $searchkeyword = _isset($inputdata,'searchkeyword');

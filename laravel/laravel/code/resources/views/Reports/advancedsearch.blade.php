@@ -5,9 +5,9 @@
         $timerange = "";
         $dismissable = "alert-dismissable";  
         $reoveAdvFilter = "reoveAdvFilter";
-        $criteria_selector = array();
-        $criteria_ex_selector = array();
-        $criteria_value = array();
+        $criteria_selector = [];
+        $criteria_ex_selector = [];
+        $criteria_value = [];
         $report_name = "";
         $report_title = "";
         $fixedFilter = config('enconfig.alert_fixed_filter');
@@ -18,11 +18,11 @@
             $display ="block";
             $customtime = _isset($get_array, 'customtime')? $get_array['customtime'] : "";
             $timerange = _isset($get_array, 'timerange') ? $get_array['timerange'] : "";
-            $criteria_selector = _isset($get_array, 'criteria_selector') ? $get_array['criteria_selector'] : array();
-            $criteria_ex_selector = _isset($get_array, 'criteria_ex_selector') ? $get_array['criteria_ex_selector'] : array();
-            $criteria_value = _isset($get_array, 'criteria_value') ? $get_array['criteria_value'] : array();
+            $criteria_selector = _isset($get_array, 'criteria_selector') ? $get_array['criteria_selector'] : [];
+            $criteria_ex_selector = _isset($get_array, 'criteria_ex_selector') ? $get_array['criteria_ex_selector'] : [];
+            $criteria_value = _isset($get_array, 'criteria_value') ? $get_array['criteria_value'] : [];
             
-            $advArr = array();
+            $advArr = [];
             
             if(!empty($criteria_selector))
             {
@@ -36,7 +36,7 @@
             }             
         }
         //$mapping = getlogsmapping($logtype);
-        $mapping = array();
+        $mapping = [];
     ?>
 <div class="admin-form tab-pane" id="advancedsearch_r" style="display:<?php echo $display; ?>" role="tabpanel">
     <div class="panel panel-Default">
