@@ -1233,7 +1233,7 @@ class ContractController extends Controller
 
 
     public function downloadcontractattachment(){
-        app('App\Http\Controllers\Cmdb\PoController')->downloadattachment_pr();
+        app(\App\Http\Controllers\Cmdb\PoController::class)->downloadattachment_pr();
     }
 
     /**
