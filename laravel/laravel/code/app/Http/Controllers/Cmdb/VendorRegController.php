@@ -91,7 +91,7 @@ class VendorRegController extends Controller
     {
 
         $request1 = $request->all();
-        $option['form_params'] = array( 'token' => $token );
+        $option['form_params'] = [ 'token' => $token ];
         $token_data = $this->itam->verifyotptoken($option);
         $token_data = _isset($token_data ,'content');
         $data['errors']['otp'] =[];
@@ -131,12 +131,12 @@ class VendorRegController extends Controller
     {
 
         $request1 = $request->all();
-        $option['form_params'] = array( 'token' => $token );
+        $option['form_params'] = [ 'token' => $token ];
         $token_data = $this->itam->verifyotptoken($option);
         $token_data = _isset($token_data ,'content');
 
         if(!empty($token_data)){ 
-            $option = array();
+            $option = [];
             $data['citemplates'] = $this->itam->getciitems_vendor($option);
             $data['token'] = $token_data[0]['token'];
 
@@ -155,7 +155,7 @@ class VendorRegController extends Controller
         
         $request1 = $request->all();
 
-        $option['form_params'] = array( 'token' => $token );
+        $option['form_params'] = [ 'token' => $token ];
         $token_data = $this->itam->verifyotptoken($option);
          $data['token'] = $token;
         $token_data = _isset($token_data ,'content');
@@ -179,7 +179,7 @@ class VendorRegController extends Controller
             
             if(!empty($token_data)){ 
                                                 
-                $option = array();
+                $option = [];
                 $data['citemplates'] = $this->itam->getciitems_vendor($option);
                 $data['token'] = $token_data[0]['token'];
                 $data['token'] = $token;
@@ -238,7 +238,7 @@ class VendorRegController extends Controller
         } 
 }
                 
-                $vendor_data = $this->itam->addvendors(array('form_params' => $request1)); 
+                $vendor_data = $this->itam->addvendors(['form_params' => $request1]); 
 
                               
                 $insent_data = _isset($vendor_data ,'content');
@@ -246,7 +246,7 @@ class VendorRegController extends Controller
         // $vendor_data['insert_id'] = 'a8df4e10-dff5-11ec-b779-a24dafd8ee00';
                 if (!empty($insent_data['insert_id'])) {
                  $request1 = $request->all();
-                 $option['form_params'] = array( 'token' => $token , 'reset' => 'yes');
+                 $option['form_params'] = [ 'token' => $token , 'reset' => 'yes'];
                  $token_data = $this->itam->verifyotptoken($option);
                  return Redirect::to('/vendors')->with(['status'=>'Thank you for your registration!']);
              }             
@@ -274,8 +274,8 @@ class VendorRegController extends Controller
     public function vendoredit(Request $request)
     {
         $vendor_id = $request->id;
-        $input_req = array('vendor_id' => $vendor_id);
-        $data = $this->itam->editvendor(array('form_params' => $input_req));
+        $input_req = ['vendor_id' => $vendor_id];
+        $data = $this->itam->editvendor(['form_params' => $input_req]);
 
         $data['vendor_id'] = $vendor_id;
         $data['vendordata'] = $data['content'];
@@ -293,7 +293,7 @@ class VendorRegController extends Controller
      */
     public function vendoreditsubmit(Request $request)
     {
-        $data = $this->itam->updatevendor(array('form_params' => $request->all()));
+        $data = $this->itam->updatevendor(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -306,7 +306,7 @@ class VendorRegController extends Controller
      */
     public function vendordelete(Request $request)
     {
-        $data = $this->itam->deletevendor(array('form_params' => $request->all()));
+        $data = $this->itam->deletevendor(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

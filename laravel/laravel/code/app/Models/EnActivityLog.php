@@ -22,9 +22,9 @@ class EnActivityLog extends Model
         $this->index = 'user_logs_'.date('dmY');
         //$this->type = $type;
     }
-    protected function getuserlogs($inputdata = array(), $count = false)
+    protected function getuserlogs($inputdata = [], $count = false)
     {
-		$result = array();
+		$result = [];
         $searchkeyword = _isset($inputdata, 'searchkeyword');
 		if ($count == true)
         {

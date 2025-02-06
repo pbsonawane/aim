@@ -1,6 +1,6 @@
 <?php
 use App\Http\Controllers\Controller;
-function showmessage($type, $replace_array = array('{name}'), $veriables = array(), $onlymsg = false, $is_default = false )
+function showmessage($type, $replace_array = ['{name}'], $veriables = [], $onlymsg = false, $is_default = false )
 {
     if ($type != '')
     {

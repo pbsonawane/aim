@@ -43,8 +43,8 @@ class SoftwareManufacturerController extends Controller
 
     public function softwaremanufacturer()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwaremanufacturerList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("software_type"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwaremanufacturerList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["software_type"]);
         $data['pageTitle'] = trans('title.softwaremanufacturer');
         $data['includeView'] = view("Cmdb/softwaremanufacturer", $data);
         return view('template', $data);
@@ -61,7 +61,7 @@ class SoftwareManufacturerController extends Controller
 
     public function softwaremanufacturerlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -99,7 +99,7 @@ class SoftwareManufacturerController extends Controller
             $paging['jsfunction'] = 'softwaremanufacturerList()';
             
             $view = 'Cmdb/softwaremanufacturerlist';
-            $content = $this->emlib->emgrid($softwaremanufacturers, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($softwaremanufacturers, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -117,7 +117,7 @@ class SoftwareManufacturerController extends Controller
     public function softwaremanufactureradd(Request $request)
     {
         $data['software_manufacturer_id'] = '';
-        $softwaremanufacturerdata = array();
+        $softwaremanufacturerdata = [];
         $data['softwaremanufacturerdata'] = $softwaremanufacturerdata;
         $html = view("Cmdb/softwaremanufactureradd", $data);
         echo $html;
@@ -134,7 +134,7 @@ class SoftwareManufacturerController extends Controller
     public function softwaremanufactureraddsubmit(Request $request)
     {
        if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-        $data = $this->itam->addsoftwaremanufacturer(array('form_params' => $request->all()));
+        $data = $this->itam->addsoftwaremanufacturer(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -149,8 +149,8 @@ class SoftwareManufacturerController extends Controller
     public function softwaremanufactureredit(Request $request)
     {
         $software_manufacturer_id = $request->id;
-        $input_req = array('software_manufacturer_id' => $software_manufacturer_id);
-        $data = $this->itam->editsoftwaremanufacturer(array('form_params' => $input_req));
+        $input_req = ['software_manufacturer_id' => $software_manufacturer_id];
+        $data = $this->itam->editsoftwaremanufacturer(['form_params' => $input_req]);
 
         $data['software_manufacturer_id'] = $software_manufacturer_id;
         $data['softwaremanufacturerdata'] = $data['content'];
@@ -170,7 +170,7 @@ class SoftwareManufacturerController extends Controller
      */
     public function softwaremanufacturereditsubmit(Request $request)
     {
-        $data = $this->itam->updatesoftwaremanufacturer(array('form_params' => $request->all()));
+        $data = $this->itam->updatesoftwaremanufacturer(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -183,7 +183,7 @@ class SoftwareManufacturerController extends Controller
      */
     public function softwaremanufacturerdelete(Request $request)
     {
-        $data = $this->itam->deletesoftwaremanufacturer(array('form_params' => $request->all()));
+        $data = $this->itam->deletesoftwaremanufacturer(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

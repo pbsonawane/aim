@@ -36,7 +36,7 @@ class EnSoftwareCategory extends Model
     * @tables       en_software_category
     */
 
-    protected function getsoftwarecategory($software_category_id, $inputdata=array(), $count=false)
+    protected function getsoftwarecategory($software_category_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -96,24 +96,24 @@ class EnSoftwareCategory extends Model
             if($software_category_data)
             {    
                     
-                    $software_category_data->update(array('status' => 'd'));            
+                    $software_category_data->update(['status' => 'd']);            
                     $software_category_data->save();                     
                     $data['data']['deleted_id'] = $software_category_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Software Category'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Software Category']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Software Category'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Software Category']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Software Category'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Software Category']);
             $data['status'] = 'error';                             
         }   
         return $data;    

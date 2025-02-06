@@ -33,7 +33,7 @@ class EnSoftwareHistory extends Model
     * @tables       en_software_history
     */
 
-    protected function getswhistory($software_id,$inputdata=array(), $count=false)
+    protected function getswhistory($software_id,$inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

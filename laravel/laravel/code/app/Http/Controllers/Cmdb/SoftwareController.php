@@ -43,9 +43,9 @@ class SoftwareController extends Controller
 
     public function softwares(Request $request,$type = '',$id = '')
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwaremainList()', 'gridadvsearch' => true);
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwaremainList()', 'gridadvsearch' => true];
         //$data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("software"));
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array('software_type','software_category','software_manufacturer'));
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ['software_type','software_category','software_manufacturer']);
         $data['pageTitle'] = trans('title.softwares');
         $data['type'] = $type;
         $data['id'] = $id;
@@ -72,13 +72,13 @@ class SoftwareController extends Controller
 
     public function softwarelistdetails(Request $request, $id)
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwareList()', 'gridadvsearch' => true);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("software"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwareList()', 'gridadvsearch' => true];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["software"]);
         $data['pageTitle'] = trans('title.software');
         $data['s_id'] = $id;
         $software_id = $request->id;
-        $input_req = array('software_id' => $software_id);
-        $software_details = $this->itam->editsoftware(array('form_params' => $input_req));
+        $input_req = ['software_id' => $software_id];
+        $software_details = $this->itam->editsoftware(['form_params' => $input_req]);
 
         $data['softwaredata'] = $software_details['content'];
         //print_r($data['softwaredata']);die;
@@ -111,7 +111,7 @@ class SoftwareController extends Controller
 
             if ($softwaredata_resp['is_error'])
             {
-                $data['softwaredata'] = array();
+                $data['softwaredata'] = [];
             }
             else
             {
@@ -160,7 +160,7 @@ class SoftwareController extends Controller
         //$query = $request->all();
         //print_r($query);
 
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -205,7 +205,7 @@ class SoftwareController extends Controller
             $view = 'Cmdb/softwaremainlist';
             
 
-            $content = $this->emlib->emgrid($softwares, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($softwares, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -238,14 +238,14 @@ class SoftwareController extends Controller
 
         if ($software_type_resp['is_error'])
         {
-            $softwaretypes = array();
+            $softwaretypes = [];
         }
         else
         {
             $softwaretypes = _isset(_isset($software_type_resp, 'content'), 'records');
         }
 
-        $data['softwaredata'] = array();
+        $data['softwaredata'] = [];
         $data['softwaretypes'] = $softwaretypes;
 
         //get software category
@@ -255,14 +255,14 @@ class SoftwareController extends Controller
 
         if ($software_category_resp['is_error'])
         {
-            $softwarecategorys = array();
+            $softwarecategorys = [];
         }
         else
         {
             $softwarecategorys = _isset(_isset($software_category_resp, 'content'), 'records');
         }
 
-        $data['softwaretypesdata'] = array();
+        $data['softwaretypesdata'] = [];
         $data['softwarecategorys'] = $softwarecategorys;
 
         //get software manufacturer
@@ -272,14 +272,14 @@ class SoftwareController extends Controller
 
         if ($software_manufacturer_resp['is_error'])
         {
-            $softwaremanufacturers = array();
+            $softwaremanufacturers = [];
         }
         else
         {
             $softwaremanufacturers = _isset(_isset($software_manufacturer_resp, 'content'), 'records');
         }
 
-        $data['softwaremanufacturerdata'] = array();
+        $data['softwaremanufacturerdata'] = [];
         $data['softwaremanufacturers'] = $softwaremanufacturers;
 
         //get license type
@@ -289,14 +289,14 @@ class SoftwareController extends Controller
 
         if ($license_type_resp['is_error'])
         {
-            $licensetypes = array();
+            $licensetypes = [];
         }
         else
         {
             $licensetypes = _isset(_isset($license_type_resp, 'content'), 'records');
         }
 
-        $data['licensesdata'] = array();
+        $data['licensesdata'] = [];
         $data['licensetypes'] = $licensetypes;
 
         $html = view("Cmdb/softwareadd", $data);
@@ -313,7 +313,7 @@ class SoftwareController extends Controller
      */
     public function softwareaddsubmit(Request $request)
     {
-        $data = $this->itam->addsoftware(array('form_params' => $request->all()));
+        $data = $this->itam->addsoftware(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -328,8 +328,8 @@ class SoftwareController extends Controller
     public function softwareedit(Request $request)
     {
         $software_id = $request->id;
-        $input_req = array('software_id' => $software_id);
-        $data = $this->itam->editsoftware(array('form_params' => $input_req));
+        $input_req = ['software_id' => $software_id];
+        $data = $this->itam->editsoftware(['form_params' => $input_req]);
 
         $data['softwaredata'] = $data['content'];
         $data['software_id'] = $software_id;
@@ -344,7 +344,7 @@ class SoftwareController extends Controller
 
         if ($software_type_resp['is_error'])
         {
-            $softwaretypes = array();
+            $softwaretypes = [];
         }
         else
         {
@@ -360,7 +360,7 @@ class SoftwareController extends Controller
 
         if ($software_category_resp['is_error'])
         {
-            $softwarecategorys = array();
+            $softwarecategorys = [];
         }
         else
         {
@@ -382,7 +382,7 @@ class SoftwareController extends Controller
 
         if ($software_manufacturer_resp['is_error'])
         {
-            $softwaremanufacturers = array();
+            $softwaremanufacturers = [];
         }
         else
         {
@@ -399,7 +399,7 @@ class SoftwareController extends Controller
 
         if ($license_type_resp['is_error'])
         {
-            $licensetypes = array();
+            $licensetypes = [];
         }
         else
         {
@@ -425,7 +425,7 @@ class SoftwareController extends Controller
      */
     public function softwareeditsubmit(Request $request)
     {
-        $data = $this->itam->updatesoftware(array('form_params' => $request->all()));
+        $data = $this->itam->updatesoftware(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -438,7 +438,7 @@ class SoftwareController extends Controller
      */
     public function softwaredelete(Request $request)
     {
-        $data = $this->itam->deletesoftware(array('form_params' => $request->all()));
+        $data = $this->itam->deletesoftware(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -461,7 +461,7 @@ class SoftwareController extends Controller
 
             if ($softwaredata_resp['is_error'])
             {
-                $data['softwaredata'] = array();
+                $data['softwaredata'] = [];
                 //$softwaredata = array();
 
             }
@@ -480,7 +480,7 @@ class SoftwareController extends Controller
             //print_r($softwaredata_resp);
             if ($softwaredata_resp['is_error'])
             {
-                $swinstalldata = array();
+                $swinstalldata = [];
             }
             else
             {
@@ -497,7 +497,7 @@ class SoftwareController extends Controller
 
             if ($resp['is_error'])
             {
-                $swallocations = array();
+                $swallocations = [];
             }
             else
             {
@@ -512,7 +512,7 @@ class SoftwareController extends Controller
 
             if ($respcount['is_error'])
             {
-                $purchasecount = array();
+                $purchasecount = [];
             }
             else
             {
@@ -622,7 +622,7 @@ class SoftwareController extends Controller
         //$data['location_id'] = $request->input('location_id');
         //print_r($data['location_id']);
         $data['tag'] = $request->input('tag');
-        $option = array();
+        $option = [];
         $citypes = $this->itam->citypes($option);
         $citemplates = $this->itam->getciitems($option);
         $data['citemplates'] = _isset(_isset($citemplates, 'content'), 'records');
@@ -633,13 +633,13 @@ class SoftwareController extends Controller
         $location_resp = $this->iam->getLocations($options);
         if ($location_resp['is_error'])
         {
-            $locations = array();
+            $locations = [];
         }
         else
         {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
-        $locationdata = array();
+        $locationdata = [];
         $data['locations'] = $locations;
 
         $data['bv_id'] = '';
@@ -647,13 +647,13 @@ class SoftwareController extends Controller
         $bv_resp = $this->iam->getBusinessVertical($options);
         if ($bv_resp['is_error'])
         {
-            $bvs = array();
+            $bvs = [];
         }
         else
         {
             $bvs = _isset(_isset($bv_resp, 'content'), 'records');
         }
-        $bvsdata = array();
+        $bvsdata = [];
         $data['bvs'] = $bvs;
 
         $html = view("Cmdb/swaddasset", $data);
@@ -698,7 +698,7 @@ class SoftwareController extends Controller
         {
             $is_error = $ci_temps['is_error'];
             $msg = $ci_temps['msg'];
-            return array();
+            return [];
         }
         else
         {
@@ -728,7 +728,7 @@ class SoftwareController extends Controller
         }
         else
         {
-            return array();
+            return [];
         }
 
     }
@@ -745,7 +745,7 @@ class SoftwareController extends Controller
     public function swattachassetsave(Request $request)
     {
         $assetdata = $request->all();
-        $data = $this->itam->swattachassetsave(array('form_params' => $assetdata));
+        $data = $this->itam->swattachassetsave(['form_params' => $assetdata]);
         echo json_encode($data, true);
     }
 
@@ -760,7 +760,7 @@ class SoftwareController extends Controller
 
     public function swassetremove(Request $request)
     {
-        $data = $this->itam->swassetremove(array('form_params' => $request->all()));
+        $data = $this->itam->swassetremove(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -786,7 +786,7 @@ class SoftwareController extends Controller
         //print_r($softwaredata_resp);
         if ($softwaredata_resp['is_error'])
         {
-            $swinstalldata = array();
+            $swinstalldata = [];
         }
         else
         {
@@ -801,7 +801,7 @@ class SoftwareController extends Controller
 
         if ($resp['is_error'])
         {
-            $data['softwaredata'] = array();
+            $data['softwaredata'] = [];
                 //$softwaredata = array();
 
         }
@@ -824,7 +824,7 @@ class SoftwareController extends Controller
     {
         
         //echo $software_id;
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -871,7 +871,7 @@ class SoftwareController extends Controller
 
             $view = 'Cmdb/swhistory_details';
 
-            $content = $this->emlib->emgrid($history, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($history, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -901,7 +901,7 @@ class SoftwareController extends Controller
         //dd($resp);
         if ($resp['is_error'])
         {
-            $history = array();
+            $history = [];
                 //$softwaredata = array();
 
         }
@@ -940,7 +940,7 @@ class SoftwareController extends Controller
         
         if ($resp['is_error'])
         {
-            $swlicenses = array();
+            $swlicenses = [];
         }
         else
         {
@@ -959,7 +959,7 @@ class SoftwareController extends Controller
         //dd($resp);
         if ($resp['is_error'])
         {
-            $swallocations = array();
+            $swallocations = [];
         }
         else
         {
@@ -975,7 +975,7 @@ class SoftwareController extends Controller
         //print_r($softwaredata_resp);
         if ($softwaredata_resp['is_error'])
         {
-            $swinstalldata = array();
+            $swinstalldata = [];
         }
         else
         {
@@ -1021,7 +1021,7 @@ class SoftwareController extends Controller
         
         $options = ['form_params' => $form_params];
 
-        $option = array();
+        $option = [];
         //get software manufacturer
 
         $options = ['form_params' => $form_params];
@@ -1029,7 +1029,7 @@ class SoftwareController extends Controller
 
         if ($software_manufacturer_resp['is_error'])
         {
-            $softwaremanufacturers = array();
+            $softwaremanufacturers = [];
         }
         else
         {
@@ -1040,14 +1040,14 @@ class SoftwareController extends Controller
 
         if ($softwaredata_resp['is_error'])
         {
-            $softwarelicensedata = array();
+            $softwarelicensedata = [];
         }
         else
         {
             $softwarelicensedata = _isset(_isset($softwaredata_resp, 'content'), 'records');
         }        
         $data['softwarelicensedata'] = $softwarelicensedata;
-        $data['softwaremanufacturerdata'] = array();
+        $data['softwaremanufacturerdata'] = [];
         $data['softwaremanufacturers'] = $softwaremanufacturers;
 
         //get license type
@@ -1057,14 +1057,14 @@ class SoftwareController extends Controller
 
         if ($license_type_resp['is_error'])
         {
-            $licensetypes = array();
+            $licensetypes = [];
         }
         else
         {
             $licensetypes = _isset(_isset($license_type_resp, 'content'), 'records');
         }
 
-        $data['licensesdata'] = array();
+        $data['licensesdata'] = [];
         $data['licensetypes'] = $licensetypes;
 
         //get vendor
@@ -1074,14 +1074,14 @@ class SoftwareController extends Controller
 
         if ($vendor_resp['is_error'])
         {
-            $vendor = array();
+            $vendor = [];
         }
         else
         {
             $vendor = _isset(_isset($vendor_resp, 'content'), 'records');
         }
 
-        $data['vendordata'] = array();
+        $data['vendordata'] = [];
         $data['vendor'] = $vendor;
 
         //get department
@@ -1091,14 +1091,14 @@ class SoftwareController extends Controller
 
         if ($department_resp['is_error'])
         {
-            $department = array();
+            $department = [];
         }
         else
         {
             $department = _isset(_isset($department_resp, 'content'), 'records');
         }
 
-        $data['departmentdata'] = array();
+        $data['departmentdata'] = [];
         $data['department'] = $department;
 
         //get location
@@ -1108,14 +1108,14 @@ class SoftwareController extends Controller
 
         if ($location_resp['is_error'])
         {
-            $locations = array();
+            $locations = [];
         }
         else
         {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
 
-        $data['locationdata'] = array();
+        $data['locationdata'] = [];
         $data['locations'] = $locations;
 
         //get bv
@@ -1125,14 +1125,14 @@ class SoftwareController extends Controller
 
         if ($bv_resp['is_error'])
         {
-            $bvs = array();
+            $bvs = [];
         }
         else
         {
             $bvs = _isset(_isset($bv_resp, 'content'), 'records');
         }
 
-        $data['bvsdata'] = array();
+        $data['bvsdata'] = [];
         $data['bvs'] = $bvs;
 
         $html = view("Cmdb/swaddlisense", $data);
@@ -1149,7 +1149,7 @@ class SoftwareController extends Controller
      */
     public function swaddLicensesubmit(Request $request)
     {
-        $data = $this->itam->addsoftwarelicense(array('form_params' => $request->all()));
+        $data = $this->itam->addsoftwarelicense(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -1167,8 +1167,8 @@ class SoftwareController extends Controller
     {
         $software_license_id = $request->id;
         $software_id = $request->software_id;
-        $input_req = array('software_license_id' => $software_license_id, 'software_id' => $software_id);
-        $data = $this->itam->editsoftwarelicense(array('form_params' => $input_req));
+        $input_req = ['software_license_id' => $software_license_id, 'software_id' => $software_id];
+        $data = $this->itam->editsoftwarelicense(['form_params' => $input_req]);
 
         $data['softwarelicensedata'] = $data['content'];
         $data['software_license_id'] = $software_license_id;
@@ -1188,14 +1188,14 @@ class SoftwareController extends Controller
 
         if ($software_manufacturer_resp['is_error'])
         {
-            $softwaremanufacturers = array();
+            $softwaremanufacturers = [];
         }
         else
         {
             $softwaremanufacturers = _isset(_isset($software_manufacturer_resp, 'content'), 'records');
         }
 
-        $data['softwaremanufacturerdata'] = array();
+        $data['softwaremanufacturerdata'] = [];
         $data['softwaremanufacturers'] = $softwaremanufacturers;
 
         //get license type
@@ -1205,14 +1205,14 @@ class SoftwareController extends Controller
 
         if ($license_type_resp['is_error'])
         {
-            $licensetypes = array();
+            $licensetypes = [];
         }
         else
         {
             $licensetypes = _isset(_isset($license_type_resp, 'content'), 'records');
         }
 
-        $data['licensesdata'] = array();
+        $data['licensesdata'] = [];
         $data['licensetypes'] = $licensetypes;
 
         //get vendor
@@ -1222,14 +1222,14 @@ class SoftwareController extends Controller
 
         if ($vendor_resp['is_error'])
         {
-            $vendor = array();
+            $vendor = [];
         }
         else
         {
             $vendor = _isset(_isset($vendor_resp, 'content'), 'records');
         }
 
-        $data['vendordata'] = array();
+        $data['vendordata'] = [];
         $data['vendor'] = $vendor;
 
         //get department
@@ -1239,14 +1239,14 @@ class SoftwareController extends Controller
 
         if ($department_resp['is_error'])
         {
-            $department = array();
+            $department = [];
         }
         else
         {
             $department = _isset(_isset($department_resp, 'content'), 'records');
         }
 
-        $data['departmentdata'] = array();
+        $data['departmentdata'] = [];
         $data['department'] = $department;
 
         //get location
@@ -1256,14 +1256,14 @@ class SoftwareController extends Controller
 
         if ($location_resp['is_error'])
         {
-            $locations = array();
+            $locations = [];
         }
         else
         {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
 
-        $data['locationdata'] = array();
+        $data['locationdata'] = [];
         $data['locations'] = $locations;
 
         //get bv
@@ -1273,14 +1273,14 @@ class SoftwareController extends Controller
 
         if ($bv_resp['is_error'])
         {
-            $bvs = array();
+            $bvs = [];
         }
         else
         {
             $bvs = _isset(_isset($bv_resp, 'content'), 'records');
         }
 
-        $data['bvsdata'] = array();
+        $data['bvsdata'] = [];
         $data['bvs'] = $bvs;
 
         $html = view("Cmdb/swaddlisense", $data);
@@ -1299,7 +1299,7 @@ class SoftwareController extends Controller
      */
     public function softwarelicenseeditsubmit(Request $request)
     {
-        $data = $this->itam->updatesoftwarelicense(array('form_params' => $request->all()));
+        $data = $this->itam->updatesoftwarelicense(['form_params' => $request->all()]);
         echo json_encode($data, true);
 
     }
@@ -1313,7 +1313,7 @@ class SoftwareController extends Controller
 
     public function softwarelicensellocate(Request $request)
     {
-        $data = $this->itam->softwarelicensellocate(array('form_params' => $request->all()));
+        $data = $this->itam->softwarelicensellocate(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -1327,7 +1327,7 @@ class SoftwareController extends Controller
 
     public function swallocateassetremove(Request $request)
     {
-        $data = $this->itam->swallocateassetremove(array('form_params' => $request->all()));
+        $data = $this->itam->swallocateassetremove(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -1340,15 +1340,15 @@ class SoftwareController extends Controller
      */
     public function swdeallocateuninstall(Request $request)
     {
-        $data = $this->itam->swdeallocateuninstall(array('form_params' => $request->all()));
+        $data = $this->itam->swdeallocateuninstall(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     public function swlicensemaxacount(Request $request)
     {
 
         $software_license_id = $request->software_license_id;
-        $input_req = array('software_license_id' => $software_license_id);
-        $maxdata = $this->itam->getswlicensemaxacount(array('form_params' => $input_req));
+        $input_req = ['software_license_id' => $software_license_id];
+        $maxdata = $this->itam->getswlicensemaxacount(['form_params' => $input_req]);
         //dd($maxdata);
         echo json_encode($maxdata['content'][0]['allocationmaxcount'], true);
         

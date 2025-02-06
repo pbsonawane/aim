@@ -44,8 +44,8 @@ class VendorController extends Controller
     public function vendors()
     {
 
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'vendorList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("vendor_name"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'vendorList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["vendor_name"]);
         $data['pageTitle'] = trans('title.vendor');
         // 
         
@@ -77,7 +77,7 @@ class VendorController extends Controller
             }
             $search_service .="'" . $service ."'";
         }
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -114,7 +114,7 @@ class VendorController extends Controller
             $paging['showpagination'] = true;
             $paging['jsfunction'] = 'vendorList()';
             $view = 'Cmdb/vendorlist';
-            $content = $this->emlib->emgrid($vendors, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($vendors, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -126,7 +126,7 @@ class VendorController extends Controller
     {
         //try
         //{
-            $paging = array();
+            $paging = [];
             $fromtime = $totime = '';
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
             $exporttype = _isset($this->request_params, 'exporttype');
@@ -164,7 +164,7 @@ class VendorController extends Controller
                 $paging['jsfunction'] = 'vendorList()';
                 $view = 'Cmdb/vendorlist';
                 //$vendor_id = isset($vendors[0]['vendor_id']) ? $vendors[0]['vendor_id'] : "";
-                $content = $this->emlib->emgrid($vendors, $view, $columns = array(), $paging);
+                $content = $this->emlib->emgrid($vendors, $view, $columns = [], $paging);
             }
 
             $response["html"] = $content;
@@ -200,9 +200,9 @@ class VendorController extends Controller
     public function vendoradd(Request $request)
     {
         $data['vendor_id'] = '';
-        $vendordata = array();
+        $vendordata = [];
         $data['vendordata'] = $vendordata;
-        $option = array();
+        $option = [];
         $data['citemplates'] = $this->itam->getciitems($option);
         $html = view("Cmdb/vendoradd", $data);
         echo $html;
@@ -278,7 +278,7 @@ if ($request['is_msme_reg'] == "Yes") {
 }
 
         
-        $data = $this->itam->addvendor(array('form_params' => $request1));
+        $data = $this->itam->addvendor(['form_params' => $request1]);
         
         echo json_encode($data, true);
     }
@@ -294,11 +294,11 @@ if ($request['is_msme_reg'] == "Yes") {
     public function vendoredit(Request $request)
     {
         $vendor_id = $request->id;
-        $input_req = array('vendor_id' => $vendor_id);
-        $data = $this->itam->editvendor(array('form_params' => $input_req));
+        $input_req = ['vendor_id' => $vendor_id];
+        $data = $this->itam->editvendor(['form_params' => $input_req]);
         $data['vendor_id'] = $vendor_id;
         $data['vendordata'] = $data['content'];
-        $option = array();
+        $option = [];
         $data['citemplates'] = $this->itam->getciitems($option);        
         $html = view("Cmdb/vendoradd", $data);
         echo $html; 
@@ -350,7 +350,7 @@ if ($request['is_msme_reg'] == "Yes") {
         }
         // 
         // $data = $this->itam->updatevendor(array('form_params' => $request->all()));
-        $data = $this->itam->updatevendor(array('form_params' => $request1));
+        $data = $this->itam->updatevendor(['form_params' => $request1]);
        echo json_encode($data, true);
     }
     /**
@@ -363,15 +363,15 @@ if ($request['is_msme_reg'] == "Yes") {
      */
     public function vendordelete(Request $request)
     {
-        $data = $this->itam->deletevendor(array('form_params' => $request->all()));
+        $data = $this->itam->deletevendor(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
     public function vendor_view($vendor_id) 
     {
-        $data                   = array();
-        $input_req              = array('vendor_id' => $vendor_id);
-        $result                 = $this->itam->viewvendor(array('form_params' => $input_req));
+        $data                   = [];
+        $input_req              = ['vendor_id' => $vendor_id];
+        $result                 = $this->itam->viewvendor(['form_params' => $input_req]);
         $data['vendor_id']      = $vendor_id;
         $data['vendordata']     = $result['content'];
         $data['pageTitle']      = 'Vendor View';
@@ -380,7 +380,7 @@ if ($request['is_msme_reg'] == "Yes") {
     }
     public function vendor_approvereject (Request $request) 
     {
-        $response                       = array();
+        $response                       = [];
         $inputdata                      = $request->all();
         $postData['created_by']         = showuserid();
         $postData['created_by_name']    = showusername();
@@ -388,7 +388,7 @@ if ($request['is_msme_reg'] == "Yes") {
         $postData["comment"]            = _isset($inputdata, 'comment', "");
         $postData["approval_status"]    = _isset($inputdata, 'approval_status', "");
 
-        $data   = $this->itam->approvereject_vendor(array('form_params' => $postData));
+        $data   = $this->itam->approvereject_vendor(['form_params' => $postData]);
         $response["html"]       = $data['content'];
         $response["is_error"]   = $data['is_error'];
         $response["msg"]        = $data['msg'];

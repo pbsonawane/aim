@@ -43,8 +43,8 @@ class DeliveryController extends Controller
 
     public function delivery()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'deliveryList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("delivery"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'deliveryList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["delivery"]);
         $data['pageTitle']   = trans('title.delivery');
         $data['includeView'] = view("Cmdb/delivery", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class DeliveryController extends Controller
     {
         //try
         //{
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -99,7 +99,7 @@ class DeliveryController extends Controller
 
             $view = 'Cmdb/deliverylist';
             //$delivery_id = isset($delivery[0]['delivery_id']) ? $delivery[0]['delivery_id'] : "";
-            $content = $this->emlib->emgrid($delivery, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($delivery, $view, $columns = [], $paging);
         }
 
         $response["html"]     = $content;
@@ -135,7 +135,7 @@ class DeliveryController extends Controller
     public function deliveryadd(Request $request)
     {
         $data['delivery_id']  = '';
-        $deliverydata         = array();
+        $deliverydata         = [];
         $data['deliverydata'] = $deliverydata;
         $html                    = view("Cmdb/deliveryadd", $data);
         echo $html;
@@ -150,7 +150,7 @@ class DeliveryController extends Controller
      */
     public function deliveryaddsubmit(Request $request)
     {
-        $data = $this->itam->adddelivery(array('form_params' => $request->all()));
+        $data = $this->itam->adddelivery(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -165,8 +165,8 @@ class DeliveryController extends Controller
     public function deliveryedit(Request $request)
     {
         $delivery_id = $request->id;
-        $input_req      = array('delivery_id' => $delivery_id);
-        $data           = $this->itam->editdelivery(array('form_params' => $input_req));
+        $input_req      = ['delivery_id' => $delivery_id];
+        $data           = $this->itam->editdelivery(['form_params' => $input_req]);
 
         $data['delivery_id']  = $delivery_id;
         $data['deliverydata'] = $data['content'];
@@ -184,7 +184,7 @@ class DeliveryController extends Controller
      */
     public function deliveryeditsubmit(Request $request)
     {
-        $data = $this->itam->updatedelivery(array('form_params' => $request->all()));
+        $data = $this->itam->updatedelivery(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -197,7 +197,7 @@ class DeliveryController extends Controller
      */
     public function deliverydelete(Request $request)
     {
-        $data = $this->itam->deletedelivery(array('form_params' => $request->all()));
+        $data = $this->itam->deletedelivery(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

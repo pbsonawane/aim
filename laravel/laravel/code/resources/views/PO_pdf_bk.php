@@ -365,7 +365,7 @@ table {
           <th>Amount (Rs.)</th>
         </tr>
         <?php
-        $addresses =array();
+        $addresses =[];
         $items_array = $assetdetails_resp['content'];
         if(!empty($items_array)){
 

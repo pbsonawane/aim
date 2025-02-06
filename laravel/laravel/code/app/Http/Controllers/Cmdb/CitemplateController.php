@@ -49,8 +49,8 @@ class CitemplateController extends Controller
         {
             $is_error = false;
             $msg = '';
-            $data = array();
-            $option = array();
+            $data = [];
+            $option = [];
             $citemplates = $this->itam->getcitemplates($option);
             //print_r($citemplates); die();
             $view = View::make("Cmdb/citemplatedata", $data);
@@ -95,7 +95,7 @@ class CitemplateController extends Controller
         $ci_type_id = $request->input('ci_type_id');
         $citype = $request->input('citype');
         $treetype = $request->input('treetype');
-        $option = array();
+        $option = [];
         $citypes = $this->itam->citypes($option);
 
         $data["citypes"] = _isset(_isset($citypes,'content'),'records'); 
@@ -143,7 +143,7 @@ class CitemplateController extends Controller
             $skucode = $request->input('skucode');
             $validations = $request->input('validations');
             $valarray = $request->input('valarray');
-            $valdationsaray = $valids =  array();
+            $valdationsaray = $valids =  [];
             if(trim($valarray) != "" )
             {
                 $valids = explode("*",$valarray);
@@ -170,7 +170,7 @@ class CitemplateController extends Controller
                 $cnt = count($v_name);
                 for($i=0; $i<$cnt; $i++)
                 {
-                    $item = array();
+                    $item = [];
                     $item['attribute'] = _isset($attribute, $i) ? $attribute[$i]: '';
                     $item['input_type'] = _isset($inpute_type, $i) ? $inpute_type[$i]: '';
                     $item['unit'] = _isset($unit, $i) ? $unit[$i]: '';
@@ -190,10 +190,10 @@ class CitemplateController extends Controller
             $inputarray['ci_sku'] = $ci_sku;
 
         
-            $data = $this->itam->citemplateadd(array('form_params' => $inputarray));
+            $data = $this->itam->citemplateadd(['form_params' => $inputarray]);
 
             if(!empty($ci_id) && $data["is_error"] == false){
-                $data["msg"] = showmessage('104', array('{name}'), array(trans('label.Attribute')));
+                $data["msg"] = showmessage('104', ['{name}'], [trans('label.Attribute')]);
             }
         }
         catch (\Exception $e)
@@ -238,7 +238,7 @@ class CitemplateController extends Controller
             $data['type'] = $request->input('type');
             $data['treetype'] = $request->input('treetype');
 
-            $option = array();
+            $option = [];
 
             $skucodes = $this->itam->skucodes($option);
 
@@ -295,7 +295,7 @@ class CitemplateController extends Controller
                 $inputarray['act'] = "";
             }
             
-            $data = $this->itam->updateciname(array('form_params' => $inputarray));
+            $data = $this->itam->updateciname(['form_params' => $inputarray]);
             //echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -329,14 +329,14 @@ class CitemplateController extends Controller
     {
         try
         {
-            $option = array();
+            $option = [];
             $option['ci_type_id'] = $request->input('ci_type_id');
             $option['ci_templ_id'] = $request->input('ci_id');
-            $citemplates = $this->itam->getcitemplates(array('form_params' => $option));
+            $citemplates = $this->itam->getcitemplates(['form_params' => $option]);
             $data["cidata"] = _isset(_isset($citemplates,'content'),'records');
             $data['ci_type_id'] = $request->input('ci_type_id');
             $data['ci_id'] = $request->input('ci_id');
-            $option = array();
+            $option = [];
             $skucodes = $this->itam->skucodes($option);
             $data["skucodes"] = _isset($skucodes,'content');
             $view = View::make("Cmdb/addattributes", $data);
@@ -388,7 +388,7 @@ class CitemplateController extends Controller
             $option['type'] = $request->input('type');
             $option['ci_type_id'] = $request->input('ci_type_id');
             $option['ci_templ_id'] = $request->input('ci_templ_id');
-            $citemplates = $this->itam->editci(array('form_params' => $option));
+            $citemplates = $this->itam->editci(['form_params' => $option]);
 
 
             $data["cidata"] = _isset($citemplates,'content');
@@ -396,7 +396,7 @@ class CitemplateController extends Controller
 
             $data['item']['skucode']=$request->input('skucodes');
 
-            $option = array();
+            $option = [];
             $skucodes = $this->itam->skucodes($option);
             $data["skucodes"] = _isset($skucodes,'content');
             $view = View::make("Cmdb/editAttribute", $data);
@@ -455,7 +455,7 @@ class CitemplateController extends Controller
             }
             else
             {
-                $validations = array();
+                $validations = [];
             }
             $unit = $request->input('unit');
             $skucode = $request->input('skucode');
@@ -466,7 +466,7 @@ class CitemplateController extends Controller
                 $cnt = count($v_name);
                 for($i=0; $i<$cnt; $i++)
                 {
-                    $item = array();
+                    $item = [];
                     $item['attribute'] = _isset($attribute, $i) ? $attribute[$i]: '';
                     $item['input_type'] = _isset($inpute_type, $i) ? $inpute_type[$i]: '';
                     $item['unit'] = _isset($unit, $i) ? $unit[$i]: '';
@@ -487,10 +487,10 @@ class CitemplateController extends Controller
             $inputarray['prefix'] = $prefix;
             $inputarray['type'] = $type;
 
-            $data = $this->itam->updateci(array('form_params' => $inputarray));
+            $data = $this->itam->updateci(['form_params' => $inputarray]);
 
             if($data["is_error"] == false){
-                $data["msg"] = showmessage('106', array('{name}'), array(trans('label.Attribute')));
+                $data["msg"] = showmessage('106', ['{name}'], [trans('label.Attribute')]);
             }
             //echo json_encode($data, true);
         }
@@ -526,10 +526,10 @@ class CitemplateController extends Controller
         $inputarray['ci_templ_id'] = _isset($this->request_params, 'ci_id') ? $request->input('ci_id'): '';
         $inputarray['variable_name'] = _isset($this->request_params, 'variable_name') ? $request->input('variable_name'): '';
         $inputarray['type'] = _isset($this->request_params, 'type') ? $request->input('type'): '';
-        $data = $this->itam->deleteci(array('form_params' => $inputarray));
+        $data = $this->itam->deleteci(['form_params' => $inputarray]);
 
         if($data["is_error"] == false){
-            $data["msg"] = showmessage('118', array('{name}'), array(trans('label.Attribute')));
+            $data["msg"] = showmessage('118', ['{name}'], [trans('label.Attribute')]);
         }
         echo json_encode($data, true);
     }

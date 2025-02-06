@@ -864,7 +864,7 @@ $item_count           = count($item_qt_arr);
                             }
                          }
 
-                         echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                         echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                       }
 
                       ?>
@@ -955,7 +955,7 @@ $item_count           = count($item_qt_arr);
          }
       }
    }
-   echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+   echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
 }
 
 ?>

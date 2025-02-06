@@ -19,13 +19,13 @@ class SysconfigService
      * @package rebranding
      * @param array $options
      */    
-    public function rebranding($options = array())
+    public function rebranding($options = [])
     {
        $data = $this->remoteapi->apicall("GET", $this->url, 'rebranding', $options);
        return $data;
     }
    
-    public function getlogo($options = array())
+    public function getlogo($options = [])
     {
        $data = $this->remoteapi->apicall("POST", $this->url, 'getlogo', $options);
        return $data;

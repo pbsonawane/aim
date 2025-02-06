@@ -100,7 +100,7 @@ class EnVendors extends Model
     * @return       array
     * @tables       en_ci_vendors
     */
-    protected function getvendors($vendor_id=null, $inputdata=array(), $count=false)
+    protected function getvendors($vendor_id=null, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -251,24 +251,24 @@ class EnVendors extends Model
             if($vendor_data)
             {    
                     
-                    $vendor_data->update(array('status' => 'd'));            
+                    $vendor_data->update(['status' => 'd']);            
                     $vendor_data->save();                     
                     $data['data']['deleted_id'] = $vendor_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Vendor'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Vendor']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Vendor'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Vendor']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Vendor'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Vendor']);
             $data['status'] = 'error';                             
         }   
         return $data;    
@@ -282,21 +282,21 @@ class EnVendors extends Model
 
         if($vendor_data)
         {    
-            $vendor_data->update(array('status' => 'd'));            
+            $vendor_data->update(['status' => 'd']);            
             $vendor_data->save();                     
             $data['data']['deleted_id'] = $vendor_id;
-            $data['message']['success']= showmessage('118', array('{name}'), array('Vendor'));
+            $data['message']['success']= showmessage('118', ['{name}'], ['Vendor']);
             $data['status'] = 'success';
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('119', array('{name}'), array('Vendor'));
+            $data['message']['error'] = showmessage('119', ['{name}'], ['Vendor']);
             $data['status'] = 'error';                             
         }               
    
         $data['data'] = NULL;
-        $data['message']['error'] = showmessage('123', array('{name}'), array('Vendor'));
+        $data['message']['error'] = showmessage('123', ['{name}'], ['Vendor']);
         $data['status'] = 'error';                             
      
         return $data;    

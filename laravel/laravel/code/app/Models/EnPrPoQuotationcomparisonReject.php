@@ -21,7 +21,7 @@ class EnPrPoQuotationcomparisonReject extends Model
     {
         return 'quotation_cmp_id';
     }
-    protected function getQuotationcomparisonReject($inputdata = array())
+    protected function getQuotationcomparisonReject($inputdata = [])
     {
         $pr_po_id         = _isset($inputdata, 'pr_po_id');
         $selected_item_id = _isset($inputdata, 'selected_item_id');

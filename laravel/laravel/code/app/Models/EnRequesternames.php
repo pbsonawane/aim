@@ -40,7 +40,7 @@ class EnRequesternames extends Model
      * @return       array
      * @tables       en_ci_requesternames
      */
-    protected function getrequesternames($requestername_id = null, $inputdata = array(), $count = false)
+    protected function getrequesternames($requestername_id = null, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -95,20 +95,20 @@ class EnRequesternames extends Model
             $requestername_data = EnRequesternames::where('requestername_id', DB::raw('UUID_TO_BIN("' . $requestername_id . '")'))->where('status', '!=', 'd')->first();
             if ($requestername_data) {
 
-                $requestername_data->update(array('status' => 'd'));
+                $requestername_data->update(['status' => 'd']);
                 $requestername_data->save();
                 $data['data']['deleted_id'] = $requestername_id;
-                $data['message']['success'] = showmessage('118', array('{name}'), array('Requester Name'));
+                $data['message']['success'] = showmessage('118', ['{name}'], ['Requester Name']);
                 $data['status']             = 'success';
 
             } else {
                 $data['data']             = null;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Requester Name'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Requester Name']);
                 $data['status']           = 'error';
             }
         } else {
             $data['data']             = null;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Requester Name'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Requester Name']);
             $data['status']           = 'error';
         }
         return $data;

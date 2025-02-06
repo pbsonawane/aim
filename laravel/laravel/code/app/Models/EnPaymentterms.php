@@ -43,7 +43,7 @@ class EnPaymentterms extends Model
      * @return       array
      * @tables       en_ci_paymentterms
      */
-    protected function getpaymentterms($paymentterm_id = null, $inputdata = array(), $count = false)
+    protected function getpaymentterms($paymentterm_id = null, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -94,20 +94,20 @@ class EnPaymentterms extends Model
             $vendor_data = EnPaymentterms::where('paymentterm_id', DB::raw('UUID_TO_BIN("' . $paymentterm_id . '")'))->where('status', '!=', 'd')->first();
             if ($vendor_data) {
 
-                $vendor_data->update(array('status' => 'd'));
+                $vendor_data->update(['status' => 'd']);
                 $vendor_data->save();
                 $data['data']['deleted_id'] = $paymentterm_id;
-                $data['message']['success'] = showmessage('118', array('{name}'), array('Paymentterm'));
+                $data['message']['success'] = showmessage('118', ['{name}'], ['Paymentterm']);
                 $data['status']             = 'success';
 
             } else {
                 $data['data']             = null;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Paymentterm'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Paymentterm']);
                 $data['status']           = 'error';
             }
         } else {
             $data['data']             = null;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Paymentterm'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Paymentterm']);
             $data['status']           = 'error';
         }
         return $data;

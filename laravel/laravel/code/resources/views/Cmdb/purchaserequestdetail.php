@@ -640,8 +640,8 @@ $prefix = isset($pr_first_detail['shipto_contact_details']['prefix']) ? $pr_firs
 
                                        <!-- Extra Nikhil Code -->
                                        <?php
-$qc_added_item = array();
-$qc_item_array = array();
+$qc_added_item = [];
+$qc_item_array = [];
 $qc_check_ary = json_decode($quotation_comparison_details['content'], true);
 if ($qc_check_ary) {
     foreach ($qc_check_ary as $qckey => $qcvalue) {
@@ -688,8 +688,8 @@ break;
                                     <?php
 // print_r($assetdetails);
 
-$qc_added_item = array();
-$qc_item_array = array();
+$qc_added_item = [];
+$qc_item_array = [];
 $qc_check_ary = json_decode($quotation_comparison_details['content'], true);
 if ($qc_check_ary) {
     foreach ($qc_check_ary as $qckey => $qcvalue) {
@@ -1098,7 +1098,7 @@ if (isset($user['user_id']) && !isset($approved_status['confirmed'][$user['user_
                         }
                     }
 
-                    echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                    echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                 }
 
                 ?>
@@ -1189,7 +1189,7 @@ if (isset($user['user_id']) && !isset($approved_status['optional'][$user['user_i
                             }
                         }
                     }
-                    echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                    echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                 }
 
                 ?>

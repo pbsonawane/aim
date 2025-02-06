@@ -40,7 +40,7 @@ class DepartmentController extends Controller
     public function departments()
     {
 
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'departmentList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'departmentList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Department";
         $data['includeView'] = view("Admin/departments", $data);
@@ -57,7 +57,7 @@ class DepartmentController extends Controller
      */
     public function departmentlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -93,7 +93,7 @@ class DepartmentController extends Controller
             $paging['offset'] = $offset;
             $paging['page'] = $page;
             $view = 'Admin/departmentlist';
-            $content = $this->emlib->emgrid($departments, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($departments, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -111,7 +111,7 @@ class DepartmentController extends Controller
     public function departmentadd(Request $request)
     {
         $data['department_id'] = '';
-        $departmentdata = array();
+        $departmentdata = [];
         $data['departmentdata'] = $departmentdata;
         $html = view("Admin/departmentadd", $data);
         echo $html;
@@ -126,7 +126,7 @@ class DepartmentController extends Controller
      */
     public function departmentaddsubmit(Request $request)
     {
-        $data = $this->iam->addDepartment(array('form_params' => $request->all()));
+        $data = $this->iam->addDepartment(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -141,8 +141,8 @@ class DepartmentController extends Controller
     public function departmentedit(Request $request)
     {
         $department_id = $request->id;
-        $input_req = array('department_id' => $department_id);
-        $data = $this->iam->editDepartment(array('form_params' => $input_req));
+        $input_req = ['department_id' => $department_id];
+        $data = $this->iam->editDepartment(['form_params' => $input_req]);
 
         $data['department_id'] = $department_id;
         $data['departmentdata'] = $data['content'];
@@ -160,7 +160,7 @@ class DepartmentController extends Controller
      */
     public function departmenteditsubmit(Request $request)
     {
-        $data = $this->iam->updateDepartment(array('form_params' => $request->all()));
+        $data = $this->iam->updateDepartment(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -173,7 +173,7 @@ class DepartmentController extends Controller
      */
     public function departmentdelete(Request $request)
     {
-        $data = $this->iam->deleteDepartment(array('form_params' => $request->all()));
+        $data = $this->iam->deleteDepartment(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

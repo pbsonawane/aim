@@ -568,8 +568,8 @@ $item_count           = count($item_qt_arr);
                                     </thead>
                                     <tbody>
                                     <?php
-                                       $qc_added_item = array();
-                                       $qc_item_array = array();
+                                       $qc_added_item = [];
+                                       $qc_item_array = [];
                                        $qc_check_ary = json_decode($quotation_comparison_details['content'],true);
                                       /* echo '<pre>';
                                        print_r($qc_check_ary);*/
@@ -904,7 +904,7 @@ $item_count           = count($item_qt_arr);
                             }
                          }
 
-                         echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                         echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                       }
 
                       ?>
@@ -995,7 +995,7 @@ $item_count           = count($item_qt_arr);
          }
       }
    }
-   echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+   echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
 }
 
 ?>

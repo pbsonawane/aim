@@ -22,7 +22,7 @@ class EnPurchaseRequest extends Model
         return 'pr_id';
     }
 	
-	protected function getprs($pr_id, $inputdata=array(), $count=false)
+	protected function getprs($pr_id, $inputdata=[], $count=false)
     {	
 		//$user_bv_ids = array('13883632-2b95-11e9-9038-0242ac110004','68cf0180-35ca-11ea-bd9c-0242ac110003');
         $searchkeyword = _isset($inputdata,'searchkeyword');

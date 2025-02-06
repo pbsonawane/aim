@@ -42,7 +42,7 @@ class BusinessUnitController extends Controller
     public function businessunits()
     {
 
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'businessunitList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'businessunitList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Business Unit";
         $data['includeView'] = view("Admin/businessunits", $data);
@@ -60,7 +60,7 @@ class BusinessUnitController extends Controller
      */
     public function businessunitlist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -96,7 +96,7 @@ class BusinessUnitController extends Controller
             $paging['offset'] = $offset;
             $paging['page'] = $page;
             $view = 'Admin/businessunitlist';
-            $content = $this->emlib->emgrid($businessunits, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($businessunits, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -114,7 +114,7 @@ class BusinessUnitController extends Controller
     public function businessunitadd(Request $request)
     {
         $data['bu_id'] = '';
-        $businessunitdata = array();
+        $businessunitdata = [];
         $data['businessunitdata'] = $businessunitdata;
         $html = view("Admin/businessunitadd", $data);
         echo $html;
@@ -130,7 +130,7 @@ class BusinessUnitController extends Controller
      */
     public function businessunitaddsubmit(Request $request)
     {
-        $data = $this->iam->addBusinessunit(array('form_params' => $request->all()));
+        $data = $this->iam->addBusinessunit(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -145,8 +145,8 @@ class BusinessUnitController extends Controller
     public function businessunitedit(Request $request)
     {
         $bu_id = $request->id;
-        $input_req = array('bu_id' => $bu_id);
-        $data = $this->iam->editBusinessunit(array('form_params' => $input_req));
+        $input_req = ['bu_id' => $bu_id];
+        $data = $this->iam->editBusinessunit(['form_params' => $input_req]);
 
         $data['bu_id'] = $bu_id;
         $data['businessunitdata'] = $data['content'];
@@ -166,7 +166,7 @@ class BusinessUnitController extends Controller
      */
     public function businessuniteditsubmit(Request $request)
     {
-        $data = $this->iam->updateBusinessunit(array('form_params' => $request->all()));
+        $data = $this->iam->updateBusinessunit(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -180,7 +180,7 @@ class BusinessUnitController extends Controller
      */
     public function businessunitdelete(Request $request)
     {
-        $data = $this->iam->deleteBusinessunit(array('form_params' => $request->all()));
+        $data = $this->iam->deleteBusinessunit(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

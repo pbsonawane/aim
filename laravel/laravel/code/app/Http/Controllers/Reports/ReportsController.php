@@ -48,17 +48,17 @@ class ReportsController extends Controller
   */
   public function reports()
   {
-    $topfilter              = array('gridsearch' => true, 'jsfunction' => 'reportsList()');
+    $topfilter              = ['gridsearch' => true, 'jsfunction' => 'reportsList()'];
     $data['emgridtop']      = $this->emlib->emgridtop();
     $data['pageTitle']      = trans('title.reports');
-    $reportcategory         = array();
-    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => array()]);
+    $reportcategory         = [];
+    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => []]);
     if(isset($reportcategory_resp['is_error']) && $reportcategory_resp['is_error']==false)
     {
       $reportcategory = _isset(_isset($reportcategory_resp, 'content'), 'records');
     }
-    $reportsdata      = array();
-    $reportsdata_resp = $this->itam->getreports(['form_params' => array()]);
+    $reportsdata      = [];
+    $reportsdata_resp = $this->itam->getreports(['form_params' => []]);
     if(isset($reportsdata_resp['is_error']) && $reportsdata_resp['is_error']==false)
     {
       $reportsdata = _isset(_isset($reportsdata_resp, 'content'), 'records');
@@ -82,7 +82,7 @@ class ReportsController extends Controller
   {
     try
     {
-      $paging         = array();
+      $paging         = [];
       $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
       $page           = _isset($this->request_params, 'page', config('enconfig.page'));
       $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -116,7 +116,7 @@ class ReportsController extends Controller
         $paging['showpagination'] = true;
         $paging['jsfunction']     = 'reportsList()';
         $view                     = 'Reports/reportslist';
-        $content                  = $this->emlib->emgrid($reports, $view, $columns = array(), $paging);
+        $content                  = $this->emlib->emgrid($reports, $view, $columns = [], $paging);
       }
       $response["html"]       = $content;
       $response["is_error"]   = $is_error;
@@ -149,9 +149,9 @@ class ReportsController extends Controller
   */
   public function reportsadd(Request $request)
   {
-    $data['reportmodules'] = $reportmodules[0] = array();
+    $data['reportmodules'] = $reportmodules[0] = [];
     $data['view']          = "primary";
-    $reportmodules_resp    = $this->itam->getreportmodules(['form_params' => array()]);
+    $reportmodules_resp    = $this->itam->getreportmodules(['form_params' => []]);
 
     if(isset($reportmodules_resp['is_error']) && $reportmodules_resp['is_error']==false)
     {
@@ -159,15 +159,15 @@ class ReportsController extends Controller
     }
     $data['report_id']      = '';
     $data['reportmodules']  = $reportmodules;
-    $option                 = array();
+    $option                 = [];
     $citemplates            = $this->itam->getciitems($option);
     $data["cidata"]         = _isset(_isset($citemplates,'content'),'records');
 
     if ($request->input('module') && $request->input('module')!="") 
     {
 
-      $reportcategory         = $reportmodules[0] = array();
-      $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => array()]);
+      $reportcategory         = $reportmodules[0] = [];
+      $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => []]);
 
       if(isset($reportcategory_resp['is_error']) && $reportcategory_resp['is_error']==false)
       {
@@ -176,8 +176,8 @@ class ReportsController extends Controller
       $searchkeyword    = _isset($this->request_params, 'module');
       
       $form_params['searchkeyword'] = $searchkeyword;
-      $reportsdata                  = array();
-      $mergeArr                     = array();
+      $reportsdata                  = [];
+      $mergeArr                     = [];
       $reportmodules_resp           = $this->itam->getreportmodules(['form_params' => $form_params]);
       if(isset($reportmodules_resp['is_error']) && $reportmodules_resp['is_error']==false)
       {
@@ -253,13 +253,13 @@ class ReportsController extends Controller
     try
     {
       $inputdata                  = $request->all();
-      $postData['filter_column']  = _isset($inputdata, 'filter_column', array());
-      $postData['criteria']       = _isset($inputdata, 'criteria', array());
-      $postData['criteria_match'] = _isset($inputdata, 'criteria_match', array());
+      $postData['filter_column']  = _isset($inputdata, 'filter_column', []);
+      $postData['criteria']       = _isset($inputdata, 'criteria', []);
+      $postData['criteria_match'] = _isset($inputdata, 'criteria_match', []);
 
       $detailsData['ci_templ_id'] = _isset($inputdata, 'ci_templ_id', "");
       $detailsData['ci_type_id']  = _isset($inputdata, 'ci_type_id', "");
-      $criteria_value_arr         = array();
+      $criteria_value_arr         = [];
 
       if (count($postData['filter_column'])>0) 
       {
@@ -267,7 +267,7 @@ class ReportsController extends Controller
         { 
           if (!isset($inputdata['criteria_value-'.$i])|| in_array(null, $inputdata['criteria_value-'.$i], true) || in_array('', $inputdata['criteria_value-'.$i], true)) 
           {
-            $criteria_value = array();
+            $criteria_value = [];
           }
           else
           {
@@ -294,7 +294,7 @@ class ReportsController extends Controller
       $details              = json_encode($detailsData);
       $inputdata['details'] = $details;
 
-      $data = $this->itam->addreports(array('form_params' => $inputdata));
+      $data = $this->itam->addreports(['form_params' => $inputdata]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -325,24 +325,24 @@ class ReportsController extends Controller
   */
   public function reportsedit(Request $request)
   {
-    $reportcategory         = $reportmodules[0] = array();
-    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => array()]);
+    $reportcategory         = $reportmodules[0] = [];
+    $reportcategory_resp    = $this->itam->getreportcategory(['form_params' => []]);
 
     if(isset($reportcategory_resp['is_error']) && $reportcategory_resp['is_error']==false)
     {
       $reportcategory = _isset(_isset($reportcategory_resp, 'content'), 'records');
     }
     $report_id              = $request->id;
-    $mergeArr               = array();
-    $input_req              = array('report_id' => $report_id);
-    $data                   = $this->itam->editreports(array('form_params' => $input_req));
+    $mergeArr               = [];
+    $input_req              = ['report_id' => $report_id];
+    $data                   = $this->itam->editreports(['form_params' => $input_req]);
      if(isset($data['is_error']) && $data['is_error']==false)
     {
       $data = $data['content'];
     }
     else
     {
-      $data   = array();
+      $data   = [];
     }
 
     if (isset($data[0]['module']) && $data[0]['module']!="")
@@ -367,7 +367,7 @@ class ReportsController extends Controller
       {
         $ci_templ_id = isset($response['ci_templ_id']) ? $response['ci_templ_id']:"";
         $ci_type_id  = isset($response['ci_type_id']) ? $response['ci_type_id']:"";
-        $mergeArr = array();
+        $mergeArr = [];
         if ($ci_templ_id !="" && $ci_type_id !="") 
         {
           $form_param['ci_templ_id']  = $ci_templ_id;
@@ -435,13 +435,13 @@ class ReportsController extends Controller
     try
     {
       $inputdata                  = $request->all();
-      $postData['filter_column']  = _isset($inputdata, 'filter_column', array());
-      $postData['criteria']       = _isset($inputdata, 'criteria', array());
-      $postData['criteria_match'] = _isset($inputdata, 'criteria_match', array());
+      $postData['filter_column']  = _isset($inputdata, 'filter_column', []);
+      $postData['criteria']       = _isset($inputdata, 'criteria', []);
+      $postData['criteria_match'] = _isset($inputdata, 'criteria_match', []);
 
       $detailsData['ci_templ_id'] = _isset($inputdata, 'ci_templ_id', "");
       $detailsData['ci_type_id']  = _isset($inputdata, 'ci_type_id', "");
-      $criteria_value_arr         = array();
+      $criteria_value_arr         = [];
 
       if (count($postData['filter_column'])>0) 
       {
@@ -449,7 +449,7 @@ class ReportsController extends Controller
         { 
           if (!isset($inputdata['criteria_value-'.$i])|| in_array(null, $inputdata['criteria_value-'.$i], true) || in_array('', $inputdata['criteria_value-'.$i], true)) 
           {
-            $criteria_value = array();
+            $criteria_value = [];
           }
           else
           {
@@ -474,7 +474,7 @@ class ReportsController extends Controller
       $details              = json_encode($detailsData);
       $inputdata['details'] = $details;
       
-      $data = $this->itam->updatereports(array('form_params' => $inputdata));
+      $data = $this->itam->updatereports(['form_params' => $inputdata]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -506,7 +506,7 @@ class ReportsController extends Controller
   {
     try
     {
-      $data = $this->itam->deletereports(array('form_params' => $request->all()));
+      $data = $this->itam->deletereports(['form_params' => $request->all()]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -537,7 +537,7 @@ class ReportsController extends Controller
   */
   public function reportsdetail(Request $request,$report_id = null)
   {
-    $reportsdata = $reportmodules[0] = $mergeArr = array();
+    $reportsdata = $reportmodules[0] = $mergeArr = [];
     $form_params['report_id'] = $report_id;
     $options                  = ['form_params' => $form_params];
     $reportsdata_resp = $this->itam->getreports($options);
@@ -614,7 +614,7 @@ class ReportsController extends Controller
     $data['reportsdata']    = $reportsdata;
     $data['reportmodules']  = $reportmodules[0];
     $data['report_id']      = $report_id;
-    $topfilter              = array('gridsearch' => false, 'jsfunction' => 'reportdetailsList()');
+    $topfilter              = ['gridsearch' => false, 'jsfunction' => 'reportdetailsList()'];
     $data['emgridtop']      = $this->emlib->emgridtop($topfilter);
     $data['pageTitle']      = trans('title.reportdetails');
     $data['includeView']    = view("Reports/reports-det", $data);
@@ -633,7 +633,7 @@ class ReportsController extends Controller
   {
     try
     {
-      $paging         = array();
+      $paging         = [];
       $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
       $page           = _isset($this->request_params, 'page', config('enconfig.page'));
       $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -669,7 +669,7 @@ class ReportsController extends Controller
         $tableheaders             = _isset(_isset($reports_resp, 'content'), 'tableheaders');
         $paging['total_rows']     = _isset(_isset($reports_resp, 'content'), 'totalrecords');
         if(!is_array($tableheaders))
-          $tableheaders = array();
+          $tableheaders = [];
         $paging['showpagination'] = true;
         $paging['jsfunction']     = 'reportdetailsList()';
         $view                     = 'Reports/reportsdetlist';
@@ -923,7 +923,7 @@ class ReportsController extends Controller
     // $options = ['po_id' => 'c78923f0-16b9-11ec-b078-4a4901e9af12'];
     
     $response = $this->itam->downloadPo($options);
-    $assetoptions = ['form_params' => array('pr_po_id' => $po_id, 'asset_type' => 'po')];
+    $assetoptions = ['form_params' => ['pr_po_id' => $po_id, 'asset_type' => 'po']];
     $response['assetdetails_resp'] = $this->itam->prpoassetdetails($assetoptions);
     $get_data = _isset(_isset($response, 'content'),'records');
      
@@ -995,7 +995,7 @@ class ReportsController extends Controller
     $field           =  _isset($this->request_params, 'field');
     $selected_value  =  _isset($this->request_params, 'selected_value');
     $selected_value  = explode(",",$selected_value);
-    $option = array();
+    $option = [];
     switch ($field) 
     {
       case "vendor":
@@ -1016,7 +1016,7 @@ class ReportsController extends Controller
       case "location":
         $locationDetailsOptions = "";
         //============= Locations
-        $options                = ['form_params' => array('order_byregion' => true)];
+        $options                = ['form_params' => ['order_byregion' => true]];
         $locationDetails        = $this->iam->getLocations($options);
         $locationDetailsArr     = _isset(_isset($locationDetails, 'content'), 'records');
         if ($locationDetailsArr)
@@ -1046,7 +1046,7 @@ class ReportsController extends Controller
 
       case "business_vertical":
         //============= Business Vertical
-        $options                        = ['form_params' => array('order_bybu' => true)];
+        $options                        = ['form_params' => ['order_bybu' => true]];
         $businessVerticalDetails        = $this->iam->getBusinessVertical($options);
         $businessVerticalDetailsArr     = _isset(_isset($businessVerticalDetails, 'content'), 'records');
         $businessVerticalDetailsOptions = "";
@@ -1077,7 +1077,7 @@ class ReportsController extends Controller
       
       case "datacenter":
         $options = [
-            'form_params' => array('order_byregion' => true),
+            'form_params' => ['order_byregion' => true],
         ];
         $datacenterDetails        = $this->iam->getDatacenters($options);
         $datacenterDetailsArr     = _isset(_isset($datacenterDetails, 'content'), 'records');
@@ -1109,7 +1109,7 @@ class ReportsController extends Controller
       //PO Name
       case "po_name":
         $options = [
-            'form_params' => array('order_byregion' => true),
+            'form_params' => ['order_byregion' => true],
         ];
         $ponameDetails        = $this->itam->purchaseorder($options);
         $ponameDetailsArr     = _isset(_isset($ponameDetails, 'content'), 'records');
@@ -1128,7 +1128,7 @@ class ReportsController extends Controller
       //Contarct
       case "contracttype":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $contracttypeDetails        = $this->itam->getcontracttype($options);
         $contracttypeDetailsArr     = _isset(_isset($contracttypeDetails, 'content'), 'records');
@@ -1183,7 +1183,7 @@ class ReportsController extends Controller
       //Software
       case "sw_category":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swcatDetails        = $this->itam->getsoftwarecategory($options);
         $swcatDetailsArr     = _isset(_isset($swcatDetails, 'content'), 'records');
@@ -1204,7 +1204,7 @@ class ReportsController extends Controller
 
       case "sw_type":
          $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swtypeDetails        = $this->itam->getsoftwaretype($options);
         $swtypeDetailsArr     = _isset(_isset($swtypeDetails, 'content'), 'records');
@@ -1225,7 +1225,7 @@ class ReportsController extends Controller
       
       case "sw_manufacturer":
         $options = [
-            'form_params' => array(),
+            'form_params' => [],
         ];
         $swmanufacturerDetails         = $this->itam->getsoftwaremanufacturer($options);
         $sw_manufacturerDetailsArr     = _isset(_isset($swmanufacturerDetails, 'content'), 'records');
@@ -1245,7 +1245,7 @@ class ReportsController extends Controller
       break;
       //Purchase
       case "cost_center":
-        $option                   = array();
+        $option                   = [];
         $costcenterDetails        = $this->itam->getcostcenters($option);
         $costcenterDetailsArr     = _isset(_isset($costcenterDetails, 'content'), 'records');
         $costcenterDetailsOptions ="";
@@ -1348,7 +1348,7 @@ class ReportsController extends Controller
       break;
   
       default:
-      return json_encode(array());
+      return json_encode([]);
     } 
   }
 
@@ -1364,7 +1364,7 @@ class ReportsController extends Controller
   }
   public function submit_pbireports(Request $request) {
     $post_data = $request->all();
-    $error = array();
+    $error = [];
     $err_count = 0;
 
     if(!empty($post_data)) {
@@ -1420,7 +1420,7 @@ class ReportsController extends Controller
         if(count($datas) > 0) {
           return view('exportexcel', compact(['datas','report_type_name']));
         } else {
-          $data['error']  = array('No data found.');
+          $data['error']  = ['No data found.'];
           $data['status'] = "1" ;
           $data['msg']    = "No data found."; 
 

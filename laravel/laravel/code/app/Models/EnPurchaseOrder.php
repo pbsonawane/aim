@@ -22,7 +22,7 @@ class EnPurchaseOrder extends Model
 		return 'po_id';
 	}
 	
-	protected function getpos($po_id, $inputdata=array(), $count=false)
+	protected function getpos($po_id, $inputdata=[], $count=false)
 	{
 		$searchkeyword = _isset($inputdata,'searchkeyword');
 		$vendor_id = _isset($inputdata,'vendor_id');

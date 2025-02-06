@@ -33,7 +33,7 @@ class CredentialController extends Controller
      */ 
     public function credential() {
 		
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'credentialList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'credentialList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);   
 		$data['pageTitle'] = "Settings Template";
 		$data['includeView'] = view("Admin/credential",$data);
@@ -49,7 +49,7 @@ class CredentialController extends Controller
      * @return json
      */     
 	public function credentiallist() {
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -110,7 +110,7 @@ class CredentialController extends Controller
             $paging['offset'] = $offset;
             $paging['page'] = $page;			
             $view = 'Admin/credentiallist';
-            $content = $this->emlib->emgrid($templateData, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($templateData, $view, $columns = [], $paging);
 		} 		
 		$response["html"] = $content;
 		$response["is_error"] = $is_error;
@@ -132,7 +132,7 @@ class CredentialController extends Controller
         
         if($formTmplCredential_resp['is_error'])
 		{
-			$formTmplCredential = array();
+			$formTmplCredential = [];
 		}
 		else
 		{
@@ -156,14 +156,14 @@ class CredentialController extends Controller
      */     
     public function getCredentialtemplatebytype(Request $request)
     {
-        $inputdata= array('template_name' => $request->template_name);
-        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName(array( 'form_params' => $inputdata));
+        $inputdata= ['template_name' => $request->template_name];
+        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName([ 'form_params' => $inputdata]);
         if($data['content'])        
         {
             $data['form_templ_data'] = $data['content'][0];
         }  
         else{
-            $data['form_templ_data'] = array();
+            $data['form_templ_data'] = [];
         }
         $data['action'] = "add";
         $html = view('Admin.credentialtypetemplate', $data);
@@ -179,13 +179,13 @@ class CredentialController extends Controller
      */       
     public function credentialedit(Request $request)
     {
-        $inputdata= array('template_name' => $request->template_name);
-        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName(array( 'form_params' => $inputdata));
+        $inputdata= ['template_name' => $request->template_name];
+        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName([ 'form_params' => $inputdata]);
         $data['action'] = "edit";
         if($data['content'])        
         {
-            $inputdataCre = array('config_id' => $request->config_id);
-            $configdata =  $this->iam->getformdatacredential(array( 'form_params' => $inputdataCre));
+            $inputdataCre = ['config_id' => $request->config_id];
+            $configdata =  $this->iam->getformdatacredential([ 'form_params' => $inputdataCre]);
             $data['form_templ_id'] = $data['content'][0]['form_templ_id'];
             $data['urlpath'] = $data['content'][0]['template_name'];
             $data['form_templ_data'] = $data['content'][0];
@@ -194,7 +194,7 @@ class CredentialController extends Controller
              
         }   
         else{
-            $data['form_templ_data'] = array();
+            $data['form_templ_data'] = [];
         }        
         $html = view('Admin.credentialtypetemplate', $data);
         echo  $html; 
@@ -212,7 +212,7 @@ class CredentialController extends Controller
      */     
     public function templatecredentialadd(request $request)
     {
-        $data =  $this->iam->formdatacredentialadd(array( 'form_params' => $request->all()));
+        $data =  $this->iam->formdatacredentialadd([ 'form_params' => $request->all()]);
         echo json_encode($data,true);
     }
     /**
@@ -229,7 +229,7 @@ class CredentialController extends Controller
      */     
     public function templatecredentialupdate(request $request)
     {
-        $data =  $this->iam->formdatacredentialupdate(array( 'form_params' => $request->all()));
+        $data =  $this->iam->formdatacredentialupdate([ 'form_params' => $request->all()]);
         echo json_encode($data,true);
     }
     /**
@@ -243,7 +243,7 @@ class CredentialController extends Controller
      */     
     public function credentialdelete(Request $request)
     {
-        $data =  $this->iam->deletecredential(array( 'form_params' => $request->all()));
+        $data =  $this->iam->deletecredential([ 'form_params' => $request->all()]);
         echo json_encode($data,true);
     }
 }

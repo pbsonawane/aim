@@ -33,7 +33,7 @@ class EnReportModules extends Model
     * @param int  $limit, int $offset Pagination variables    
     * @return array
     */
-    protected function getmodules($module_id, $inputdata=array(), $count=false,$module_key=null)
+    protected function getmodules($module_id, $inputdata=[], $count=false,$module_key=null)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

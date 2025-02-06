@@ -43,15 +43,15 @@ class SoftwareDashboardController extends Controller
 
     public function softwaredashboard(Request $request)
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("softwaredashboard"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["softwaredashboard"]);
         $data['pageTitle'] = trans('title.softwaredashboard');
         //$data['software_id'] = $software_id;
-        $respsw = $this->itam->getswdashboard(array());
+        $respsw = $this->itam->getswdashboard([]);
         //dd($respsw );
         if ($respsw['is_error'])
         {
-            $dashboard = array();
+            $dashboard = [];
         }
         else
         {
@@ -59,11 +59,11 @@ class SoftwareDashboardController extends Controller
         }
         $data['dashboard'] = $dashboard;
         
-        $resplicense = $this->itam->getswdashboardlicense(array());
+        $resplicense = $this->itam->getswdashboardlicense([]);
        
         if ($resplicense['is_error'])
         {
-            $dashboardlicense = array();
+            $dashboardlicense = [];
         }
         else
         {
@@ -72,11 +72,11 @@ class SoftwareDashboardController extends Controller
         $data['dashboardlicense'] = $dashboardlicense;
   
 
-        $resp = $this->itam->getswallocationallsw(array());
+        $resp = $this->itam->getswallocationallsw([]);
           //dd($resp);
         if ($resp['is_error'])
         {
-            $swallocationsallsw = array();
+            $swallocationsallsw = [];
         }
         else
         {
@@ -87,12 +87,12 @@ class SoftwareDashboardController extends Controller
 
         $data['swallocationsallsw'] = $swallocationsallsw;
 
-        $respcount = $this->itam->getswpurchasecountallsw(array());
+        $respcount = $this->itam->getswpurchasecountallsw([]);
             //dd($respcount);
 
         if ($respcount['is_error'])
         {
-            $purchasecountallsw = array();
+            $purchasecountallsw = [];
         }
         else
         {
@@ -102,11 +102,11 @@ class SoftwareDashboardController extends Controller
 
         $data['purchasecountallsw'] = $purchasecountallsw;   
             
-        $respmanufacturer = $this->itam->getswdashboardmanufacturer(array());
+        $respmanufacturer = $this->itam->getswdashboardmanufacturer([]);
 
         if ($respmanufacturer['is_error'])
         {
-            $dashboardmanufacturer = array();
+            $dashboardmanufacturer = [];
         }
         else
         {
@@ -120,15 +120,15 @@ class SoftwareDashboardController extends Controller
 
      public function license_dashboard_c(Request $request)
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("softwaredashboard"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["softwaredashboard"]);
         $data['pageTitle'] = trans('title.softwaredashboard');
         //$data['software_id'] = $software_id;
-        $respsw = $this->itam->getlicensedashboard(array());
+        $respsw = $this->itam->getlicensedashboard([]);
       
         if ($respsw['is_error'])
         {
-            $dashboard = array();
+            $dashboard = [];
         }
         else
         {
@@ -139,11 +139,11 @@ class SoftwareDashboardController extends Controller
         // print_r($dashboard);
         // die();
         
-        $resplicense = $this->itam->getdatabaseboard(array());
+        $resplicense = $this->itam->getdatabaseboard([]);
        
         if ($resplicense['is_error'])
         {
-            $dashboardlicense = array();
+            $dashboardlicense = [];
         }
         else
         {
@@ -153,11 +153,11 @@ class SoftwareDashboardController extends Controller
        
   
 
-        $resp = $this->itam->getcpaneldashboard(array());
+        $resp = $this->itam->getcpaneldashboard([]);
           //dd($resp);
         if ($resp['is_error'])
         {
-            $cpaneldashboard = array();
+            $cpaneldashboard = [];
         }
         else
         {
@@ -206,16 +206,16 @@ class SoftwareDashboardController extends Controller
 
      public function storedashboard_view(Request $request)
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("softwaredashboard"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwareDashboard()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["softwaredashboard"]);
         $data['pageTitle'] = trans('title.softwaredashboard');
         //$data['software_id'] = $software_id;
-        $respsw = $this->itam->getstoredashboard(array());
+        $respsw = $this->itam->getstoredashboard([]);
        // print_r($respsw); die();
       
         if ($respsw['is_error'])
         {
-            $dashboard = array();
+            $dashboard = [];
         }
         else
         {

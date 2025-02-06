@@ -36,7 +36,7 @@ class RegionController extends Controller
      */
 	public function regions() {
 
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'regionList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'regionList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);
 		$data['pageTitle'] = "Regions";
 		$data['includeView'] = view("Admin/regions",$data);
@@ -53,7 +53,7 @@ class RegionController extends Controller
      */
 	public function regionlist() 
 	{	
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
 		$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -85,7 +85,7 @@ class RegionController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'regionList()';
 			$view = 'Admin/regionlist';
-			$content = $this->emlib->emgrid($regions, $view, array(), $paging);
+			$content = $this->emlib->emgrid($regions, $view, [], $paging);
 		}
 
 		$response["html"] = $content;
@@ -103,7 +103,7 @@ class RegionController extends Controller
 	public  function regionadd(Request $request)
     {
         $data['region_id'] = '';
-		$regiondata = array();
+		$regiondata = [];
 		$data['regiondata'] = $regiondata;
 
         $html = view("Admin/regionadd",$data);
@@ -120,7 +120,7 @@ class RegionController extends Controller
      */
 	public function regionsave(Request $request)
     {
-       $data =  $this->iam->addRegion(array( 'form_params' => $request->all()));
+       $data =  $this->iam->addRegion([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	/**
@@ -135,8 +135,8 @@ class RegionController extends Controller
 	public function regionedit(Request $request)
 	{	
 		$region_id = $request->id;
-		$input_req = array('region_id' => $region_id);
-		$data =  $this->iam->getRegions(array( 'form_params' => $input_req));
+		$input_req = ['region_id' => $region_id];
+		$data =  $this->iam->getRegions([ 'form_params' => $input_req]);
 		
 		$data['region_id'] = $region_id;
 		$data['regiondata'] = $data['content']['records'];
@@ -157,7 +157,7 @@ class RegionController extends Controller
      */
 	public function regionupdate(Request $request)
     {
-       $data =  $this->iam->updateRegion(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updateRegion([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }
 	
@@ -174,7 +174,7 @@ class RegionController extends Controller
      */
 	public function regiondelete(Request $request)
 	{
-		$data =  $this->iam->updateRegion(array( 'form_params' => $request->all()));
+		$data =  $this->iam->updateRegion([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	}
 	
@@ -192,8 +192,8 @@ class RegionController extends Controller
 		$region_id = $request->region_id;
 		$region_name = $request->region_name;
 		
-		$input_req = array('region_id' => $region_id);
-		$dc_data =  $this->iam->dcRegions(array( 'form_params' => $input_req));
+		$input_req = ['region_id' => $region_id];
+		$dc_data =  $this->iam->dcRegions([ 'form_params' => $input_req]);
 		
 		$data['region_id'] = $region_id;
 		$data['region_name'] = $region_name;
@@ -215,8 +215,8 @@ class RegionController extends Controller
 	public function assigndcregions(Request $request)
     {	
 		
-	   $input_data = array('dc_id' => trim($request->dc_id,","),'region_id' => $request->region_id);
-       $data =  $this->iam->saveRegionDc(array( 'form_params' => $input_data));
+	   $input_data = ['dc_id' => trim($request->dc_id,","),'region_id' => $request->region_id];
+       $data =  $this->iam->saveRegionDc([ 'form_params' => $input_data]);
        echo json_encode($data,true);
     }
 	

@@ -46,9 +46,9 @@ class ContractController extends Controller
     public function contracts($id='')
     {
         $contract_id = $id;
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'contractList()', 'gridadvsearch' => true);
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'contractList()', 'gridadvsearch' => true];
         $data['contract_id'] = $contract_id;
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array('contract_type', 'contract_status'));
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ['contract_type', 'contract_status']);
         $data['pageTitle'] = trans('title.contract');
         $data['includeView'] = view("Cmdb/contracts", $data);
         return view('template', $data);
@@ -68,7 +68,7 @@ class ContractController extends Controller
         try
         {
 
-            $paging = array();
+            $paging = [];
             $fromtime = $totime = '';
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
             $exporttype = _isset($this->request_params, 'exporttype');
@@ -107,14 +107,14 @@ class ContractController extends Controller
                 $is_error = false;
                 $contracts = _isset(_isset($contract__resp, 'content'), 'records');
 				if(!empty($contracts)){
-				$contract_exp_ids = array();
+				$contract_exp_ids = [];
 				for($index = 0; $index < count($contracts); $index++){
 					if(strtotime($contracts[$index]['to_date']) < strtotime(date("Y-m-d"))){
 					
 						$contracts[$index]['contract_status'] = 'expired';
 						$parameters['contract_status'] = 'expired';
 						$parameters['contract_id'] = $contracts[$index]['contract_id'];
-						$this->itam->updatecontractstatus(array('form_params' => $parameters));
+						$this->itam->updatecontractstatus(['form_params' => $parameters]);
 					}
 					
 				}
@@ -138,7 +138,7 @@ class ContractController extends Controller
                 
                 
                 
-                $content = $this->emlib->emgrid($contracts, $view, $columns = array(), $paging);
+                $content = $this->emlib->emgrid($contracts, $view, $columns = [], $paging);
             }
 
             $response["html"] = $content;
@@ -193,14 +193,14 @@ class ContractController extends Controller
 			
             if ($contracts_resp['is_error'])
             {
-                $parentcontract = array();
+                $parentcontract = [];
             }
             else
             {
                 $parentcontract = _isset(_isset($contracts_resp, 'content'), 'records');
             }
 
-            $data['contractdata'] = array();
+            $data['contractdata'] = [];
             $data['parentcontract'] = $parentcontract;
 
             $data['contract_type_id'] = '';
@@ -209,14 +209,14 @@ class ContractController extends Controller
 
             if ($contracttypes_resp['is_error'])
             {
-                $contracttypes = array();
+                $contracttypes = [];
             }
             else
             {
                 $contracttypes = _isset(_isset($contracttypes_resp, 'content'), 'records');
             }
 
-            $data['contracttypedata'] = array();
+            $data['contracttypedata'] = [];
             $data['contracttypes'] = $contracttypes;
 
             $data['vendor_id'] = '';
@@ -225,14 +225,14 @@ class ContractController extends Controller
 
             if ($vendors_resp['is_error'])
             {
-                $vendors = array();
+                $vendors = [];
             }
             else
             {
                 $vendors = _isset(_isset($vendors_resp, 'content'), 'records');
             }
 
-            $data['vendordata'] = array();
+            $data['vendordata'] = [];
             $data['vendors'] = $vendors;
 
             $data['asset_id'] = '';
@@ -247,17 +247,17 @@ class ContractController extends Controller
             {
                 $assets = _isset(_isset($assets_resp, 'content'), 'records');
             }*/
-            $data['assets'] = array();//$assets;
+            $data['assets'] = [];//$assets;
             $data['formAction'] = "add";
 
-            $assetsarr = array();
+            $assetsarr = [];
             $asset_chk = $request->asset_id;
 
             if (is_array($asset_chk))
             {
                 foreach ($asset_chk as $val)
                 {
-                    $assetsarr[] = array("id" => $val);
+                    $assetsarr[] = ["id" => $val];
 
                 }
             }
@@ -297,7 +297,7 @@ class ContractController extends Controller
     {
         try
         {
-            $data = $this->itam->addcontract(array('form_params' => $request->all()));
+            $data = $this->itam->addcontract(['form_params' => $request->all()]);
             echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -334,10 +334,10 @@ class ContractController extends Controller
         {
             $contract_id = $request->id;
             //$contract_details_id = $request->contract_details_id;
-            $input_req = array('contract_id' => $contract_id);
+            $input_req = ['contract_id' => $contract_id];
             $user_id = showuserid();
             $primary_contract = $request->input('primary_contract');
-            $datacontract = $this->itam->editcontract(array('form_params' => $input_req));
+            $datacontract = $this->itam->editcontract(['form_params' => $input_req]);
             $data['contractdata'] = $datacontract['content'];
             $data['contract_id'] = $contract_id;
             //$data['contract_details_id'] = $contract_details_id;
@@ -352,7 +352,7 @@ class ContractController extends Controller
 
             if ($contracts_resp['is_error'])
             {
-                $parentcontract = array();
+                $parentcontract = [];
             }
             else
             {
@@ -365,7 +365,7 @@ class ContractController extends Controller
 
             if ($contracttypes_resp['is_error'])
             {
-                $contracttypes = array();
+                $contracttypes = [];
             }
             else
             {
@@ -380,7 +380,7 @@ class ContractController extends Controller
 
             if ($vendors_resp['is_error'])
             {
-                $vendors = array();
+                $vendors = [];
             }
             else
             {
@@ -390,13 +390,13 @@ class ContractController extends Controller
             $data['vendors'] = $vendors;
             $data['vendor_id'] = '';
 
-            $contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : array();
+            $contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : [];
 			if($contractasset_idarr != null){
-				$options = ['form_params' => array('asset_ids' => $contractasset_idarr)];
+				$options = ['form_params' => ['asset_ids' => $contractasset_idarr]];
 				$assets_resp = $this->itam->getallassets($options);
 				if ($assets_resp['is_error'])
 				{
-					$assets = array();
+					$assets = [];
 				}
 				else
 				{
@@ -405,7 +405,7 @@ class ContractController extends Controller
 
 				$data['assets'] = $assets;
 			}else{
-				$data['assets'] = array();
+				$data['assets'] = [];
 			}
             $data['asset_id'] = '';
 
@@ -456,7 +456,7 @@ class ContractController extends Controller
     {
         // try
         // {
-        $data = $this->itam->updatecontract(array('form_params' => $request->all()));
+        $data = $this->itam->updatecontract(['form_params' => $request->all()]);
         echo json_encode($data, true);
         // }
         /* catch (\Exception $e)
@@ -490,7 +490,7 @@ class ContractController extends Controller
     {
         try
         {
-            $data = $this->itam->deletecontract(array('form_params' => $request->all()));
+            $data = $this->itam->deletecontract(['form_params' => $request->all()]);
             echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -530,9 +530,9 @@ class ContractController extends Controller
             $form_params['searchkeyword'] = '';
             $contract_id = $request->contract_id;
             //$contract_details_id = $request->contract_details_id;
-            $input_req = array('contract_id' => $contract_id);
+            $input_req = ['contract_id' => $contract_id];
 
-            $datacontract = $this->itam->editcontract_withoutpermission(array('form_params' => $input_req));
+            $datacontract = $this->itam->editcontract_withoutpermission(['form_params' => $input_req]);
 			
             $data['contractdata'] = $datacontract['content'];
 			
@@ -542,11 +542,11 @@ class ContractController extends Controller
 
             $form_params['contract_id'] = $contract_id;
 
-            $associatechildcontract_resp = $this->itam->getassociatechildcontract(array('form_params' => $form_params));
+            $associatechildcontract_resp = $this->itam->getassociatechildcontract(['form_params' => $form_params]);
 				
             if ($associatechildcontract_resp['is_error'])
             {
-                $associatechildcontracts = array();
+                $associatechildcontracts = [];
             }
             else
             {
@@ -557,14 +557,14 @@ class ContractController extends Controller
             $data['contract_id'] = '';
 
             //  $contract_details_id = $request->contract_details_id;
-            $input_req = array('contract_id' => $contract_id);
+            $input_req = ['contract_id' => $contract_id];
             //$form_params['contract_details_id'] = $contract_details_id;
             
-            $contractattachment_resp = $this->itam->contractattachment_withoutpermission(array('form_params' => $input_req));
+            $contractattachment_resp = $this->itam->contractattachment_withoutpermission(['form_params' => $input_req]);
 			
             if ($associatechildcontract_resp['is_error'])
             {
-                $contractattachment = array();
+                $contractattachment = [];
             }
             else
             {
@@ -572,16 +572,16 @@ class ContractController extends Controller
             }
       
             $data['contractattachment'] = $contractattachment;
-			$contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : array();
+			$contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : [];
 			if($contractasset_idarr != null){
-				$options = ['form_params' => array('asset_ids' => $contractasset_idarr)];
+				$options = ['form_params' => ['asset_ids' => $contractasset_idarr]];
 						
 				$assets_resp = $this->itam->getallassets($options);
 		
 			 
 				if ($assets_resp['is_error'])
 				{
-					$assets = array();
+					$assets = [];
 				}
 				else
 				{
@@ -590,12 +590,12 @@ class ContractController extends Controller
 
 				$data['assets'] = $assets;
 			}else{
-				$data['assets'] = array();
+				$data['assets'] = [];
 			}
             $data['asset_id'] = '';
 
             //get the contract history data
-            $historyoptions = ['form_params' => array('contract_id' => $contract_id)];
+            $historyoptions = ['form_params' => ['contract_id' => $contract_id]];
             $contracthistorylog_resp    = $this->itam->contracthistorylog($historyoptions);
             $data['contracthistorylog'] = isset($contracthistorylog_resp['content']) ? $contracthistorylog_resp['content'] : null;
 
@@ -603,13 +603,13 @@ class ContractController extends Controller
               {
                   foreach ($data['contracthistorylog'] as $key => $history)
                   {
-                      $options_history  = ['form_params' => array('user_id' => $history['created_by'])];
+                      $options_history  = ['form_params' => ['user_id' => $history['created_by']]];
                       $response_historyuser = $this->iam->getUsers($options_history);
                       $historyuser_data = _isset(_isset($response_historyuser, 'content'), 'records');
 					  
 					  if(!(is_array($historyuser_data) && count($historyuser_data) > 0)){
-                        $historyuser_data    = array();
-                        $historyuser_data[0] = array();
+                        $historyuser_data    = [];
+                        $historyuser_data[0] = [];
                       }
                       $data['contracthistorylog'][$key]['created_by_name'] = $historyuser_data[0];
                   }
@@ -659,10 +659,10 @@ class ContractController extends Controller
         {
             $contract_id = $request->id;
             //$contract_details_id = $request->contract_details_id;
-            $input_req = array('contract_id' => $contract_id);
+            $input_req = ['contract_id' => $contract_id];
             $user_id = showuserid();
             // $primary_contract = $request->input('primary_contract');
-            $datacontract = $this->itam->editcontract(array('form_params' => $input_req));
+            $datacontract = $this->itam->editcontract(['form_params' => $input_req]);
             $data['contractdata'] = $datacontract['content'];
 		
             $data['contract_id'] = $contract_id;
@@ -680,7 +680,7 @@ class ContractController extends Controller
 
             if ($contracts_resp['is_error'])
             {
-                $parentcontract = array();
+                $parentcontract = [];
             }
             else
             {
@@ -693,7 +693,7 @@ class ContractController extends Controller
 
             if ($contracttypes_resp['is_error'])
             {
-                $contracttypes = array();
+                $contracttypes = [];
             }
             else
             {
@@ -708,7 +708,7 @@ class ContractController extends Controller
 
             if ($vendors_resp['is_error'])
             {
-                $vendors = array();
+                $vendors = [];
             }
             else
             {
@@ -716,15 +716,15 @@ class ContractController extends Controller
             }
 
             $data['asset_id'] = '';
-            $contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : array();
+            $contractasset_idarr = isset($data['contractdata'][0]['asset_id']) & $data['contractdata'][0]['asset_id'] != NULL ? json_decode($data['contractdata'][0]['asset_id'],true) : [];
 			if($contractasset_idarr != null){
-				$options = ['form_params' => array('asset_ids' => $contractasset_idarr)];
+				$options = ['form_params' => ['asset_ids' => $contractasset_idarr]];
 				$assets_resp = $this->itam->getallassets($options);
 				
 
 				if ($assets_resp['is_error'])
 				{
-					$assets = array();
+					$assets = [];
 				}
 				else
 				{
@@ -733,16 +733,16 @@ class ContractController extends Controller
 
 				$data['assets'] = $assets;
 			}else{
-				$data['assets'] = array();
+				$data['assets'] = [];
 			}
 
-            $assets = array();
+            $assets = [];
             $assetChk = $request->assetChk;
             if (is_array($assetChk))
             {
                 foreach ($assetChk as $val)
                 {
-                    $assets[] = array("id" => $val);
+                    $assets[] = ["id" => $val];
                 }
             }
             $data['assets_json'] = json_encode($assets);
@@ -786,7 +786,7 @@ class ContractController extends Controller
     {
         try
         {
-            $data = $this->itam->addcontractrenewsubmit(array('form_params' => $request->all()));
+            $data = $this->itam->addcontractrenewsubmit(['form_params' => $request->all()]);
             echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -836,7 +836,7 @@ class ContractController extends Controller
             //print_r($contracts_resp);
             if ($contracts_resp['is_error'])
             {
-                $childcontracts = array();
+                $childcontracts = [];
             }
             else
             {
@@ -900,7 +900,7 @@ class ContractController extends Controller
             //print_r($contracts_resp);
             if ($renewdetails_resp['is_error'])
             {
-                $renewdetails = array();
+                $renewdetails = [];
             }
             else
             {
@@ -948,7 +948,7 @@ class ContractController extends Controller
     {
         try
         {
-            $data = $this->itam->contractupdateassociatechild(array('form_params' => $request->all()));
+            $data = $this->itam->contractupdateassociatechild(['form_params' => $request->all()]);
             echo json_encode($data, true);
         }
         catch (\Exception $e)
@@ -1095,7 +1095,7 @@ class ContractController extends Controller
     {
         // try
         //{
-        $data = $this->itam->assetremove(array('form_params' => $request->all()));
+        $data = $this->itam->assetremove(['form_params' => $request->all()]);
         echo json_encode($data, true);
         // }
         /*  catch (\Exception $e)
@@ -1177,8 +1177,8 @@ class ContractController extends Controller
             $email_body = $inputdata['comment'];
             $mailresponse = $phpmailer->mailsent($to_emails, $subject, $email_body);
 
-            if($postData["action"] == 'notifyowner') $data = $this->itam->contractaction_notifyowner(array('form_params' => $postData));
-            else $data = $this->itam->contractaction_notifyvendor(array('form_params' => $postData));
+            if($postData["action"] == 'notifyowner') $data = $this->itam->contractaction_notifyowner(['form_params' => $postData]);
+            else $data = $this->itam->contractaction_notifyvendor(['form_params' => $postData]);
             //$data = $this->itam->contractaction(array('form_params' => $postData));
         }
         catch (\Exception $e)
@@ -1220,7 +1220,7 @@ class ContractController extends Controller
         $inputdata             = $request->all();
         $postData["attach_id"] = _isset($inputdata, 'attach_id', "");
         $postData["contract_id"]  = _isset($inputdata, 'contract_id', "");
-        $data = $this->itam->deletecontractattachment(array('form_params' => $postData));
+        $data = $this->itam->deletecontractattachment(['form_params' => $postData]);
         echo json_encode($data, true);
     }
 
@@ -1248,7 +1248,7 @@ class ContractController extends Controller
         try
         {  
             // /print_r(config('enconfig'));
-            $paging = array();
+            $paging = [];
             $fromtime = $totime = '';
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
             $page = _isset($this->request_params, 'page', config('enconfig.page'));
@@ -1290,7 +1290,7 @@ class ContractController extends Controller
                 $paging['jsfunction'] = 'contractassetlist()';
                 $view = 'Cmdb/contractassetlist';
                //echo "<pre>";print_r($assets);die;
-                $show_fields = array();         
+                $show_fields = [];         
                 $columns = $show_fields;
                 $content = $this->emlib->emgrid($assets, $view, $columns, $paging);
             }

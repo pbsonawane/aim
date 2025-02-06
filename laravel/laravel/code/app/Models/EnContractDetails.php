@@ -22,7 +22,7 @@ class EnContractDetails extends Model
         return 'contract_details_id';
     }
 
-    protected function getcontractdetails($contract_details_id, $inputdata=array(), $count=false)
+    protected function getcontractdetails($contract_details_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

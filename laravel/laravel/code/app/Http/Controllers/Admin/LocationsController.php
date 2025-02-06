@@ -16,14 +16,14 @@ class LocationsController extends Controller
 	}
 	 
 	public function locations() {
-		$topfilter = array('gridsearch' => true,'jsfunction' => 'locationList()');
+		$topfilter = ['gridsearch' => true,'jsfunction' => 'locationList()'];
 		$data['emgridtop'] = $this->emlib->emgridtop($topfilter);   
 		$data['pageTitle'] = "Locations";
 		$data['includeView'] = view("Admin/locations",$data);
 		return view('template',$data);
 	}
 	public function locationlist() {
-		$paging = array();
+		$paging = [];
 		$fromtime = $totime = '';
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$exporttype = _isset($this->request_params,'exporttype');
@@ -58,7 +58,7 @@ class LocationsController extends Controller
 			$paging['offset'] = $offset;
 			$paging['page'] = $page;
 			$view = 'Admin/locationlist';
-			$content = $this->emlib->emgrid($locs, $view, $columns=array(), $paging);
+			$content = $this->emlib->emgrid($locs, $view, $columns=[], $paging);
 		}
 		$response["html"] = $content;
 		$response["is_error"] = $is_error;
@@ -68,7 +68,7 @@ class LocationsController extends Controller
 
 	public  function locationadd(Request $request)
     {
-    	$regions = array();
+    	$regions = [];
         $data['loc_id'] = '';
         $limit_offset = limitoffset(0, 0);
 		$form_params['limit'] = $limit_offset['limit'];
@@ -80,29 +80,29 @@ class LocationsController extends Controller
 						
 		if($regions_resp['is_error'])
 		{
-			$regions = array();
+			$regions = [];
 		}
 		else
 		{
 			$regions = _isset(_isset($regions_resp,'content'),'records');
 		}
 		
-		$data['locdata'] = array();
+		$data['locdata'] = [];
 		$data['regions'] = $regions;
         $html = view("Admin/locationadd", $data);
         echo  $html;
     }
     public function locationaddsubmit(Request $request)
     {		
-    	$data =  $this->iam->addLocation(array( 'form_params' => $request->all()));
+    	$data =  $this->iam->addLocation([ 'form_params' => $request->all()]);
       	echo json_encode($data,true);
     } 
 
     public function locationedit(Request $request)
 	{	
 		$loc_id = $request->id;
-		$input_req = array('loc_id' => $loc_id);
-		$data =  $this->iam->editLocation(array( 'form_params' => $input_req));
+		$input_req = ['loc_id' => $loc_id];
+		$data =  $this->iam->editLocation([ 'form_params' => $input_req]);
 		$data['locdata'] = $data['content'];
 		$data['loc_id'] = $loc_id;
 		$limit_offset = limitoffset(0, 0);
@@ -113,7 +113,7 @@ class LocationsController extends Controller
         $regions_resp = $this->iam->getRegions($options);
 		if($regions_resp['is_error'])
 		{
-			$regions = array();
+			$regions = [];
 		}
 		else
 		{
@@ -125,12 +125,12 @@ class LocationsController extends Controller
 	}
 	public function locationeditsubmit(Request $request)
     {
-       $data =  $this->iam->updateLocation(array( 'form_params' => $request->all()));
+       $data =  $this->iam->updateLocation([ 'form_params' => $request->all()]);
        echo json_encode($data,true);
     }  
     public function locationdelete(Request $request)
 	{
-		$data =  $this->iam->deleteLocation(array( 'form_params' => $request->all()));
+		$data =  $this->iam->deleteLocation([ 'form_params' => $request->all()]);
        	echo json_encode($data,true);
 	} 
 }

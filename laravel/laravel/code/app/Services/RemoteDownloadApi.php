@@ -11,9 +11,9 @@ use Storage;
 class RemoteDownloadApi
 {
     
-    public function apicall($method, $base_uri, $api, $options = array())
+    public function apicall($method, $base_uri, $api, $options = [])
     {
-        $headeroptions = array("POST" => array('Content-Type: application/json; charset=utf-8'));
+        $headeroptions = ["POST" => ['Content-Type: application/json; charset=utf-8']];
         $request = request();
         $method = $method == "" ? "GET" : $method;
         $options['responseType'] = !isset($options['responseType']) ? "array" : $options['responseType'];

@@ -40,7 +40,7 @@
 						<option value="">Select Services</option>
 							<?php
 							if(isset($getvendorservices)){
-								$VendorServices = array();
+								$VendorServices = [];
 								$Vendor_Services = explode(',',$getvendorservices['content'][0]['VendorServices']);
 								foreach($Vendor_Services as $Services)
 								{

@@ -65,7 +65,7 @@
 			if($whitelisted_ips_data['allowed_subnets'] != '')
 				$whitelisted_subnets = json_decode($whitelisted_ips_data['allowed_subnets'],true);
 			else
-				$whitelisted_subnets = array();	
+				$whitelisted_subnets = [];	
 			
 			if (is_array($whitelisted_subnets) && count($whitelisted_subnets) > 0)
 			{	

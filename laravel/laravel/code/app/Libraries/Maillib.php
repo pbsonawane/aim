@@ -25,7 +25,7 @@ class Maillib
 
 
             $smtp = true;
-            $settings = array();
+            $settings = [];
             if (config('enconfig.smtp_status') == "y")
             {
                 $smtpserver = EMAIL_HOST;//trim($settings['smtp_host']);

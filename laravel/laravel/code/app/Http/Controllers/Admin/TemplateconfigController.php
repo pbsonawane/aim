@@ -27,13 +27,13 @@ class TemplateconfigController extends Controller
     {	
         
         $request['template_name'] = $template_name;	
-        $inputdata= array('template_name' => $request['template_name']);
-        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName(array( 'form_params' => $inputdata));
+        $inputdata= ['template_name' => $request['template_name']];
+        $data =  $this->iam->getFormTemplateDefaulteConfigbyTemplateName([ 'form_params' => $inputdata]);
        
         if($data['content'])        
         {
-            $inputdata= array('config_id' => $data['content'][0]['form_templ_id']);
-            $configdata =  $this->iam->getFormDataConfig(array( 'form_params' => $inputdata));
+            $inputdata= ['config_id' => $data['content'][0]['form_templ_id']];
+            $configdata =  $this->iam->getFormDataConfig([ 'form_params' => $inputdata]);
             $data['form_templ_id'] = $data['content'][0]['form_templ_id'];
             $data['urlpath'] = $data['content'][0]['template_name'];
             $data['templatetitle'] = $data['content'][0]['template_title'];
@@ -60,7 +60,7 @@ class TemplateconfigController extends Controller
      */     
     public function formdataconfigupdate(request $request)
     {
-        $data =  $this->iam->formdataconfigupdate(array( 'form_params' => $request->all()));
+        $data =  $this->iam->formdataconfigupdate([ 'form_params' => $request->all()]);
         echo json_encode($data,true);
     }
     /**
@@ -74,7 +74,7 @@ class TemplateconfigController extends Controller
     public function formdataconfigUploadfile(request $request)
     {
        //echo "<script>alert('hello555')</script>";
-        $data =  $this->iam->formdataconfigUploadfile(array( 'form_params' => $request->all()));
+        $data =  $this->iam->formdataconfigUploadfile([ 'form_params' => $request->all()]);
         //echo $data;
         echo json_encode($data,true);
     }

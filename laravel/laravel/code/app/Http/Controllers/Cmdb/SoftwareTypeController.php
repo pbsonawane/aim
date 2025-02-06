@@ -43,8 +43,8 @@ class SoftwareTypeController extends Controller
 
     public function softwaretypes()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwaretypeList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array(""));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwaretypeList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', [""]);
         $data['pageTitle'] = trans('title.softwaretype');
         $data['includeView'] = view("Cmdb/softwaretypes", $data);
         return view('template', $data);
@@ -61,7 +61,7 @@ class SoftwareTypeController extends Controller
 
     public function softwaretypelist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -100,7 +100,7 @@ class SoftwareTypeController extends Controller
             $paging['jsfunction'] = 'softwaretypeList()';
             
             $view = 'Cmdb/softwaretypelist';
-            $content = $this->emlib->emgrid($softwaretypes, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($softwaretypes, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -118,7 +118,7 @@ class SoftwareTypeController extends Controller
     public function softwaretypeadd(Request $request)
     {
         $data['software_type_id'] = '';
-        $softwaretypedata = array();
+        $softwaretypedata = [];
         $data['softwaretypedata'] = $softwaretypedata;
         $html = view("Cmdb/softwaretypeadd", $data);
         echo $html;
@@ -135,7 +135,7 @@ class SoftwareTypeController extends Controller
     public function softwaretypeaddsubmit(Request $request)
     {
         if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-        $data = $this->itam->addsoftwaretype(array('form_params' => $request->all()));
+        $data = $this->itam->addsoftwaretype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -150,8 +150,8 @@ class SoftwareTypeController extends Controller
     public function softwaretypeedit(Request $request)
     {
         $software_type_id = $request->id;
-        $input_req = array('software_type_id' => $software_type_id);
-        $data = $this->itam->editsoftwaretype(array('form_params' => $input_req));
+        $input_req = ['software_type_id' => $software_type_id];
+        $data = $this->itam->editsoftwaretype(['form_params' => $input_req]);
 
         $data['software_type_id'] = $software_type_id;
         $data['softwaretypedata'] = $data['content'];
@@ -171,7 +171,7 @@ class SoftwareTypeController extends Controller
      */
     public function softwaretypeeditsubmit(Request $request)
     {
-        $data = $this->itam->updatesoftwaretype(array('form_params' => $request->all()));
+        $data = $this->itam->updatesoftwaretype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -184,7 +184,7 @@ class SoftwareTypeController extends Controller
      */
     public function softwaretypedelete(Request $request)
     {
-        $data = $this->itam->deletesoftwaretype(array('form_params' => $request->all()));
+        $data = $this->itam->deletesoftwaretype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

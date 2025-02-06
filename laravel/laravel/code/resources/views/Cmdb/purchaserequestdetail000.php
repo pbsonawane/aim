@@ -730,7 +730,7 @@
                                                                }
                                                            }
                                        
-                                                           echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                                                           echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                                                        }
                                        
                                                        ?>
@@ -821,7 +821,7 @@
                                                                       }
                                                                   }
                                                               }
-                                                              echo showmessage('msg_ondatecomment', array('{name}', '{comment}'), array($date, $comment)) . '</div>';
+                                                              echo showmessage('msg_ondatecomment', ['{name}', '{comment}'], [$date, $comment]) . '</div>';
                                                           }
                                           
                                                           ?>

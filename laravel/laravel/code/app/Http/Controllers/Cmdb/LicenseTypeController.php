@@ -43,8 +43,8 @@ class LicenseTypeController extends Controller
 
     public function licensetype()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'licensetypeList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("license_type"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'licensetypeList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["license_type"]);
         $data['pageTitle'] = trans('title.licensetype');
         $data['includeView'] = view("Cmdb/licensetype", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class LicenseTypeController extends Controller
     {
         try
         {
-            $paging = array();
+            $paging = [];
             $fromtime = $totime = '';
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
             $exporttype = _isset($this->request_params, 'exporttype');
@@ -101,7 +101,7 @@ class LicenseTypeController extends Controller
                 $paging['jsfunction'] = 'licensetypeList()';
                 
                 $view = 'Cmdb/licensetypelist';
-                $content = $this->emlib->emgrid($licensetypes, $view, $columns = array(), $paging);
+                $content = $this->emlib->emgrid($licensetypes, $view, $columns = [], $paging);
             }
 
             $response["html"] = $content;
@@ -143,7 +143,7 @@ class LicenseTypeController extends Controller
 
         if ($installation_allow_resp['is_error'])
         {
-            $installation_allow = array();
+            $installation_allow = [];
         }
         else
         {
@@ -151,7 +151,7 @@ class LicenseTypeController extends Controller
         }
         $data['installation_allow'] = $installation_allow;
         //print_r($data['installation_allow']);
-        $licensetypedata = array();
+        $licensetypedata = [];
         $data['licensetypedata'] = $licensetypedata;
         
         $html = view("Cmdb/licensetypeadd", $data);   
@@ -169,7 +169,7 @@ class LicenseTypeController extends Controller
     public function licensetypeaddsubmit(Request $request)
     {
         if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-        $data = $this->itam->addlicensetype(array('form_params' => $request->all()));
+        $data = $this->itam->addlicensetype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -184,8 +184,8 @@ class LicenseTypeController extends Controller
     public function licensetypeedit(Request $request)
     {
         $license_type_id = $request->id;
-        $input_req = array('license_type_id' => $license_type_id);
-        $data = $this->itam->editlicensetype(array('form_params' => $input_req));
+        $input_req = ['license_type_id' => $license_type_id];
+        $data = $this->itam->editlicensetype(['form_params' => $input_req]);
         //print_r($data);
         $data['license_type_id'] = $license_type_id;
         $data['licensetypedata'] = $data['content'];
@@ -216,7 +216,7 @@ class LicenseTypeController extends Controller
 			{
 				$requestData['is_perpetual'] = "n";
 			}*/
-        $data = $this->itam->updatelicensetype(array('form_params' => $request->all()));
+        $data = $this->itam->updatelicensetype(['form_params' => $request->all()]);
         //$data = $this->itam->updatelicensetype($requestData);
         echo json_encode($data, true);
     }
@@ -230,7 +230,7 @@ class LicenseTypeController extends Controller
      */
     public function licensetypedelete(Request $request)
     {
-        $data = $this->itam->deletelicensetype(array('form_params' => $request->all()));
+        $data = $this->itam->deletelicensetype(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

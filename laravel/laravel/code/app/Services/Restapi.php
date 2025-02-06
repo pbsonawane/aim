@@ -146,21 +146,21 @@ class Restapi
     /**
      * @param $url
      */
-    public function apicall($method, $base_uri, $api = "", $options = array(), $request = array())
+    public function apicall($method, $base_uri, $api = "", $options = [], $request = [])
     {
         try
         {
             $is_error = true;
             $output = '';
             $msg = trans('messages.163');
-            $resp = array();
+            $resp = [];
             $method = $method == "" ? "GET" : $method;
             $this->_post = strtolower($method) == "post" ? true : false;
             $this->_url = $base_uri;
             $s = curl_init();
 
             curl_setopt($s, CURLOPT_URL, $this->_url);
-            curl_setopt($s, CURLOPT_HTTPHEADER, array('Expect:'));
+            curl_setopt($s, CURLOPT_HTTPHEADER, ['Expect:']);
             curl_setopt($s, CURLOPT_TIMEOUT, $this->_timeout);
             curl_setopt($s, CURLOPT_MAXREDIRS, $this->_maxRedirects);
             curl_setopt($s, CURLOPT_RETURNTRANSFER, true);

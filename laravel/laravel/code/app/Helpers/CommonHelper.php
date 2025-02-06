@@ -11,7 +11,7 @@ function getItemUnitWithSKU($item_sku_codes)
 {
 	$itam = new ItamService;
 	$skuoptions = [
-	'form_params' => array('asset_sku' => $item_sku_codes)];            
+	'form_params' => ['asset_sku' => $item_sku_codes]];            
 	$item_sku_codes_unit = $itam->assetskuunit($skuoptions);
 	$contentcodeunit = _isset($item_sku_codes_unit, 'content');              
 	$finalarray = array_column($contentcodeunit,'measurement_unit_name','sku_code');
@@ -27,7 +27,7 @@ function optionselected($value,$selected)
 function limitbox($limit=10,$jsfunction="",$show_all="y")
 {
 	$select = '<label><select name="limit" id="limit" class="form-control input-sm" onchange="javascript: setLimit(this,&quot;'.$jsfunction.'&quot;);">';
-	$rows = array(5,10, 20, 50, 100, 500);
+	$rows = [5,10, 20, 50, 100, 500];
 	if($show_all == 'y')
 		$rows[] = 'All';
 		//$rows = array(10, 20, 50, 100, 500);
@@ -77,9 +77,9 @@ function setvalue($val, $chr)
 function xml2array_emptyvalues($contents, $get_attributes = 1, $priority = 'tag')
 {
 	if (!$contents)
-		return array();
+		return [];
 	if (!function_exists('xml_parser_create'))
-		return array();
+		return [];
 		//Get the XML parser of PHP - PHP must have this module for the parser to work
 	$parser = xml_parser_create('');
 	xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
@@ -88,14 +88,14 @@ function xml2array_emptyvalues($contents, $get_attributes = 1, $priority = 'tag'
 	xml_parser_free($parser);
 
 		//Initializations
-	$xml_array = array();
-	$parents = array();
-	$opened_tags = array();
-	$arr = array();
+	$xml_array = [];
+	$parents = [];
+	$opened_tags = [];
+	$arr = [];
 
 		$current = &$xml_array; //Refference
 		//Go through the tags.
-		$repeated_tag_index = array(); //Multiple tags with same name will be turned into an array
+		$repeated_tag_index = []; //Multiple tags with same name will be turned into an array
 		if (count($xml_values) > 0)
 		{
 			foreach ($xml_values as $data)
@@ -105,8 +105,8 @@ function xml2array_emptyvalues($contents, $get_attributes = 1, $priority = 'tag'
 				// tag(string), type(string), level(int), attributes(array).
 				extract($data); //We could use the array by itself, but this cooler.
 
-				$result = array();
-				$attributes_data = array();
+				$result = [];
+				$attributes_data = [];
 
 				if (isset($value))
 				{
@@ -153,9 +153,9 @@ function xml2array_emptyvalues($contents, $get_attributes = 1, $priority = 'tag'
 						else
 						{//This section will make the value an array if multiple tags with the same name appear together
 							if(is_array($result))
-							$current[$tag] = array($current[$tag], $result); //This will combine the existing item and the new item together to make an array
+							$current[$tag] = [$current[$tag], $result]; //This will combine the existing item and the new item together to make an array
 						else
-							$current[$tag] = array($current[$tag]);
+							$current[$tag] = [$current[$tag]];
 
 						$repeated_tag_index[$tag.'_'.$level] = 2;
 
@@ -194,9 +194,9 @@ function xml2array_emptyvalues($contents, $get_attributes = 1, $priority = 'tag'
 						else
 						{ //If it is not an array...
 							if(is_array($result))
-							$current[$tag] = array($current[$tag], $result); //...Make it an array using using the existing value and the new value
+							$current[$tag] = [$current[$tag], $result]; //...Make it an array using using the existing value and the new value
 						else
-							$current[$tag] = array($current[$tag]);
+							$current[$tag] = [$current[$tag]];
 
 						$repeated_tag_index[$tag.'_'.$level] = 1;
 						if ($priority == 'tag' and $get_attributes)
@@ -228,9 +228,9 @@ return($xml_array);
 function xml2array($contents, $get_attributes = 1, $priority = 'tag')
 {
 	if (!$contents)
-		return array();
+		return [];
 	if (!function_exists('xml_parser_create'))
-		return array();
+		return [];
 		//Get the XML parser of PHP - PHP must have this module for the parser to work
 	$parser = xml_parser_create('');
 	xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
@@ -239,14 +239,14 @@ function xml2array($contents, $get_attributes = 1, $priority = 'tag')
 	xml_parser_free($parser);
 
 		//Initializations
-	$xml_array = array();
-	$parents = array();
-	$opened_tags = array();
-	$arr = array();
+	$xml_array = [];
+	$parents = [];
+	$opened_tags = [];
+	$arr = [];
 
 		$current = &$xml_array; //Refference
 		//Go through the tags.
-		$repeated_tag_index = array(); //Multiple tags with same name will be turned into an array
+		$repeated_tag_index = []; //Multiple tags with same name will be turned into an array
 		if (count($xml_values) > 0)
 		{
 			foreach ($xml_values as $data)
@@ -256,8 +256,8 @@ function xml2array($contents, $get_attributes = 1, $priority = 'tag')
 				// tag(string), type(string), level(int), attributes(array).
 				extract($data); //We could use the array by itself, but this cooler.
 
-				$result = array();
-				$attributes_data = array();
+				$result = [];
+				$attributes_data = [];
 
 				if (isset($value))
 				{
@@ -300,7 +300,7 @@ function xml2array($contents, $get_attributes = 1, $priority = 'tag')
 						}
 						else
 						{//This section will make the value an array if multiple tags with the same name appear together
-							$current[$tag] = array($current[$tag], $result); //This will combine the existing item and the new item together to make an array
+							$current[$tag] = [$current[$tag], $result]; //This will combine the existing item and the new item together to make an array
 							$repeated_tag_index[$tag.'_'.$level] = 2;
 
 							if (isset($current[$tag.'_attr']))
@@ -338,7 +338,7 @@ function xml2array($contents, $get_attributes = 1, $priority = 'tag')
 						}
 						else
 						{ //If it is not an array...
-							$current[$tag] = array($current[$tag], $result); //...Make it an array using using the existing value and the new value
+							$current[$tag] = [$current[$tag], $result]; //...Make it an array using using the existing value and the new value
 							$repeated_tag_index[$tag.'_'.$level] = 1;
 							if ($priority == 'tag' and $get_attributes)
 							{
@@ -370,7 +370,7 @@ function listbox_search($all_str, $id, $prefix = '')
 	$search_box = '<div style="display:none;width:auto;position:absolute;margin-top:-23px;" id="srch_'.$id.'" onmouseover="inlistbox_over(&quot;'.$id.'&quot;,&quot;'.$prefix.'&quot;);" onmouseout="inlistbox_out('.$all_str.',&quot;'.$id.'&quot;,&quot;'.$prefix.'&quot;);"><table border="0" cellspacing="0" cellpadding="1" style="border:2px solid #3399FF; border-collapse:collapse;background:#FFFFFF;"><tr><td><input name="srchtext_'.$id.'" type="text" onkeyup="javascript: inlistbox('.$all_str.',this.value,&quot;'.$id.'&quot;,&quot;'.$prefix.'&quot;);" onkeydown="javascript: inlistbox('.$all_str.',this.value,&quot;'.$id.'&quot;,&quot;'.$prefix.'&quot;);" id="srchtext_'.$id.'" style="width:125px;border:none; padding:3px; color:#000000; height:17px;background:#FFFFFF; font-weight:bold;" onfocus="inlistbox_over(&quot;'.$id.'&quot;,&quot;'.$prefix.'&quot;);" autocomplete="off" /></td><td><img src="'.$CI->config->item("theme_images").'search.png" border="0"/></td></tr></table></div>';
 	return $search_box;
 }
-function listbox_dbsearch($filter=array())
+function listbox_dbsearch($filter=[])
 {
 	$CI = & get_instance();
 	$placeholder = isset($filter['placeholder']) ?  $filter['placeholder'] : 'Search by Device name, Ip, Client Name';
@@ -420,7 +420,7 @@ function isstring($value)
 function array_in_string($array,$content)
 {
 	$ret = '';
-	$process_status = array();
+	$process_status = [];
 	if (is_array($array) && count($array) > 0 && $content != '')
 	{
 		foreach ($array as $vmstatus)
@@ -475,7 +475,7 @@ function mycsv($data_array,$field_array,$filename='data.csv',$separator=",")
 }
 function sort_array_new($array, $sortkey, $order)
 {
-	$sorted_arr = array();
+	$sorted_arr = [];
 	if (is_array($array) && count($array) > 0)
 	{
 		if ($order == "DESC")
@@ -497,7 +497,7 @@ function sort_array_new($array, $sortkey, $order)
 }
 function sort_with_key($array, $sortkey, $order)
 {
-	$sorted_arr = array();
+	$sorted_arr = [];
 	if (is_array($array) && count($array) > 0)
 	{
 		if ($order == "DESC")
@@ -527,7 +527,7 @@ function wrapstring($str, $width = 30, $break = "<br>", $cut = true)
 }
 function barcolor($value)
 {
-	$bar_percent_color = array(1 => '#80FF80', 25 => '#D5D500', 55 => '#FF8000', 85 => '#FF0000');
+	$bar_percent_color = [1 => '#80FF80', 25 => '#D5D500', 55 => '#FF8000', 85 => '#FF0000'];
 	if ($value < 25)
 		return $bar_percent_color[1];
 	elseif ($value >= 25 && $value < 55)
@@ -577,11 +577,11 @@ function validpercent($value,$total,$unit="%")
 }
 	function ipsplit($ipstr,$char=",") // primay,management
 	{
-		$ips = array();
-		$device_ips = $ipstr != '' ? explode($char,$ipstr) : array();
+		$ips = [];
+		$device_ips = $ipstr != '' ? explode($char,$ipstr) : [];
 		if (count($device_ips) > 0 && is_array($device_ips))
 		{
-			$t = array();
+			$t = [];
 			foreach($device_ips as $device_ip_row)
 			{
 				$t = explode(":",$device_ip_row);
@@ -590,7 +590,7 @@ function validpercent($value,$total,$unit="%")
 		}
 		return $ips;
 	}
-	function pagination_msg($filter=array())
+	function pagination_msg($filter=[])
 	{
 		$from = isset($filter['from']) && $filter['from'] != '' ? $filter['from'] : 0;
 		$to = isset($filter['to']) && $filter['to'] != '' ? $filter['to'] : 0;
@@ -628,13 +628,13 @@ function validpercent($value,$total,$unit="%")
 	function weeklistbox($default='')
 	{
 		$options = '';
-		$weeklist = array("1" => array("name" => "monday", "title" => "Monday"),
-			"2" => array("name" => "tuesday", "title" => "Tuesday"),
-			"3" => array("name" => "wednesday", "title" => "Wednesday"),
-			"4" => array("name" => "thursday", "title" => "Thursday"),
-			"5" => array("name" => "friday", "title" => "Friday"),
-			"6" => array("name" => "saturday", "title" => "Saturday"),
-			"7" => array("name" => "sunday", "title" => "Sunday"));
+		$weeklist = ["1" => ["name" => "monday", "title" => "Monday"],
+			"2" => ["name" => "tuesday", "title" => "Tuesday"],
+			"3" => ["name" => "wednesday", "title" => "Wednesday"],
+			"4" => ["name" => "thursday", "title" => "Thursday"],
+			"5" => ["name" => "friday", "title" => "Friday"],
+			"6" => ["name" => "saturday", "title" => "Saturday"],
+			"7" => ["name" => "sunday", "title" => "Sunday"]];
 
 		foreach($weeklist as $k => $week)
 		{
@@ -656,18 +656,18 @@ function validpercent($value,$total,$unit="%")
 	function monthlynamebox($default='',$get='')
 	{
 		$options = '';
-		$monthlist = array("1" => array("name" => "january", "title" => "January"),
-			"2" => array("name" => "february", "title" => "February"),
-			"3" => array("name" => "march", "title" => "March"),
-			"4" => array("name" => "april", "title" => "April"),
-			"5" => array("name" => "may", "title" => "May"),
-			"6" => array("name" => "june", "title" => "June"),
-			"7" => array("name" => "july", "title" => "July"),
-			"8" => array("name" => "august", "title" => "August"),
-			"9" => array("name" => "september", "title" => "September"),
-			"10" => array("name" => "october", "title" => "October"),
-			"11" => array("name" => "november", "title" => "November"),
-			"12" => array("name" => "december", "title" => "December"));
+		$monthlist = ["1" => ["name" => "january", "title" => "January"],
+			"2" => ["name" => "february", "title" => "February"],
+			"3" => ["name" => "march", "title" => "March"],
+			"4" => ["name" => "april", "title" => "April"],
+			"5" => ["name" => "may", "title" => "May"],
+			"6" => ["name" => "june", "title" => "June"],
+			"7" => ["name" => "july", "title" => "July"],
+			"8" => ["name" => "august", "title" => "August"],
+			"9" => ["name" => "september", "title" => "September"],
+			"10" => ["name" => "october", "title" => "October"],
+			"11" => ["name" => "november", "title" => "November"],
+			"12" => ["name" => "december", "title" => "December"]];
 		if($get)
 			return $monthlist;
 		foreach($monthlist as $k => $month)
@@ -690,7 +690,7 @@ function validpercent($value,$total,$unit="%")
 	}
 	function bytes2gb($size)
 	{
-		$units = array(' B', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB');
+		$units = [' B', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'];
 		for ($i = 0; $size > 1024; $i++) { $size /= 1024; }
 			return round($size, 2).$units[$i];
 	}
@@ -772,7 +772,7 @@ function validpercent($value,$total,$unit="%")
 	{
 		if(is_array($array))
 		{
-			$oneLayerArray = array();
+			$oneLayerArray = [];
 			foreach($array as $key => $val)
 			{
 				if(is_array($val))
@@ -796,7 +796,7 @@ function validpercent($value,$total,$unit="%")
 			$cdir = scandir($dir);
 			foreach ($cdir as $key => $value)
 			{
-				if (!in_array($value,array(".","..")))
+				if (!in_array($value,[".",".."]))
 				{
 					if (is_dir($dir . DIRECTORY_SEPARATOR . $value))
 					{
@@ -847,19 +847,19 @@ function validpercent($value,$total,$unit="%")
     	$megabyte = $kilobyte * 1024;
     	$gigabyte = $megabyte * 1024;
     	$terabyte = $gigabyte * 1024;
-    	$low_to_high = array(
+    	$low_to_high = [
 
-    		"B" => array("KB" => pow(1024,1), "MB" => pow(1024,2), "GB" => pow(1024,3), "TB" => pow(1024,4), "PB" => pow(1024,5)),
-    		"KB" => array("MB" => pow(1024,1), "GB" => pow(1024,2), "TB" => pow(1024,3), "PB" => pow(1024,4)),
-    		"MB" => array("GB" => pow(1024,1), "TB" => pow(1024,2), "PB" => pow(1024,3)),
-    		"GB" => array("TB" => pow(1024,1), "PB" => pow(1024,2)),
-    		"TB" => array("PB" => pow(1024,1)));
+    		"B" => ["KB" => pow(1024,1), "MB" => pow(1024,2), "GB" => pow(1024,3), "TB" => pow(1024,4), "PB" => pow(1024,5)],
+    		"KB" => ["MB" => pow(1024,1), "GB" => pow(1024,2), "TB" => pow(1024,3), "PB" => pow(1024,4)],
+    		"MB" => ["GB" => pow(1024,1), "TB" => pow(1024,2), "PB" => pow(1024,3)],
+    		"GB" => ["TB" => pow(1024,1), "PB" => pow(1024,2)],
+    		"TB" => ["PB" => pow(1024,1)]];
 
-    	$high_to_low = array("PB" => array("TB" => pow(1024,1), "GB" => pow(1024,2), "MB" => pow(1024,3), "KB" => pow(1024,4),"B" => pow(1024,5)),
-    		"TB" => array("GB" => pow(1024,1), "MB" => pow(1024,2), "KB" => pow(1024,3), "B" => pow(1024,4)),
-    		"GB" => array("MB" => pow(1024,1), "KB" => pow(1024,2), "B" => pow(1024,3)),
-    		"MB" => array("KB" => pow(1024,1),"B" => pow(1024,2)),
-    		"KB" => array("B" => pow(1024,1)));
+    	$high_to_low = ["PB" => ["TB" => pow(1024,1), "GB" => pow(1024,2), "MB" => pow(1024,3), "KB" => pow(1024,4),"B" => pow(1024,5)],
+    		"TB" => ["GB" => pow(1024,1), "MB" => pow(1024,2), "KB" => pow(1024,3), "B" => pow(1024,4)],
+    		"GB" => ["MB" => pow(1024,1), "KB" => pow(1024,2), "B" => pow(1024,3)],
+    		"MB" => ["KB" => pow(1024,1),"B" => pow(1024,2)],
+    		"KB" => ["B" => pow(1024,1)]];
     	$is_unit = $is_unit ? $to : '';
     	if(isset($low_to_high[$from][$to]))
     	{
@@ -876,7 +876,7 @@ function validpercent($value,$total,$unit="%")
     {
     	$CI =& get_instance();
     	$CI->load->model('common_model', '', TRUE);
-    	$stat = array();
+    	$stat = [];
     	$seperator = "#:#";
     	if(file_exists($filename))
     	{
@@ -889,7 +889,7 @@ function validpercent($value,$total,$unit="%")
     		else
     		{
     			$data = file_get_contents($filename);
-    			$data_arr = $data != '' ? explode("\n",$data) : array();
+    			$data_arr = $data != '' ? explode("\n",$data) : [];
     			foreach($data_arr as $val)
     			{
     				if(trim($val ) == '' )
@@ -918,7 +918,7 @@ function validpercent($value,$total,$unit="%")
 
     function httperror($code,$errormsg=true)
     {
-    	$httpErrorCodes = array();
+    	$httpErrorCodes = [];
     	$httpErrorCodes['100'] = 'Continue - Only a part of the request has been received by the server, but as long as it has not been rejected, the client should continue with the request';
     	$httpErrorCodes['101'] = 'Switching Protocols - The server switches protocol ';
     	$httpErrorCodes['200'] = 'OK - The request is OK';
@@ -979,7 +979,7 @@ function validpercent($value,$total,$unit="%")
 	function vxss_clean($data)
 	{
 			// Fix &entity\n;
-		$data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
+		$data = str_replace(['&amp;','&lt;','&gt;'], ['&amp;amp;','&amp;lt;','&amp;gt;'], $data);
 		$data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
 		$data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
 		$data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
@@ -1015,7 +1015,7 @@ function validpercent($value,$total,$unit="%")
 	{
 		function array_column(array $input, $columnKey, $indexKey = null)
 		{
-			$array = array();
+			$array = [];
 			foreach ($input as $value) {
 				if ( !array_key_exists($columnKey, $value)) {
 					trigger_error("Key \"$columnKey\" does not exist in array");
@@ -1042,7 +1042,7 @@ function validpercent($value,$total,$unit="%")
 	// function to get array by key wise.
 	function keytoarray($data, $key)
 	{
-		$key2array = array();
+		$key2array = [];
 		if (is_array($data) && count($data) > 0)
 		{
 			foreach($data as $val)
@@ -1067,7 +1067,7 @@ function validpercent($value,$total,$unit="%")
 			foreach($extra_details as $val)
 			{
 				$ext_key = $val['extra_option'];
-				$ext_key = strtolower(str_replace(array("_"),array(" "),$ext_key));
+				$ext_key = strtolower(str_replace(["_"],[" "],$ext_key));
 				$ext_key = preg_replace('/\bOs\b/u', 'OS', $ext_key);
 				$ext_key = preg_replace('/\bos\b/u', 'OS', $ext_key);
 				$ext_key = preg_replace('/\bssl\b/u', 'SSL', $ext_key);
@@ -1096,7 +1096,7 @@ function validpercent($value,$total,$unit="%")
 	}
 	function process_value($exd_k)
 	{
-		$exd_k = strtolower(str_replace(array("_"),array(" "),$exd_k));
+		$exd_k = strtolower(str_replace(["_"],[" "],$exd_k));
 		$exd_k = preg_replace('/\bOs\b/u', 'OS', $exd_k);
 		$exd_k = preg_replace('/\bos\b/u', 'OS', $exd_k);
 		return ucfirst($exd_k);
@@ -1123,9 +1123,9 @@ function validpercent($value,$total,$unit="%")
 	}
 	function systemram()
 	{
-		$return_array = array();
+		$return_array = [];
 		$data = explode("\n", file_get_contents("/proc/meminfo"));
-		$meminfo = array();
+		$meminfo = [];
 		foreach ($data as $line) {
 			list($key, $val) = explode(":", $line);
 			$meminfo[$key] = trim($val);
@@ -1201,7 +1201,7 @@ function validpercent($value,$total,$unit="%")
 
 	function getSchedulePostData()
 	{
-		$data = array();
+		$data = [];
 		$CI =& get_instance();
 		$scheduletype = trim($CI->input->post('scheduletype'));
 		$data['scheduletype'] = $scheduletype;
@@ -1352,14 +1352,14 @@ function validpercent($value,$total,$unit="%")
 		$limit = $limit != '' ? $limit : config('enconfig.def_limit');
 		$page = $page != '' ? $page : config('enconfig.page');
 		$offset = is_numeric($limit) ? $limit * $page : 0;
-		return array("limit" => $limit, "page" => $page, "offset" => $offset);
+		return ["limit" => $limit, "page" => $page, "offset" => $offset];
 	}
 	function showerrormsg($msgs)
 	{
 		$msg_string = '';
 		if(is_array($msgs) && count($msgs) > 0 )
 		{
-			$msg_string = array();
+			$msg_string = [];
 			foreach($msgs as $msg)
 			{
 				if(is_array($msg))
@@ -1449,7 +1449,7 @@ function validpercent($value,$total,$unit="%")
 					$return = array_key_stack($child, $v);
 				// If the return is an array, stack it and return it
 					if (is_array($return)) {
-						return array($k => $return);
+						return [$k => $return];
 					}
 				} else {
 				// Since we are not on an array, compare directly
@@ -1463,7 +1463,7 @@ function validpercent($value,$total,$unit="%")
 							$changeUrl = url()->current();
 						}
 						echo isset($stack['title']) ? ' <li class="crumb-trail"><a href="'.$changeUrl.'">'.$stack['title'].'</a></li> ' : '';
-						return array($k => $child);
+						return [$k => $child];
 					}
 				}
 			}
@@ -1478,7 +1478,7 @@ function validpercent($value,$total,$unit="%")
     	//Function to return settings submenu array which contains ensysconfig setting options
 		function getconfigsettingmenu(){
 		$ensyslist	= get_ensys_configlist(); //returns array
-		$mnuarr		= array();
+		$mnuarr		= [];
 
 		if(isset($ensyslist) && is_array($ensyslist) && count($ensyslist) > 0){
 			if(isset($ensyslist['content']) && is_array($ensyslist['content']) && count($ensyslist['content']) > 0){
@@ -1633,7 +1633,7 @@ function validpercent($value,$total,$unit="%")
 				$url	 = 'config/getlist';
 				if($all == true) $url = 'config/getlist?all=true';
 				
-				$options = array();
+				$options = [];
 				$restapi = new RemoteApi;
 				$data	 = $restapi->apicall("GET", $path, $url, $options);
 			}
@@ -1656,7 +1656,7 @@ function validpercent($value,$total,$unit="%")
 		}
 		return $data;
 	}
-	function set_http_code_errmsg($data=array()){
+	function set_http_code_errmsg($data=[]){
 		if(isset($data['http_code']) && is_array(config('enconfig.success_http_code')) && !in_array($data['http_code'], config('enconfig.success_http_code'))){
 			$data['is_error'] = true;
 			$data['msg']	  = trans('messages.msg_servererror', ['name' => $data['http_code']]);
@@ -1674,7 +1674,7 @@ function validpercent($value,$total,$unit="%")
     * @param errormsg
     * @param index
     */
-	function save_errlog($function="",$functionality="",$parameters=array(),$errormsg="",$index="error")
+	function save_errlog($function="",$functionality="",$parameters=[],$errormsg="",$index="error")
 	{
 		//Maintain Error Log
 		$enlog = new Enlog;
@@ -1704,7 +1704,7 @@ function validpercent($value,$total,$unit="%")
 		{
 			$permissions 		= Session::get('accessrights');
 			$permission_key     = strtoupper($permission_key);
-			$permission_access  = array();
+			$permission_access  = [];
 			foreach ($permissions as $permission) 
 			{
 				if (is_array($permission) && array_key_exists($permission_key,$permission)) 
@@ -1713,7 +1713,7 @@ function validpercent($value,$total,$unit="%")
 				}
 				else
 				{
-					$permission_access = array();
+					$permission_access = [];
 				}
 			}
 			if ($ability == 'view' && in_array('r', $permission_access)) 
@@ -1753,7 +1753,7 @@ function validpercent($value,$total,$unit="%")
 		{
 			$permissions 		= Session::get('accessrights');
 			$permission_key     = strtoupper($permission_key);
-			$permission_access  = array();
+			$permission_access  = [];
 			foreach ($permissions as $permission) 
 			{
 				if (is_array($permission) && array_key_exists($permission_key,$permission)) 
@@ -1798,7 +1798,7 @@ function validpercent($value,$total,$unit="%")
      * @return bool
      */
 
-    function send_email_function($template_key,$to,$inputdata = array()){
+    function send_email_function($template_key,$to,$inputdata = []){
 
     	$itam = new ItamService;
     	$emlib = new Emlib;
@@ -1864,8 +1864,8 @@ function validpercent($value,$total,$unit="%")
     	$hundred = null;
     	$digits_1 = strlen($no);
     	$i = 0;
-    	$str = array();
-    	$words = array('0' => '', '1' => 'One', '2' => 'Two',
+    	$str = [];
+    	$words = ['0' => '', '1' => 'One', '2' => 'Two',
     		'3' => 'Three', '4' => 'Four', '5' => 'Five', '6' => 'Six',
     		'7' => 'Seven', '8' => 'Eight', '9' => 'Nine',
     		'10' => 'Ten', '11' => 'Eleven', '12' => 'Twelve',
@@ -1874,8 +1874,8 @@ function validpercent($value,$total,$unit="%")
     		'18' => 'Eighteen', '19' =>'Nineteen', '20' => 'Twenty',
     		'30' => 'Thirty', '40' => 'Forty', '50' => 'Fifty',
     		'60' => 'Sixty', '70' => 'Seventy',
-    		'80' => 'Eighty', '90' => 'Ninety');
-    	$digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore', 'Arab', 'Kharab', 'Neel', 'Padma');
+    		'80' => 'Eighty', '90' => 'Ninety'];
+    	$digits = ['', 'Hundred', 'Thousand', 'Lakh', 'Crore', 'Arab', 'Kharab', 'Neel', 'Padma'];
     	while ($i < $digits_1) {
     		$divider = ($i == 2) ? 10 : 100;
     		$number = floor($no % $divider);
@@ -1945,7 +1945,7 @@ function validpercent($value,$total,$unit="%")
     function generateponumber(){
     	$itam = new ItamService;
 
-    	$options = array();
+    	$options = [];
     	$po_number_arr = $itam->generateponumber($options);
     	$po_no_array = explode('/',$po_number_arr['content']);
     	$last_po_number = end($po_no_array);
@@ -1992,7 +1992,7 @@ function validpercent($value,$total,$unit="%")
     }
     function generateprnumber(){
     	$itam = new ItamService;
-    	$options = array();
+    	$options = [];
     	$po_number_arr = $itam->generateprnumber($options);
     	$po_no_array = explode('/',$po_number_arr['content']);
     	//ESDS/PR/2022-23/April/001
@@ -2027,7 +2027,7 @@ function validpercent($value,$total,$unit="%")
 	// Nikhil
 	function generatecrnumber(){
     	$itam = new ItamService;
-    	$options = array();
+    	$options = [];
     	$po_number_arr = $itam->generatecrnumber($options);
     	$po_no_array = explode('/',$po_number_arr['content']);
     	//ESDS/PR/2022-23/April/001
@@ -2064,7 +2064,7 @@ function validpercent($value,$total,$unit="%")
     function getvendorbyid($id){
     	$itam = new ItamService;
 
-    	$options = ['form_params'=>array('pr_vendor_id'=>$id)];
+    	$options = ['form_params'=>['pr_vendor_id'=>$id]];
     	$po_number_arr = $itam->getvendorbyid($options);
     	echo $po_number_arr['content'];
     }
@@ -2074,7 +2074,7 @@ function validpercent($value,$total,$unit="%")
 		
 		$itam = new ItamService;
 		$showuserid                        = showuserid();
-    	$options = ['form_params'=>array('showuserid'=>$showuserid)];
+    	$options = ['form_params'=>['showuserid'=>$showuserid]];
 
 		$resultdata = $itam->getusernotification($options); 
 		

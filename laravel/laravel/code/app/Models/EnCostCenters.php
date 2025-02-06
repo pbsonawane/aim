@@ -31,7 +31,7 @@ class EnCostCenters extends Model
     * @return       array
     * @tables       en_cost_centers
     */
-	protected function getcostcenters($cc_id, $inputdata=array(), $count=false)
+	protected function getcostcenters($cc_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
@@ -93,28 +93,28 @@ class EnCostCenters extends Model
             if($cc_data)
             {    
                     //apilog('sdhfksdf'.json_encode($cc_data));
-                    $cc_data->update(array('status' => 'd'));            
+                    $cc_data->update(['status' => 'd']);            
                     $cc_data->save();     
                    /*$queries    = DB::getQueryLog();
                     $last_query = end($queries); 
                     apilog(json_encode($last_query));   */          
                     
                     $data['data']['deleted_id'] = $cc_id;
-                    $data['message']['success']= showmessage('118', array('{name}'), array('Cost Center'));
+                    $data['message']['success']= showmessage('118', ['{name}'], ['Cost Center']);
                     $data['status'] = 'success';
                
             }
             else
             {
                 $data['data'] = NULL;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Cost Center'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Cost Center']);
                 $data['status'] = 'error';                             
             }               
         }
         else
         {
             $data['data'] = NULL;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Cost Center'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Cost Center']);
             $data['status'] = 'error';                             
         }   
         return $data;    

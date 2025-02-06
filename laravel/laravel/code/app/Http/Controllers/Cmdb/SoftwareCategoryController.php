@@ -43,8 +43,8 @@ class SoftwareCategoryController extends Controller
 
     public function softwarecategory()
     {
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'softwarecategoryList()', 'gridadvsearch' => false);
-        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("software_type"));
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'softwarecategoryList()', 'gridadvsearch' => false];
+        $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["software_type"]);
         $data['pageTitle'] = trans('title.softwarecategory');
         $data['includeView'] = view("Cmdb/softwarecategory", $data);
         return view('template', $data);
@@ -61,7 +61,7 @@ class SoftwareCategoryController extends Controller
 
     public function softwarecategorylist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -99,7 +99,7 @@ class SoftwareCategoryController extends Controller
             $paging['jsfunction'] = 'softwarecategoryList()';
             
             $view = 'Cmdb/softwarecategorylist';
-            $content = $this->emlib->emgrid($softwarecategorys, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($softwarecategorys, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -117,7 +117,7 @@ class SoftwareCategoryController extends Controller
     public function softwarecategoryadd(Request $request)
     {
         $data['software_category_id'] = '';
-        $softwarecategorydata = array();
+        $softwarecategorydata = [];
         $data['softwarecategorydata'] = $softwarecategorydata;
         $html = view("Cmdb/softwarecategoryadd", $data);
         echo $html;
@@ -134,7 +134,7 @@ class SoftwareCategoryController extends Controller
     public function softwarecategoryaddsubmit(Request $request)
     {
         if(!empty(config('app.env')) && config('app.env') != 'production') $request['is_default'] = 'y';
-        $data = $this->itam->addsoftwarecategory(array('form_params' => $request->all()));
+        $data = $this->itam->addsoftwarecategory(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -149,8 +149,8 @@ class SoftwareCategoryController extends Controller
     public function softwarecategoryedit(Request $request)
     {
         $software_category_id = $request->id;
-        $input_req = array('software_category_id' => $software_category_id);
-        $data = $this->itam->editsoftwarecategory(array('form_params' => $input_req));
+        $input_req = ['software_category_id' => $software_category_id];
+        $data = $this->itam->editsoftwarecategory(['form_params' => $input_req]);
 
         $data['software_category_id'] = $software_category_id;
         $data['softwarecategorydata'] = $data['content'];
@@ -170,7 +170,7 @@ class SoftwareCategoryController extends Controller
      */
     public function softwarecategoryeditsubmit(Request $request)
     {
-        $data = $this->itam->updatesoftwarecategory(array('form_params' => $request->all()));
+        $data = $this->itam->updatesoftwarecategory(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -183,7 +183,7 @@ class SoftwareCategoryController extends Controller
      */
     public function softwarecategorydelete(Request $request)
     {
-        $data = $this->itam->deletesoftwarecategory(array('form_params' => $request->all()));
+        $data = $this->itam->deletesoftwarecategory(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 function getIndex($indexname,$monitoring,$fromtime,$totime="",$format=true)
 {
-	$array_of_dates = array();
+	$array_of_dates = [];
 	$df = "dmY";
 	if($monitoring == "today")
 		$array_of_dates[] = $indexname.date($df);
@@ -58,9 +58,9 @@ function deviceName($system_settings, $data)
 {
 	$name_tags = $system_settings['device_name'];
 	extract($data);
-	$final_tag_array = array();
+	$final_tag_array = [];
 	$device_name_1 = $device_name_2 = $device_name = "";
-	$map_tag = array("title" => "title", "additional title" => "add_title", "hostname" => "description");
+	$map_tag = ["title" => "title", "additional title" => "add_title", "hostname" => "description"];
 	$tag_array = explode(',',trim($name_tags));
 
 	$device_name_1 = $data[0][$map_tag[$tag_array[0]]];
@@ -96,10 +96,10 @@ function deviceName($system_settings, $data)
 }
 
 $sshconn = $conn = false;
-function php_ssh_exec_cmd($cmd,$device_details = array(),$pre="")
+function php_ssh_exec_cmd($cmd,$device_details = [],$pre="")
 {
 	global $sshconn,$conn;
-	$output = array();
+	$output = [];
 	$output['error'] = '';
 	$output['output'] = '';
 	if(is_array($device_details) && count($device_details) > 0)
@@ -146,7 +146,7 @@ function php_ssh_exec_cmd($cmd,$device_details = array(),$pre="")
 		{
 			if(!$sshconn)
 			{
-				$sshconn = @ssh2_connect($probe_ip, $port,array('hostkey' => 'ssh-rsa'));
+				$sshconn = @ssh2_connect($probe_ip, $port,['hostkey' => 'ssh-rsa']);
 				$conn = @ssh2_auth_pubkey_file($sshconn,$username,$key_path);
 			}
 			if(!$conn)
@@ -239,11 +239,11 @@ function processGroupName($group_name)
 }
 function severity_color($index_by_id="no")
 {
-	$severity_color = array(
-							"attention" => array("id"=> 2, "name" => "attention","title" => "Attention", "thr_value" => 60, "class" => "severiy-attention", "color" => "#3bafda", "bgclass" => "progress-bar-info"),
-							"trouble" => array("id"=> 3, "name" => "trouble","title" => "Trouble", "thr_value" => 70, "class" => "severiy-trouble", "color" => "#eda107", "bgclass" => "progress-bar-warning "),
-							"critical" => array("id"=> 4, "name" => "critical","title" => "Critical", "thr_value" => 85, "class" => "severiy-critical", "color" => "#e9573f", "bgclass" => "progress-bar-danger"),
-							"normal" => array("id"=> 1, "name" => "normal","title" => "Normal", "thr_value" => 999999, "class" => "severiy-normal", "color" => "#70ca63", "bgclass" => "progress-bar-success"));
+	$severity_color = [
+							"attention" => ["id"=> 2, "name" => "attention","title" => "Attention", "thr_value" => 60, "class" => "severiy-attention", "color" => "#3bafda", "bgclass" => "progress-bar-info"],
+							"trouble" => ["id"=> 3, "name" => "trouble","title" => "Trouble", "thr_value" => 70, "class" => "severiy-trouble", "color" => "#eda107", "bgclass" => "progress-bar-warning "],
+							"critical" => ["id"=> 4, "name" => "critical","title" => "Critical", "thr_value" => 85, "class" => "severiy-critical", "color" => "#e9573f", "bgclass" => "progress-bar-danger"],
+							"normal" => ["id"=> 1, "name" => "normal","title" => "Normal", "thr_value" => 999999, "class" => "severiy-normal", "color" => "#70ca63", "bgclass" => "progress-bar-success"]];
 	if($index_by_id == "yes")
 	{
 		$severity_color = keytoarray($severity_color,'id');
@@ -289,7 +289,7 @@ function timefilter($tffilter)
 			}
 		}
 	}
-	return $tffilter = array("tmoption" => $tmoption, "from_time" => $from_time, "to_time" => $to_time, "is_zoom" => $is_zoom);
+	return $tffilter = ["tmoption" => $tmoption, "from_time" => $from_time, "to_time" => $to_time, "is_zoom" => $is_zoom];
 }
 function getzoominterval($count)	//$count save days count. number of days in selected date range
 {
@@ -327,7 +327,7 @@ function convertmstosec($timeinms = "")
 
 function barcolorbs($value)
 {
-	$bar_percent_color = array(1 => 'progress-bar-success', 25 => 'progress-bar-moderate', 55 => 'progress-bar-warning', 85 => 'progress-bar-danger');
+	$bar_percent_color = [1 => 'progress-bar-success', 25 => 'progress-bar-moderate', 55 => 'progress-bar-warning', 85 => 'progress-bar-danger'];
 	if ($value < 25)
 		return $bar_percent_color[1];
 	elseif ($value >= 25 && $value < 55)
@@ -396,7 +396,7 @@ function bytesconverter($from)
 }
 function getIntervals($tmoption)
 {
-	$intervals = array();
+	$intervals = [];
 	$intervals['today'] = "1m";//"30m";
 	$intervals['last_24_hour'] = "1m";//"30m";
 	$intervals['last_7_days'] = "1h";
@@ -426,13 +426,13 @@ function getIntervals($tmoption)
 	$intervals['custom'] = "1h";
 	return isset($intervals[$tmoption]) ? $intervals[$tmoption] : "1h";
 }
-function getDates($filter=array())
+function getDates($filter=[])
 {
 	$hours = isset($filter['hours']) ? $filter['hours'] : 1;
 	$date = date("Y-m-d H:i");
 	$week =  date('W', strtotime($date));
 	$year =  date('Y', strtotime($date));
-	$Dates = array();
+	$Dates = [];
 	$Dates['today'] = date("Y-m-d 00:00");
 	$Dates['last_24_hour'] = date("Y-m-d H:i",strtotime("$date -1 day"));
 	$Dates['last_3_days'] = date("Y-m-d 00:00",strtotime("$date -3 day"));
@@ -466,16 +466,16 @@ function getDates($filter=array())
 	$DaysFromMonday = $Current - 1;
 	$Sunday = Date('Y-m-d 00:00', StrToTime("+ {$DaysToSunday} Days"));
 	$Monday = Date('Y-m-d 00:00', StrToTime("- {$DaysFromMonday} Days"));
-	$Dates['this_week'] = array("start" => $Monday, "end" => $Sunday);
-	$Dates['this_month'] = array("start" => date('Y-m-01 00:00:00',strtotime('this month')), "end" => date('Y-m-t 12:59:59',strtotime('this month')));
-	$Dates['this_year'] = array("start" => date('Y-01-01 00:00:00'), "end" => date('Y-12-31 12:59:59'));
+	$Dates['this_week'] = ["start" => $Monday, "end" => $Sunday];
+	$Dates['this_month'] = ["start" => date('Y-m-01 00:00:00',strtotime('this month')), "end" => date('Y-m-t 12:59:59',strtotime('this month'))];
+	$Dates['this_year'] = ["start" => date('Y-01-01 00:00:00'), "end" => date('Y-12-31 12:59:59')];
 	return $Dates;
 }
 
 function app_curl_call($url)
 {
 	$user_agent='Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/8.0';
-	$options = array(
+	$options = [
 
 	CURLOPT_CUSTOMREQUEST  =>"GET",        //set request type post or get
 	CURLOPT_POST           =>false,        //set to GET
@@ -492,7 +492,7 @@ function app_curl_call($url)
 	CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
 	CURLOPT_SSL_VERIFYHOST => 0,            // don't verify ssl
 	CURLOPT_SSL_VERIFYPEER => false
-	);
+	];
 	print_msg($options);
 	$ch      = curl_init( $url);
 	curl_setopt_array( $ch, $options );
@@ -514,7 +514,7 @@ function getIpFromRange($from_ip,$to_ip)
 	if (in_array($ip_diff, range(0, 255)))
 	{
 		$host_str = "";
-		$aIPList = array();
+		$aIPList = [];
 		if ((ip2long($from_ip) !== -1) && (ip2long($to_ip) !== -1)) // As of PHP5, -1 => False
 		{
 			for($i = ip2long($from_ip); $i <= ip2long($to_ip); $i++)
@@ -529,7 +529,7 @@ function getIpFromRange($from_ip,$to_ip)
 }
 function converter($size,$with_space="", $unit)
 {
-	$names = array('B', 'KB', 'MB', 'GB', 'TB');
+	$names = ['B', 'KB', 'MB', 'GB', 'TB'];
 	if(!in_array($unit,$names))
 	{
 		return "$size".$unit;
@@ -572,7 +572,7 @@ function calculate_from_to_dates($timerange="", $customtime="", $is_zoom="", $tf
 	}
 	else if($tmoption == "")
 		$tmoption = 'last_6_hour';
-	$tffilter = array("tmoption" => $tmoption, "from_time" => $from_time, "to_time" => $to_time, "is_zoom" => $is_zoom,"tf_start" => $tf_start,"tf_end" => $tf_end,"timerange" => $timerange);
+	$tffilter = ["tmoption" => $tmoption, "from_time" => $from_time, "to_time" => $to_time, "is_zoom" => $is_zoom,"tf_start" => $tf_start,"tf_end" => $tf_end,"timerange" => $timerange];
 	$tffilter = timefilter($tffilter);
 
 	return $tffilter;
@@ -597,7 +597,7 @@ function substr_in_array($needle, $haystack)
 function oprlist($default='',$array=false)
 {
 	$opr_option_str = '';
-	$opr_option = array();
+	$opr_option = [];
 	$opr_option[''] = '-Operator-';
 	$opr_option['>'] = '>';
 	$opr_option['<'] = '<';
@@ -673,7 +673,7 @@ function getTimestampByYear($month, $day, $hour, $which='',$date=true, $count=1)
 function getSchedule($data)
 {
 	$datestring = "%Y-%m-%d %H:%i:%s";
-	$schedule = array();
+	$schedule = [];
 	$next_report_time = '';
 	$scheduletype = $data['scheduletype'];
 	if($scheduletype == "once")
@@ -740,7 +740,7 @@ function is_msg($message)
 }
 function json_to_array($json)
 {
-    $result = array();
+    $result = [];
     if ($json !== '')
     {
         $result = isjson($json) ? json_decode($json, true) : $result;

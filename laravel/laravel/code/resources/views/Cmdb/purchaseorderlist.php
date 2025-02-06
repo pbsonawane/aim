@@ -130,7 +130,7 @@
 
             <div class="apply-custom-vertical-scroll" style="height: 500px">                                     
             <?php
-            $pos = isset($dbdata['pos']) ? $dbdata['pos'] : array();
+            $pos = isset($dbdata['pos']) ? $dbdata['pos'] : [];
             
             if (is_array($pos) && count($pos) > 0)
             {

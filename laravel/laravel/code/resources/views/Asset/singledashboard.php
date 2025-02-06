@@ -105,7 +105,7 @@
                               </a>
                         </li> 
                         <?php }?>
-                        <?php if(in_array($title,array('Server','Desktop','Laptop'))){?>   
+                        <?php if(in_array($title,['Server','Desktop','Laptop'])){?>   
                         <li class="">
                               <a href="#software" id="callsoftware"data-toggle="tab" aria-expanded="true"><i class="fa fa-desktop text-purple"></i> 
                                   <?php echo trans('label.lbl_software');?>
@@ -447,9 +447,9 @@
                                             $dis_nm = " (".$ch['display_name'].")";
                                         }
                                         
-                                        if(in_array($citemps[$editdata[0]['ci_templ_id']],array('server','desktop','laptop')))
+                                        if(in_array($citemps[$editdata[0]['ci_templ_id']],['server','desktop','laptop']))
                                         {      
-                                                if(!in_array($citemps[$ch['ci_templ_id']], array('ethernet','hdd','ram')))
+                                                if(!in_array($citemps[$ch['ci_templ_id']], ['ethernet','hdd','ram']))
                                                 {
                                                  
                                                      $cn++;

@@ -234,7 +234,7 @@ else
 
                          <?php //echo $formAction;
                     //echo count($assets);
-                    $cuassetsdata_idarr = isset($contractdata[0]['asset_id']) ? json_decode($contractdata[0]['asset_id'], true) : array();
+                    $cuassetsdata_idarr = isset($contractdata[0]['asset_id']) ? json_decode($contractdata[0]['asset_id'], true) : [];
                     // print_r($cuassetsdata_idarr);
                     ?>
                     <select id="asset_id" name="asset_id[]" size="10" multiple style="width:250px" >

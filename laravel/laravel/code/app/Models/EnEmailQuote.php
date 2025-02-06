@@ -32,7 +32,7 @@ class EnEmailQuote extends Model
         return 'quote_id';
     }   
 
-    protected function getemailquotes($quote_id, $inputdata=array(), $count=false)
+    protected function getemailquotes($quote_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
 

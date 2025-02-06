@@ -38,8 +38,8 @@ class UserActivityController extends Controller
     */
    public function userlogs() {
 
-       $topfilter = array('gridsearch' => true,'jsfunction' => 'userlogList()', 'gridadvsearch' => true);
-       $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', array("datesearch"));
+       $topfilter = ['gridsearch' => true,'jsfunction' => 'userlogList()', 'gridadvsearch' => true];
+       $data['emgridtop'] = $this->emlib->emgridtop($topfilter, '', ["datesearch"]);
        $data['pageTitle'] = "User Logs";
        $data['includeView'] = view("Admin/userlogs",$data);
        return view('template',$data);
@@ -55,7 +55,7 @@ class UserActivityController extends Controller
      */
 	public function userlogslist() 
 	{
-		$paging = array();
+		$paging = [];
 		$limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
 		$page = _isset($this->request_params, 'page', config('enconfig.page'));
         //$searchkeyword = _isset($this->request_params, 'searchkeyword');
@@ -101,7 +101,7 @@ class UserActivityController extends Controller
 			$paging['showpagination'] = true;
 			$paging['jsfunction'] = 'userlogList()';
 			$view = 'Admin/userloglist';
-			$content = $this->emlib->emgrid($userlogs, $view, array(), $paging);
+			$content = $this->emlib->emgrid($userlogs, $view, [], $paging);
 		}
 
 		$response["html"] = $content;

@@ -31,7 +31,7 @@ class EnBillTo extends Model
      * @return       array
      * @tables       en_bill_to
      */
-    protected function getbilltos($billto_id, $inputdata = array(), $count = false)
+    protected function getbilltos($billto_id, $inputdata = [], $count = false)
     {
         $searchkeyword = _isset($inputdata, 'searchkeyword');
         if (isset($inputdata["limit"]) && $inputdata["limit"] < 1) {
@@ -88,24 +88,24 @@ class EnBillTo extends Model
 
             if ($billto_data) {
                 //apilog('sdhfksdf'.json_encode($billto_data));
-                $billto_data->update(array('status' => 'd'));
+                $billto_data->update(['status' => 'd']);
                 $billto_data->save();
                 /*$queries    = DB::getQueryLog();
                 $last_query = end($queries);
                 apilog(json_encode($last_query));   */
 
                 $data['data']['deleted_id'] = $billto_id;
-                $data['message']['success'] = showmessage('118', array('{name}'), array('Bill To'));
+                $data['message']['success'] = showmessage('118', ['{name}'], ['Bill To']);
                 $data['status']             = 'success';
 
             } else {
                 $data['data']             = null;
-                $data['message']['error'] = showmessage('119', array('{name}'), array('Bill To'));
+                $data['message']['error'] = showmessage('119', ['{name}'], ['Bill To']);
                 $data['status']           = 'error';
             }
         } else {
             $data['data']             = null;
-            $data['message']['error'] = showmessage('123', array('{name}'), array('Bill To'));
+            $data['message']['error'] = showmessage('123', ['{name}'], ['Bill To']);
             $data['status']           = 'error';
         }
         return $data;

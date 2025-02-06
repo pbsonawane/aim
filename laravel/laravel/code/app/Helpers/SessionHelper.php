@@ -134,7 +134,7 @@ function setSharedAccess($userdetails)
 	$request = request();
     $input = $request->all();
 	$sesstoken = DB::raw('UUID()');
-	$session = array("username" => $input['username'], 'token' => $sesstoken, 'url' => (string)$request->fullUrl(), 'method' => (string)$request->method(), 'ip' => (string)$request->ip(), 'agent' => (string)$request->header('user-agent'));
+	$session = ["username" => $input['username'], 'token' => $sesstoken, 'url' => (string)$request->fullUrl(), 'method' => (string)$request->method(), 'ip' => (string)$request->ip(), 'agent' => (string)$request->header('user-agent')];
 	$session_id = EnSessions::create($session);
 	if($session_id->session_id)
 	{
@@ -142,8 +142,8 @@ function setSharedAccess($userdetails)
 		if($sessiondata)
 		{
 			saveSessToken($sessiondata[0]->token);
-			$sessiondetails = json_encode(array('username' => $userdetails['username'], 'user_id' => $userdetails['user_id'], 'token' => $userdetails['token'], 'displayname' => $userdetails['displayname']));
-			$sessdata = array("token" => $sessiondata[0]->token, "sessiondetails" => $sessiondetails);
+			$sessiondetails = json_encode(['username' => $userdetails['username'], 'user_id' => $userdetails['user_id'], 'token' => $userdetails['token'], 'displayname' => $userdetails['displayname']]);
+			$sessdata = ["token" => $sessiondata[0]->token, "sessiondetails" => $sessiondetails];
 			saveSessionData($sessdata);
 			$domaintokens = setDomainAccess($sessiondata[0]->token);
 			if($domaintokens)
@@ -177,7 +177,7 @@ function setDomainAccess($sesstoken)
 }
 function processsesstokens($sesstokens)
 {
-	$domains = array();
+	$domains = [];
 	if($sesstokens && is_object($sesstokens))
 	{
 		foreach($sesstokens as $key => $val)

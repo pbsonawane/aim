@@ -42,7 +42,7 @@ class BusinessVerticalController extends Controller
     public function businessverticals()
     {
 
-        $topfilter = array('gridsearch' => true, 'jsfunction' => 'businessverticalList()');
+        $topfilter = ['gridsearch' => true, 'jsfunction' => 'businessverticalList()'];
         $data['emgridtop'] = $this->emlib->emgridtop($topfilter);
         $data['pageTitle'] = "Business Verticals";
         $data['includeView'] = view("Admin/businessverticals", $data);
@@ -59,7 +59,7 @@ class BusinessVerticalController extends Controller
      */
     public function businessverticallist()
     {
-        $paging = array();
+        $paging = [];
         $fromtime = $totime = '';
         $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
         $exporttype = _isset($this->request_params, 'exporttype');
@@ -95,7 +95,7 @@ class BusinessVerticalController extends Controller
             $paging['offset'] = $offset;
             $paging['page'] = $page;
             $view = 'Admin/businessverticallist';
-            $content = $this->emlib->emgrid($businessverticals, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($businessverticals, $view, $columns = [], $paging);
         }
 
         $response["html"] = $content;
@@ -123,13 +123,13 @@ class BusinessVerticalController extends Controller
         $businessunits_resp = $this->iam->getBusinessunit($options);
         if ($businessunits_resp['is_error'])
         {
-            $businessunits = array();
+            $businessunits = [];
         }
         else
         {
             $businessunits = _isset(_isset($businessunits_resp, 'content'), 'records');
         }
-        $data['businessverticaldata'] = array();
+        $data['businessverticaldata'] = [];
         $data['businessunits'] = $businessunits;
         $html = view("Admin/businessverticaladd", $data);
         echo $html;
@@ -146,7 +146,7 @@ class BusinessVerticalController extends Controller
      */
     public function businessverticaladdsubmit(Request $request)
     {
-        $data = $this->iam->addBusinessvertical(array('form_params' => $request->all()));
+        $data = $this->iam->addBusinessvertical(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -161,8 +161,8 @@ class BusinessVerticalController extends Controller
     public function businessverticaledit(Request $request)
     {
         $bv_id = $request->id;
-        $input_req = array('bv_id' => $bv_id);
-        $data = $this->iam->editBusinessvertical(array('form_params' => $input_req));
+        $input_req = ['bv_id' => $bv_id];
+        $data = $this->iam->editBusinessvertical(['form_params' => $input_req]);
         $data['businessverticaldata'] = $data['content'];
         $data['bv_id'] = $bv_id;
         $limit_offset = limitoffset(0, 0);
@@ -173,7 +173,7 @@ class BusinessVerticalController extends Controller
         $businessunits_resp = $this->iam->getBusinessunit($options);
         if ($businessunits_resp['is_error'])
         {
-            $businessunits = array();
+            $businessunits = [];
         }
         else
         {
@@ -199,7 +199,7 @@ class BusinessVerticalController extends Controller
      */
     public function businessverticaleditsubmit(Request $request)
     {
-        $data = $this->iam->updateBusinessvertical(array('form_params' => $request->all()));
+        $data = $this->iam->updateBusinessvertical(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -212,7 +212,7 @@ class BusinessVerticalController extends Controller
      */
     public function businessverticaldelete(Request $request)
     {
-        $data = $this->iam->deleteBusinessvertical(array('form_params' => $request->all()));
+        $data = $this->iam->deleteBusinessvertical(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

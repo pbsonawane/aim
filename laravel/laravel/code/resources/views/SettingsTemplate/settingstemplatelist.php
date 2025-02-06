@@ -43,7 +43,7 @@
 				}
 			}
 			else
-                echo '<tr><td colspan="100" align="center">'.showmessage('101', array('{name}'), array(trans('label.lbl_setting_templates')), true).'</td></tr>';
+                echo '<tr><td colspan="100" align="center">'.showmessage('101', ['{name}'], [trans('label.lbl_setting_templates')], true).'</td></tr>';
                  
 				?>
 		</tbody>

@@ -23,8 +23,8 @@ class OpportunityListingController extends Controller
 
     public function opportunities()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'opportunityList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("address"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'opportunityList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["address"]);
         $data['pageTitle']   = 'Opportunity Listing';
         $data['includeView'] = view("Cmdb/opportunity", $data);
         return view('template', $data);
@@ -32,7 +32,7 @@ class OpportunityListingController extends Controller
 
     public function opportunitylist()
     {
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -57,7 +57,7 @@ class OpportunityListingController extends Controller
         $opportunity_resp = $this->itam->getOpportunities($options);
         $Opportunities    = _isset(_isset($opportunity_resp, 'content'), 'records');
         if ($Opportunities == '') {
-            $Opportunities = array();
+            $Opportunities = [];
         }
 
         if ($opportunity_resp['is_error']) {
@@ -69,7 +69,7 @@ class OpportunityListingController extends Controller
             $paging['showpagination'] = true;
             $paging['jsfunction']     = 'opportunityList()';
             $view                     = 'Cmdb/opportunitylist';
-            $content                  = $this->emlib->emgrid($Opportunities, $view, $columns = array(), $paging);
+            $content                  = $this->emlib->emgrid($Opportunities, $view, $columns = [], $paging);
         }
         $response["html"]     = $content;
         $response["is_error"] = $is_error;
@@ -84,7 +84,7 @@ class OpportunityListingController extends Controller
         $details                       = $this->itam->getopportunityDetails($options);
         $data['opp_details']           = $details['content'];
        // $topfilter                     = array('gridsearch' => true, 'jsfunction' => 'prList() , prDetailsLoad()');
-        $topfilter                     = array('gridsearch' => true, 'jsfunction' => '');
+        $topfilter                     = ['gridsearch' => true, 'jsfunction' => ''];
         $data['emgridtop']             = $this->emlib->emgridtop($topfilter);
         $data['pageTitle']             = 'Opportunity Details';
         $data['includeView']           = view("Cmdb/opportunitydetails", $data);

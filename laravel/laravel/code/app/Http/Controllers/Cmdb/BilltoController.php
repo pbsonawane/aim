@@ -43,8 +43,8 @@ class BilltoController extends Controller
 
     public function billtos()
     {
-        $topfilter           = array('gridsearch' => true, 'jsfunction' => 'billtoList()', 'gridadvsearch' => false);
-        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', array("address"));
+        $topfilter           = ['gridsearch' => true, 'jsfunction' => 'billtoList()', 'gridadvsearch' => false];
+        $data['emgridtop']   = $this->emlib->emgridtop($topfilter, '', ["address"]);
         $data['pageTitle']   = trans('title.billto');
         $data['includeView'] = view("Cmdb/billto", $data);
         return view('template', $data);
@@ -63,7 +63,7 @@ class BilltoController extends Controller
     {
         //try
         //{
-        $paging        = array();
+        $paging        = [];
         $fromtime      = $totime      = '';
         $limit         = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
         $exporttype    = _isset($this->request_params, 'exporttype');
@@ -88,13 +88,13 @@ class BilltoController extends Controller
         $billto_resp = $this->itam->getbilltos($options);
         $billtos     = _isset(_isset($billto_resp, 'content'), 'records');
         if ($billtos == '') {
-            $billtos = array();
+            $billtos = [];
         }
 
-        $location_resp = $this->iam->getLocations(array());
+        $location_resp = $this->iam->getLocations([]);
         $loc_data      = _isset(_isset($location_resp, 'content'), 'records');
         //echo "<pre>"; print_r($loc_data);
-        $all_loc = array();
+        $all_loc = [];
         if (isset($loc_data) && is_array($loc_data) && count($loc_data) > 0) {
             foreach ($loc_data as $loc) {
                 $location_id           = isset($loc['location_id']) ? $loc['location_id'] : "";
@@ -127,7 +127,7 @@ class BilltoController extends Controller
 
             $view = 'Cmdb/billtolist';
 
-            $content = $this->emlib->emgrid($billtos, $view, $columns = array(), $paging);
+            $content = $this->emlib->emgrid($billtos, $view, $columns = [], $paging);
         }
 
         $response["html"]     = $content;
@@ -159,12 +159,12 @@ class BilltoController extends Controller
         $options                      = ['form_params' => $form_params];
         $location_resp                = $this->iam->getLocations($options);
         if ($location_resp['is_error']) {
-            $locations = array();
+            $locations = [];
         } else {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
 
-        $billtodata = array();
+        $billtodata = [];
 
         $data['locations']  = $locations;
         $data['billtodata'] = $billtodata;
@@ -181,7 +181,7 @@ class BilltoController extends Controller
      */
     public function billtoaddsubmit(Request $request)
     {
-        $data = $this->itam->addbillto(array('form_params' => $request->all()));
+        $data = $this->itam->addbillto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 
@@ -197,8 +197,8 @@ class BilltoController extends Controller
     public function billtoedit(Request $request)
     {
         $billto_id             = $request->id;
-        $input_req             = array('billto_id' => $billto_id);
-        $data                  = $this->itam->editbillto(array('form_params' => $input_req));
+        $input_req             = ['billto_id' => $billto_id];
+        $data                  = $this->itam->editbillto(['form_params' => $input_req]);
         $data['billto_id']     = $billto_id;
         $limit_offset          = limitoffset(0, 0);
         $form_params['limit']  = $limit_offset['limit'];
@@ -209,7 +209,7 @@ class BilltoController extends Controller
         $options             = ['form_params' => $form_params];
         $location_resp       = $this->iam->getLocations($options);
         if ($location_resp['is_error']) {
-            $locations = array();
+            $locations = [];
         } else {
             $locations = _isset(_isset($location_resp, 'content'), 'records');
         }
@@ -230,7 +230,7 @@ class BilltoController extends Controller
      */
     public function billtoeditsubmit(Request $request)
     {
-        $data = $this->itam->updatebillto(array('form_params' => $request->all()));
+        $data = $this->itam->updatebillto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
     /**
@@ -243,7 +243,7 @@ class BilltoController extends Controller
      */
     public function billtodelete(Request $request)
     {
-        $data = $this->itam->deletebillto(array('form_params' => $request->all()));
+        $data = $this->itam->deletebillto(['form_params' => $request->all()]);
         echo json_encode($data, true);
     }
 }

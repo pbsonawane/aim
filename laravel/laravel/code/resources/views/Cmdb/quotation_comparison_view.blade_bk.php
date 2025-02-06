@@ -11,13 +11,13 @@
 			   <?php
 				$item_qt_arr          = json_decode($data['content'], true);
 				$item_count           = count($item_qt_arr);
-				$item_arr_new         = array();
-				$vendor_wise_arr      = array();
-				$vendor_wise_arr_new  = array();
-				$vendor_wise_arr_full = array();
+				$item_arr_new         = [];
+				$vendor_wise_arr      = [];
+				$vendor_wise_arr_new  = [];
+				$vendor_wise_arr_full = [];
 				if ($item_count > 0) {
 				    foreach ($item_qt_arr as $key => $value) {
-				        $temp_item_arr                       = array();
+				        $temp_item_arr                       = [];
 				        $temp_item_arr['selected_item_id']   = $value['selected_item_id'];
 				        $temp_item_arr['selected_item_name'] = $value['selected_item_name'];
 				        $item_arr_new[]                      = $temp_item_arr;
@@ -56,7 +56,7 @@
 							?>
 						  </tr>
 						   <?php 
-						   $min_tot_arr =array();
+						   $min_tot_arr =[];
 						   for ($j = 0; $j < count($item_arr_new); $j++) 
 						   { ?>
 								<tr>
@@ -71,7 +71,7 @@
 								    ?>
 								 </tr>
 							   <?php 
-							   $min_temp =array();
+							   $min_temp =[];
 							   for($k=1; $k<=3;$k++)
 							   { 
 							  	?>

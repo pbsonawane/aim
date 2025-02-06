@@ -32,7 +32,7 @@ class PostAPIController extends APIBaseController
     }
     public function index(Request $request)
     {
-         $paging = array();
+         $paging = [];
             $limit = _isset($this->request_params, 'limit', config('enconfig.def_limit'));
             $page = _isset($this->request_params, 'page', config('enconfig.page'));
             $searchkeyword = _isset($this->request_params, 'searchkeyword');

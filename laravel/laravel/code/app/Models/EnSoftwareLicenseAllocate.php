@@ -40,7 +40,7 @@ class EnSoftwareLicenseAllocate extends Model
     * @return       Array
     * @tables       en_software_license_allocation
     */
-    protected function getswlicenseallocate($inputdata=array(), $count=false)
+    protected function getswlicenseallocate($inputdata=[], $count=false)
     {
         $query = DB::table('en_software_license_allocation')   
                 //->select(DB::raw('BIN_TO_UUID(sw_license_allocation_id) AS sw_license_allocation_id'),DB::raw('BIN_TO_UUID(software_id) AS software_id'),DB::raw('BIN_TO_UUID(software_license_id) AS software_license_id'),'asset_id');//with empty table

@@ -42,7 +42,7 @@ class ReportCategoryController extends Controller
   */
   public function reportcategory()
   {
-    $topfilter              = array('gridsearch' => true, 'jsfunction' => 'reportcategoryList()');
+    $topfilter              = ['gridsearch' => true, 'jsfunction' => 'reportcategoryList()'];
     $data['emgridtop']      = $this->emlib->emgridtop($topfilter);
     $data['pageTitle']      = trans('title.reportcategory');
     $data['includeView']    = view("Reports/reportcategory", $data);
@@ -61,7 +61,7 @@ class ReportCategoryController extends Controller
   {
     try
     {
-      $paging         = array();
+      $paging         = [];
       $limit          = _isset($this->request_params, 'limit', config('enconfig.def_limit_short'));
       $page           = _isset($this->request_params, 'page', config('enconfig.page'));
       $searchkeyword  = _isset($this->request_params, 'searchkeyword');
@@ -95,7 +95,7 @@ class ReportCategoryController extends Controller
         $paging['showpagination'] = true;
         $paging['jsfunction']     = 'reportcategoryList()';
         $view                     = 'Reports/reportcategorylist';
-        $content                  = $this->emlib->emgrid($reportcategory, $view, $columns = array(), $paging);
+        $content                  = $this->emlib->emgrid($reportcategory, $view, $columns = [], $paging);
       }
       $response["html"]       = $content;
       $response["is_error"]   = $is_error;
@@ -129,7 +129,7 @@ class ReportCategoryController extends Controller
   public function reportcategoryadd(Request $request)
   {
     $data['report_cat_id']         = '';
-    $reportcategorydata            = array();
+    $reportcategorydata            = [];
     $data['reportcategorydata']    = $reportcategorydata;
     $html                          = view("Reports/reportcategoryadd", $data);
     echo $html;
@@ -147,7 +147,7 @@ class ReportCategoryController extends Controller
   {
     try
     {
-      $data = $this->itam->addreportcategory(array('form_params' => $request->all()));
+      $data = $this->itam->addreportcategory(['form_params' => $request->all()]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -179,8 +179,8 @@ class ReportCategoryController extends Controller
   public function reportcategoryedit(Request $request)
   {
     $report_cat_id         = $request->id;
-    $input_req             = array('report_cat_id' => $report_cat_id);
-    $data                  = $this->itam->editreportcategory(array('form_params' => $input_req));
+    $input_req             = ['report_cat_id' => $report_cat_id];
+    $data                  = $this->itam->editreportcategory(['form_params' => $input_req]);
     $data['report_cat_id'] = $report_cat_id;
     $data['reportcategorydata'] = $data['content'];
     $html                 = view("Reports/reportcategoryadd", $data);
@@ -200,7 +200,7 @@ class ReportCategoryController extends Controller
   {
     try
     {
-      $data = $this->itam->updatereportcategory(array('form_params' => $request->all()));
+      $data = $this->itam->updatereportcategory(['form_params' => $request->all()]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)
@@ -232,7 +232,7 @@ class ReportCategoryController extends Controller
   {
     try
     {
-      $data = $this->itam->deletereportcategory(array('form_params' => $request->all()));
+      $data = $this->itam->deletereportcategory(['form_params' => $request->all()]);
       echo json_encode($data, true);
     }
     catch (\Exception $e)

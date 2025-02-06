@@ -43,7 +43,7 @@ class EnCiTypes extends Model
     * @return       array
     * @tables       en_ci_types
     */
-    protected function getcitypes($ci_type_id, $inputdata=array(), $count=false)
+    protected function getcitypes($ci_type_id, $inputdata=[], $count=false)
     {
         $searchkeyword = _isset($inputdata,'searchkeyword');
         if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)

@@ -176,7 +176,7 @@ if (!empty($assetdetails)) {
         $asset_details = json_decode($asset['asset_details'], true);
 
 
-        $addresses = array();
+        $addresses = [];
         if (!empty($asset_details['addresses'])) {
             $addresses = $asset_details['addresses'];
         }

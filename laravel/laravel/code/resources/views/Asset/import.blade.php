@@ -67,7 +67,7 @@
                 <i class="fa fa-question-circle" aria-hidden="true"  data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content="
                 <ul>
                 <li><?php echo showmessage('msg_only_csv_allowed');?></li>
-                <li><?php echo showmessage('msg_max_allowed_size', array('{name}'), array('2 MB'), true);?></li>
+                <li><?php echo showmessage('msg_max_allowed_size', ['{name}'], ['2 MB'], true);?></li>
                 <li><?php echo showmessage('msg_std_value_bvlocven');?></li>
                 </ul>
                 "></i>

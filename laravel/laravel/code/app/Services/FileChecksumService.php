@@ -127,8 +127,8 @@ class FileChecksumService
         try
         {
 
-            $segment2_array = array('set_timer', 'invalid_access', 'filechange');
-            $segment3_array = array('login', 'logout', 'ssoauth');
+            $segment2_array = ['set_timer', 'invalid_access', 'filechange'];
+            $segment3_array = ['login', 'logout', 'ssoauth'];
             
             $interval       = (int) 60;//config('enconfig.checksum_interval') * 60; // convert mins to seconds
 
