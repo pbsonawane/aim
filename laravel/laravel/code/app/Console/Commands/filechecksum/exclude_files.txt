@@ -1,0 +1,22 @@
+/html/bootstrap
+/html/composer.json.bak
+/html/config
+/html/git_pacp.sh
+/html/ package.rar
+/html/public
+/html/resources/js  
+/html/resources/lang
+/html/resources/sass 
+/html/server.php
+/html/tests
+/html/vendor_bak
+/html/artisan
+/html/composer.json
+/html/composer.lock
+/html/database
+/html/package.json
+/html/phpunit.xml
+/html/readme.md
+/html/storage
+/html/vendor
+/html/webpack.mix.js

@@ -1,0 +1,351 @@
+<?php
+	
+//	echo "Testing MTV scan <br/>";
+	
+/*
+	$handle = curl_init();
+
+	$url = "http://115.124.114.10/mtvscan400_open/webservices/ws.php?wsdl";
+	// Set the url
+
+	curl_setopt($handle, CURLOPT_URL, $url);
+	// Set the result output to be a string.
+		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+
+	$output = curl_exec($handle);
+
+	curl_close($handle);
+
+	echo "<br/>Result:<br/>";
+
+	echo "<br/>----------------<br/>";
+
+	echo $output;
+	echo "<br/>----------------<br/>";
+
+*/
+
+/*
+	
+	// Get cURL resource
+
+		$curl = curl_init();
+
+		// Set some options - we are passing in a useragent too here
+
+		curl_setopt_array($curl, [
+
+			CURLOPT_RETURNTRANSFER => 1,
+
+			CURLOPT_URL => 'http://115.124.114.10/mtvscan400_open/webservices/ws.php?wsdl',
+
+			CURLOPT_POST => 0,
+
+			CURLOPT_POSTFIELDS => [
+
+//				btn_add => true,
+
+//				domain => 'http://www.google.com',
+
+//				email_scan => 'darshan.chaure@esds.co.in',
+
+//				contactno => '8149062312',
+
+//				recaptcha => '03AOLTBLT_y3AtVeq_ktrNbJ0jMwgY3giChJHwTNdD9T0Pi9vb2lcGZSKMYZZaG4EAIwehJlQ0wJrvo8ULdBbKbVFq2w9_kWFVfwUIgewppbHNkKetZinjcraXNpd35Ssj9zDrTIGCvqOlQ1C9wXv1ChhNXZPpZ0lFvYKaXDQputyF1GBRGxL-zbbpze9XHkrKnaYgwbyxEv8WU7vI-QoyGMU6tXpmkbTyIktx8Brts01TpLuswTQmNK7Khna3UEP5fwHWu-zJ0x4ivk1oYII10a_fNlJBLk_Phf9tDOWn0bdMvNoF69RuJc2CNR7-brtKGwAl2T9CL4Wx'
+
+			]
+
+		]);
+
+		// Send the request & save response to $resp
+
+		$resp = curl_exec($curl);
+
+		// Close request to clear up some resources
+
+		curl_close($curl);
+
+		
+echo "<br/>Result:<br/>";
+
+		print_r($resp);
+
+*/
+
+
+//	$post_data 		= array();
+//	$curl_options 	= array(
+//		CURLOPT_RETURNTRANSFER => true, 	// return web page
+//		CURLOPT_HEADER => false, 			// don't return headers
+//		CURLOPT_AUTOREFERER => true, 		// set referer on redirect
+//		CURLOPT_CONNECTTIMEOUT => 180, 		// timeout on connect
+//		CURLOPT_TIMEOUT => 180, 			// timeout on response
+//		CURLOPT_POST => 1, 					// i am sending post data
+//		CURLOPT_FOLLOWLOCATION => true,
+//		CURLOPT_POSTFIELDS => $post_data,
+//		CURLOPT_SSL_VERIFYPEER => false
+//	);
+//	$url 		= 'http://115.124.114.10/mtvscan400_open/webservices/ws.php?wsdl';
+//	$curl 		= curl_init($url);
+//	curl_setopt_array($curl, $curl_options);
+//	$response 	= curl_exec($curl);
+//	curl_close($curl);
+//	
+//	$curl_errno= curl_errno($ch);
+//	
+//	echo "<br />RESPONSE:<br />";
+//	print_r($response);
+//	echo "<br />ERROR CODE:<br />";
+//	print_r($curl_errno);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="../images/favicon.ico">
+     <style>
+.alertmsgs { padding-right: 16px;}
+#alertmsg.alertmsgs { box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-height: 250px; overflow-x: hidden; overflow-y: auto; position: relative;}
+.row.borBT {margin: 0; padding-top:15px;}
+
+
+/**price Table**/
+#price table .svg-inline--fa.fa-check.fa-w-16{color: #3db400;}
+#price table{width:100%; table-layout:fixed;}
+#price .tbl-header{background-color: rgba(255,255,255,0.3);}
+#price .tbl-content{height:600px;overflow-x:auto;margin-top: 0px;border: 1px solid rgba(255,255,255,0.3);}
+#price table th{padding: 20px 15px;text-align: center;font-weight: 500;font-size: 1.1em;color: #fff;
+text-transform: uppercase;width:15%;}
+#price table th:first-child{width:19%;}
+#price table tr{background-color:#f9f9f9;}
+#price table tr:nth-child(even){background-color:#f3f3f3;}
+#price table thead tr{background-color: transparent;}
+#price table thead tr th{background-color:#52B5D5;}
+#price table thead tr th:first-child{background-color: transparent; }
+#price table thead tr th:nth-child(2){border-top-left-radius:7px;}
+#price table thead tr th:nth-child(3){background-color:#3591CA;}
+#price table thead tr th:nth-child(4){background-color:#1F5F9F;}
+#price table thead tr th:last-child{background-color:#1A3E7B; border-top-right-radius:7px;}
+#price table thead tr:nth-child(even) th{background-color:#64C3DE; font-size:1.5em; border-radius:0;}
+#price table thead tr:nth-child(even) th:nth-child(3){background-color:#44A3D5;}
+#price table thead tr:nth-child(even) th:nth-child(4){background-color:#2972B0;}
+#price table thead tr:nth-child(even) th:last-child{background-color:#234E8E;}
+#price table thead tr:nth-child(even) th span{display:block; font-size:0.6em; margin:3px auto; text-transform:lowercase; font-weight:normal;}
+#price table thead tr:nth-child(even) th:first-child{background-color: #fff;}
+#price table td{padding: 10px;text-align:center;vertical-align:middle;font-weight: 300;font-size:12px;
+color: #000;border-bottom: solid 1px #ccc;width:15%;height:41px;}
+#price table .column1 td{text-align:left;}
+::-webkit-scrollbar {width: 6px;} 
+::-webkit-scrollbar-track{-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);} 
+::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);}
+.column1,.column2,.column3,.column4,.column5{display:inline-block; text-align:center; float:left;}
+#price .column1{width:22%; text-align:left;}
+#price .column1 table td{text-align:left;}
+.column2,.column3,.column4,.column5{width:19.5%;}
+.column2:hover,.column3:hover,.column4:hover,.column5:hover{transition:1s ease-in;}
+#price table td.blue{font-weight:normal; background-color:#d3ecff; color:#000; font-size:0.8em;}
+#price table td.monthly{font-weight:normal; background-color:#127797; color:#fff; font-size:1em;}
+#price table td.yearly{font-weight:normal; background-color:#082d3d; color:#fff; font-size:1em;}
+
+#price table a{ text-decoration: none; background:#5cbe2a; color:#FFF; padding:10px 25px; text-transform:uppercase; text-align:center; font-size:16px; font-weight:600;   }
+#price table a:hover{ background:#3db400; text-decoration: none;  color:#FFF;  }
+
+#price table thead tr th:nth-child(3) {	background-color: #3591CA; position:relative;}
+#price table .fa-check {color: #3db400;}
+.most-popular{ position:absolute; top:-8px; right:0px; width:87px; height:64px;}
+@media screen and (max-width:1200px) {
+	div#price {width: 1112px;max-width: 1112px;}
+	.price_wrap {overflow-x: scroll;}
+}
+	
+@media screen and (max-width:767px) {
+#price .column1 {width: 250px;}
+.column2,.column3,.column4,.column5{width:215px;}
+
+}
+	
+			
+/***Vtm Scan***/
+.smallText{ font-size:22px; color: #3db400; margin-top:10px; display: block; text-transform: uppercase; font-weight: bold;}
+.smallText2{ font-size:20px; margin-top:15px; color: #FFF; line-height:normal; display: block; font-weight: bold;}
+.uppercaseText{text-transform: uppercase; font-weight: bold;}
+.uppercaseText span.red{ color:#F00;}
+#innerBanner .infoBanner5 {position: absolute; width: 100%; height: auto; top: 25%; text-align: center;}
+#innerBanner .infoBanner5 h1{ color:#FFF;}
+.info{ width:100%; text-align:center; padding:10% 0%;}
+.first h3, .second h3{ font-size:28px !important; text-align:center; padding:0px; margin:0 0 20px 0px; font-weight:600; color: #FFF !important;}
+.info ol{ list-style: none; text-align:center; padding:10px 0; margin:0px ; border-top: solid 1px #FFF; color: #FFF !important;}
+.info ol li{ padding:0px; margin:0px; float: none; display:inline-block; font-size:14px; font-weight:600; color:#fff;}
+
+.info.first {background-color: rgba(8, 45, 61, 1); padding:35px; color:#000; -webkit-border-radius: 12px;   -moz-border-radius: 12px; border-radius: 12px; width:100%; margin:0 auto 15px; }
+
+.info.second {background-color: #127797; padding:35px;  color:#000; -webkit-border-radius: 12px;   -moz-border-radius: 12px; width:100%;  margin:0 auto 15px;}
+
+.mb-40 {margin-top: 25px; margin-bottom: 25px; padding-bottom: 25px; border-bottom: solid 1px #f8f8f8; display: block;}
+.mb-41 { display: block; border-bottom: none;}
+
+.mb-40 .center-block1, .mb-41 .center-block1{border: dashed 1px #082d3d;}
+
+
+/** Why MTvScan***/
+.whyMTvScan p{ text-align:center !important; }
+.whyMTvScan h3{ font-size:28px !important; text-align:center; text-transform:uppercase !important; padding:0px; margin:15px 0 20px 0px !important; font-weight: bold !important; color: #000 !important;}
+.whyMTvScan h3 span{ color: #F00 !important;}
+.scanBox h4{ font-size:28px !important; padding:0px; margin:0px !important; color:#000 !important;}
+.scanBox p{ font-size:16px; padding:0px; margin:0px; color:#333;}
+.scanBox{ width:100%; margin:0; position:relative;  -moz-box-shadow:0 0px 10px #CCC; -webkit-box-shadow: 0 0px 10px #CCC; background-color: #f6fafc; padding:25px 0; margin-top:25px;}
+.scanBox input[type=text]{ border: solid 1px #CCC; background:#FFF; padding:16px 10px; margin:0 0 30px 0px; width:100%;}
+.scanBox input[type=submit]{ background:#5cbe2a; color:#FFF; width:auto; text-transform:uppercase; text-align:center; padding:10px 25px; font-size:17px; border: none; cursor:pointer;}
+.scanBox input[type=submit]:hover{ background:#3db400; color:#FFF;}
+.mtvscan-security{ text-align: center;}
+.mtvscan-security .center-block1{margin:0 0 25px 0 !important}
+.mtvscan-security p{ text-align:center !important; display:block !important; }
+.mtvscan-security a{text-decoration: none; background: #5cbe2a; font-size: 16px; font-weight: 600;text-transform: uppercase; color: #FFF; padding: 10px 25px; margin:0 auto;  display: inline-block;}
+.mtvscan-security a:hover {text-decoration: none; background: #3db400; color: #FFF;}
+.bg-slg {background-color: #127797; color:#FFF; padding:15px 0;}
+.bg-slg ol{ list-style: none; text-align:center; padding:0; margin:0px;}
+.bg-slg ol li{ padding:0px; margin:0 15px; float: none; display:inline-block;}
+
+/*****/
+.bg-lgb {background-color: #f6fafc; padding:25px 0;}
+.bg-lgb h3{ font-size:35px !important; text-align:center !important; padding:0px; margin:0px 0 15px 0 !important; font-weight: bold !important; color:#000 !important;}
+.bg-lgb h4{ font-size:28px !important;  text-align:center !important; padding:0px; margin:0px; font-weight:400 !important; color:#000; margin-bottom:25px !important;}
+
+.bg-lgb ol{ list-style: none; font-size:19px !important; font-weight:300;  padding:0; margin:45px 0 0 0 !important;}
+.bg-lgb ol li{ padding:0px; margin:0px 0 15px 0px !important; float: none; display:block;}
+.webAssets h3 {font-size: 20px !important; color: #000; line-height: 30px;}
+.webAssets h3 span {font-size: 20px !important; color: #4aaf17 !important; line-height: 30px;}
+.vtmscan h3 span{color: #4aaf17 !important;}
+
+.testimonialvtmscan{ position:relative; padding:25px 0;}
+.testimonialvtmscan cite{color: #4aaf17 !important;}
+.testimonialvtmscan blockquote{ width:85%; margin:0 auto; text-align: center !important;}
+.testimonialvtmscan blockquote p{ text-align:center; min-height:auto !important; font-size:16px !important; margin:15px 0 15px 0 !important;}
+.testimonialvtmscan  footer{background-color: transparent; padding:0; margin:0 auto; color:#000; background: none !important; font-size:16px;}
+.testimonialvtmscan h3{ font-size:30px !important; text-align:center !important; padding:0px; margin:0px 0 15px 0 !important; font-weight: bold !important; line-height:normal !important; color:#000 !important;}
+
+.testimonialvtmscan h4{ font-size:19px !important; text-align:center !important; padding:0px; margin:0px 0 15px 0 !important; font-weight:normal !important; line-height:normal !important; color:#000 !important;}
+
+#testimonialvtmscan .owl-buttons{ position:absolute; top:35%; width:100%;}
+#testimonialvtmscan .owl-controls{display:block !important;}
+#testimonialvtmscan .owl-prev{ float:left;}
+#testimonialvtmscan .owl-next{ float:right;}
+#testimonialvtmscan .owl-pagination{ display: none;}
+#testimonialvtmscan .fa { font-size: 25px !important;}
+
+#testimonialvtmscan .blockquote-reverse footer::after{ content: '';}
+
+
+
+
+        </style>
+        <?php include "header-script.php"; ?>
+    </head>
+    <body class="responsivecontainer mtvscan-s-page">
+        <?php include "header.php"; ?>
+        <div class="clr"></div>
+        
+        <div style="background-color:lightblue;">
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+			<br />124
+        </div>
+		
+		
+		
+
+        <div class="clr"></div>
+		
+        <?php include "footer.php"; ?>
+        <?php include "footer-script.php"; ?>
+        
+         <script>
+        // testimonial
+
+	$(document).ready(function() {
+		$("#testimonialvtmscan").owlCarousel({
+			navigation : true, // Show next and prev buttons
+			slideSpeed : 300,
+			paginationSpeed : 400,
+			singleItem:true,
+			nav:true,
+
+			// "singleItem:true" is a shortcut for:
+			// items : 1, 
+			// itemsDesktop : false,
+			// itemsDesktopSmall : false,
+			// itemsTablet: false,
+			// itemsMobile : false
+
+		});
+		$( ".owl-prev").html('<i class="fa fa-chevron-left"></i>');
+		$( ".owl-next").html('<i class="fa fa-chevron-right"></i>');
+	});
+        </script>
+        
+    </body>
+</html>
+
+
+

@@ -1,0 +1,115 @@
+http://172.16.7.41:30156/config/getlist
+http://172.16.7.41:30156/config/get
+http://172.16.7.41:30156/config/get?config_item=ad_setting
+
+HF-hide_missing_setting_template_menu(release)
+
+userlist => done
+useradd  => done
+usersave => done
+edit	 => done
+update 	 => done
+columnsetting => done
+
+assignentity => done
+changepass   => done
+suspenduser  => done
+activateuser  => done
+deleteuser  => done
+
+
+
+
+====
+try-catch
+if else
+log
+transaction
+language translation
+
+==========
+
+cp and unit testing = sso/ emagic (enlight360)
+iam = language translation and cp
+sso bug fix = Configuration settings page fields hide automatically after some time 2019-12-04
+emagic bug fix = Uptime Report- Column title is not displayed proper in PDF report 2019-12-09
+ensysconfig debug/error log
+
+
+cp testing
+bug fixes
+iam cp + lang trans
+
+Bug 16374
+
+
+
+ensysconfig_setting--:
+AUTOLOAD 
+
+AD setting template add				= done
+for sso > ensysconfig add ui 		= done
+enable/disable fields 				= done
+add new fields - general setting 	= done
+add new fields in ensysconfig side => 1)ad_setting 2) billing_enabled":true 3)"adldap_enabled":false, = done
+
+after update license - delete local ensysconfig file
+
+
+is_installed
+
+
+
+data['data'] == "error"
+data['status'] == "error"
+data['message']['error'] == "error"
+data['message']
+
+'---
+$response['content'] = $responsedata;
+$response['is_error'] = $is_error;
+$response['msg'] = $msg;
+
+
+emagic >>>
+
+getmodulebykey
+
+NOT WORKING
+
+app_host_id=>4
+
+to_time=>1577452504
+
+from_time=>1577451904
+9249
+
+
+
+===========================
+WORKING:
+
+
+app_host_id=>4
+
+to_time=>1577452554
+
+from_time=>1577366154
+
+eNlight360
+
+C:\Users\darshan.chaure\AppData\Local\Temp\fz3temp-1\rrd_detailed_graph.php
+
+F:\Darshan\Project\emagic\emagic-code\html\emagic_app\application\views\storage\rrd_detailed_graph.php
+
+F:\Darshan\Project\emagic\emagic-code\html\emagic_app\application\views\appmon\app_common_js.php
+
+F:\Darshan\Project\emagic\emagic-code\html\emagic_app\application\controllers\storage\manage.php
+
+
+---------
+http://172.16.7.55:30151/index.php/storage/manage/getrrdimage/5/530/300/1577849400/1577881800/94/y/1
+http://172.16.7.55:30151/index.php/storage/manage/getrrdimage/5/530/300/1577864050/1577860450/78/y
+http://172.16.7.55:30151/index.php/storage/manage/getrrdimage/5/340/150/1577867890/1577864290/93/y
+http://172.16.7.55:30151/index.php/appmon/manage/appdashboard/5/6
+

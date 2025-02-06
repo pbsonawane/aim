@@ -1,0 +1,180 @@
+ul.fancytree-container {
+    background-color: transparent;
+    border: 0 none;
+    color: #999;
+    font-size: 14px;
+    outline: 0 none;
+    padding: 0;
+}
+ul.fancytree-container li {
+    padding: 2px 0;
+	brder : 1px;
+}
+ul.fancytree-container ul{ background-color: #FFFFD4;}
+ul.fancytree-container ul ul{ background-color: #FFD4D4;}
+
+span.fancytree-node {
+    padding: 4px 0;
+}
+span.fancytree-title {
+    color: #666;
+}
+.fancytree-node ul 
+{ background-color:black;}
+span.fancytree-icon {
+    position: relative;
+}
+span.fancytree-node:hover {
+    background-color: #eee;
+    border-color: #ccc;
+}
+span.fancytree-node.fancytree-active, span.fancytree-node.fancytree-selected {
+    background-color: #eee;
+    border-color: #ccc;
+}
+span.fancytree-node.fancytree-active:hover, span.fancytree-node.fancytree-selected:hover {
+    background-color: #eee;
+    border-color: #ccc;
+}
+.fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-active, .fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-selected {
+    background-color: #eee;
+    border-color: #ccc;
+}
+span.fancytree-childcounter {
+    background: #428bca none repeat scroll 0 0;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 10px;
+    height: 13px;
+    line-height: 9px;
+    min-width: 13px;
+    padding: 2px;
+    position: absolute;
+    right: -8px;
+    text-align: center;
+    top: -9px;
+    vertical-align: baseline;
+}
+table.fancytree-ext-columnview {
+    border: 0 none;
+    outline: 1;
+}
+table.fancytree-container tbody tr td {
+    border-color: #eee;
+    max-width: 300px;
+    padding: 8px 14px;
+}
+table.fancytree-container span.fancytree-node {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+table.fancytree-container span.fancytree-title {
+    display: inline;
+}
+table.fancytree-container span.selTag {
+    background-color: #dec;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 1px 5px;
+    padding: 3px 7px;
+}
+table.fancytree-ext-columnview tbody tr #tags, table.fancytree-ext-columnview tbody tr #preview {
+    background: #fbfbfb none repeat scroll 0 0;
+    padding: 12px 14px;
+    vertical-align: middle;
+}
+.list-divide-items {
+    list-style: outside none none;
+    margin: 0;
+    padding-left: 10px;
+}
+.list-divide-items li + li {
+    padding-top: 9px;
+}
+body {
+    min-height: 2000px;
+}
+.custom-nav-animation li {
+    display: none;
+}
+.custom-nav-animation li.animated {
+    display: block;
+}
+ul.tray-nav.affix {
+    top: 80px;
+    width: 319px;
+}
+ul.tray-nav li a {
+    background: #f2f2f2 none repeat scroll 0 0;
+    border-top: 1px solid #ddd;
+    color: #999;
+    font-size: 13px;
+    padding: 11px 15px 11px 30px;
+    width: 100%;
+}
+ul.tray-nav li a .fa {
+    padding-right: 18px;
+}
+ul.tray-nav li.active a {
+    background: #fbfbfb none repeat scroll 0 0;
+    color: #666;
+    transition: all 0.3s ease-out 0s;
+    width: 101%;
+}
+ul.tray-nav li.active a .fa {
+    color: #4a89dc;
+}
+ul.tray-nav li.active::before {
+    border-bottom: 1px solid #ddd;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 1px;
+    width: 101%;
+    z-index: 1;
+}
+ul.tray-nav li.active a::before, ul.tray-nav li.active a::after {
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #fbfbfb;
+    border-top: 20px solid transparent;
+    content: "";
+    display: inline-block;
+    height: 0;
+    left: 100%;
+    position: absolute;
+    top: 0;
+    vertical-align: middle;
+    width: 0;
+}
+ul.tray-nav li.active a::before {
+    border-left-color: #888;
+}
+ul.tray-nav li:hover a::after {
+    border-left-color: #f8f8f8;
+    transition: all 0.3s ease-out 0s;
+}
+.ui-fancytree.fancytree-container {padding: 11px;} 
+.ui-fancytree span.fancytree-node {background-color: #5a6676; color: #fff; cursor: pointer; padding: 7px;}
+.ui-fancytree span.fancytree-node:hover {background-color: #29768a; border-color: #2092bf;}
+.ui-fancytree span.fancytree-title { color: #fff; width: 100%;}
+.ui-fancytree li .fancytree-node .col-md-6:last-child { float: right; text-align: right;}
+span.fancytree-node.fancytree-active:hover, span.fancytree-node.fancytree-selected:hover {background-color: #29768a; border-color: #29768a !important;}
+.ui-fancytree.fancytree-container ul { background-color: #ececec; padding: 10px;}
+.fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-active, .fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-selected {
+background-color: #29768a!important; border-color: #29768a !important;
+}
+.ui-fancytree li ul li span.fancytree-node { background-color: #2e6480;}
+.ui-fancytree li ul li span.fancytree-title { color: #fff; width: 100%;}
+.ui-fancytree li ul li span.fancytree-node .col-md-6:last-child { float: right; text-align: right;}
+.ui-fancytree li ul li span.fancytree-node.fancytree-active:hover,
+.ui-fancytree li ul li span.fancytree-node.fancytree-selected:hover {background-color: #29768a; border-color: #2092bf;}
+.ui-fancytree li ul li ul li span.fancytree-node { background-color: #349199;}
+
+.disabled{
+    pointer-events:none;
+    opacity:0.4;
+}

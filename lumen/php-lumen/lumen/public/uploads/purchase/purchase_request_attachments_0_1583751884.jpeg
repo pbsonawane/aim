@@ -1,0 +1,146 @@
+<?php 
+define("CLIENTAREA",true);
+require("includes/functions_general.php");
+require("includes/functions_client.php");
+require_once "vscan/config_vscan.php";
+require_once "vscan/vscan_functions.php";
+require_once "vscan/libs/nusoap.php";
+$newsimple_date = 'j F, Y, g:i a';
+$down = 0;
+
+if (isset($_POST["btn_add"])) {
+
+    //captcha code
+    if(isset($_POST['recaptcha']) && !empty($_POST['recaptcha'])){
+        
+        // $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LcBJ10UAAAAAJDtGf3bvD6pOCA5Y2-KEHayiaVj&response='.$_POST['recaptcha']);
+        // $responseData = json_decode($verifyResponse);
+        // if($responseData->success != 1 || 0){
+        //     $error_captcha = 'reCAPTCHA not valid';
+        //     die("<div class='alert-danger alert '>CAPTCHA not valid .</div>");
+        // }else{
+        //     $error_captcha = '';
+        // }
+    }else{
+       
+        die("<div class='alert-danger alert '>CAPTCHA not valid </div>");
+    }
+        $email =  trim($_POST['email_scan']);
+        if ($email == '' || !check_email_address($email)) {
+        die("<div class='alert-danger alert '>Enter valid email</div>");
+        }
+        $contactno =  trim($_POST['contactno']);
+        if ($contactno == "" || !preg_match('/^[0-9]{10}+$/', $contactno)) {
+       die("<div class='alert-danger alert '>Enter Valid Mobile Number</div>");
+    } 
+
+    // code to restrict domain scan
+    $cookie_data = unserialize(stripslashes($_COOKIE['mtvscan']));
+	$domain = $_POST["domain"];
+	$email_id = $_POST["email_scan"];
+	$contactno = $_POST["contactno"];
+	$domain = trim($domain);
+	$domain = htmlentities($domain);
+		
+		//TODO:		
+		echo "check1 <br />";
+		echo "$domain <br />";
+		echo "$email_id <br />";
+		echo "$contactno <br />";
+		
+
+	if(is_array($cookie_data) && count($cookie_data)>0)
+	{
+        $num_domain_per_day = 5;
+        $count_domain_per_day = 1;
+
+        foreach ($cookie_data as $key => $value) {
+            if (isset($value["is_complete"])) {
+                if (decrypt($value["is_complete"]) != "Yes") {
+                    echo "<div class='alert-danger alert '>Previous domain scan is in Progress. Please add after the ongoing scan is completed.</div>";
+                    die();
+                }
+            } else {
+                echo "<div class='alert-danger alert '>Previous domain scan is in Progress. Please add after the ongoing scan is completed.</div>";
+                die();
+            }
+
+            // Allow 5 domain scan per day
+            $today_date = strtotime(date("Y-m-d"));
+            $scan_date = strtotime(date("Y-m-d", strtotime(decrypt($value["scan_data_time"]))));
+            if ($today_date == $scan_date) {
+                $count_domain_per_day++;
+            }
+        }
+
+        if ($count_domain_per_day > $num_domain_per_day) {
+            echo "<div class='alert-danger alert '>Your daily scan limit is 5 which has been exceeded. Please try scanning tomorrow.</div>";
+            die();
+        }
+
+		//TODO:		
+		echo "check2 <br />";
+		echo "$domain <br />";
+		echo "$email_id <br />";
+		echo "$contactno <br />";
+		
+
+    }
+    // eof code to restrict domain scan
+    // code to add domain scan	
+	$scan_form = add_domain_openscan(trim($domain), $_SERVER['REMOTE_ADDR'], $email_id, $contactno);
+	if ($scan_form["response"]["error"] != "") {
+        echo "<div class='alert-danger alert '>" . $scan_form["response"]["error"] . " </div>";
+    } else {
+		//TODO:		
+		echo "check3 :cookie exist <br />";
+		echo "$domain <br />";
+		echo "$email_id <br />";
+		echo "$contactno <br />";
+		print_r($scan_form["response"]);
+
+        // check if cookie exis
+        $cookie_data = array();
+        if ($scan_form["response"]["result"] == '') {
+            echo "<div class='alert-danger alert '>Entered domain seems to be unreachable from MTvScan.</div>";
+            die();
+        }
+        if (!isset($scan_form["response"])) {
+            echo "<div class='alert-danger alert '>Entered domain seems to be unreachable from MTvScan.</div>";
+            die();
+        }
+        $cookie_data[0]["domain_id"] = encrypt($scan_form["response"]["result"]);
+        $cookie_data[0]["domain_name"] = encrypt($domain);
+        $cookie_data[0]["is_complete"] = encrypt("No");
+        $cookie_data[0]["scan_data_time"] = encrypt(date("Y-m-d H:i:s"));
+
+        if (!isset($_COOKIE["mtvscan"])) {
+            setcookie("mtvscan", serialize($cookie_data), time() + 30 * 24 * 60 * 60); // cookie set for 1 Month				
+        } else {
+            $old_cookie_data = unserialize(stripslashes($_COOKIE['mtvscan']));
+
+            $cnt = 1;
+            foreach ($old_cookie_data as $key => $value) {
+                $cookie_data[$cnt]["domain_id"] = $value["domain_id"];
+                $cookie_data[$cnt]["domain_name"] = $value["domain_name"];
+                $cookie_data[$cnt]["is_complete"] = $value["is_complete"];
+                $cookie_data[$cnt]["scan_data_time"] = $value["scan_data_time"];
+                $cnt++;
+            }
+
+            setcookie("mtvscan", serialize($cookie_data), time() + 30 * 24 * 60 * 60); // cookie set for 1 Month				
+        }
+        echo "<div class='alert-success alert '>Domain successfully added for scan.</div>";
+    }
+    // eof code to add domain scan
+
+    exit;
+}
+function check_email_address($email) {
+    //if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
+        return true;
+    else
+        return false;
+}
+?>

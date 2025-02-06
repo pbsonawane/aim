@@ -1,0 +1,479 @@
+<div class="panel-heading br-l br-r br-t">
+   <span class="panel-title"> <?php echo $softwaredata['0']['software_name']; ?>
+   </span>
+</div>
+<div class="panel-body">
+
+<div id="" class="col-md-12 prn-md animated fadeIn">
+   <div class="panel">
+      <div class="bg-light pv8 pr10  br-light">
+         <div class="row">
+            <div class="hidden-xs hidden-sm col-md-12 va-m">
+               <div class="btn-group">
+                  <a href="<?php config('app.site_url')?>/softwares"><button name="" id="" type="button" class=" btn btn-default light" ><i class="fa fa-arrow-left"></i></a>
+                  </button>
+               </div>
+               <?php $id = $softwaredata['0']['software_id'];?>
+               <div class="btn-group">
+                  <button name="edit_b" id="edit_<?php echo $id; ?>"  type="button" class="software_edit btn btn-default light" data-softwareid="<?php echo $id; ?>" ><i class="fa fa-pencil"></i>
+                  </button>
+
+               </div>
+               <div class="btn-group">
+                  <button type="button" class="btn btn-default light dropdown-toggle ph8" data-toggle="dropdown">
+                  Action
+                  <span class="caret ml5"></span>
+                  </button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                     <li>
+                        <a href="#"><i class="fa fa-print"></i> Add Software license</a>
+                     </li>
+                     <li>
+                        <a href="#"><i class="fa fa-print"></i> Add license ageement</a>
+                     </li>
+                     <li>
+                        <a href="#"><i class="fa fa-print " ></i> Add software installation</a>
+                     </li>
+                     <li>
+                        <a href="#"><i class="fa fa-print"></i> Email Users</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="panel-body pn br-n">
+         <div class="tab-block mb25">
+            <ul class="nav nav-tabs tabs-bg tabs-border">
+               <ul class="nav nav-tabs tabs-bg tabs-border">
+                  <li class="active " >
+                     <a href="#sw_details"  data-toggle="tab" aria-expanded="true"><i class="fa fa-check-square-o  text-purple"></i> <?php echo trans('label.lbl_software_details'); ?></a>
+                  </li>
+                  <li class="">
+                     <a href="#install" class="" id="<?php echo 'test'; ?>" data-toggle="tab" aria-expanded="true"><i class="fa fa-history text-purple"></i><?php echo trans('label.lbl_installations'); ?> </a>
+                     </a>
+                  </li>
+                  <?php if($softwaredata['0']['software_type'] == 'Managed'){?>
+                  <li class="">
+                     <a href="#license" class="" data-toggle="tab" id="<?php echo 'test'; ?>"  aria-expanded="false"><i class="fa fa-info-circle  text-purple"></i> <?php echo trans('label.lbl_license_details'); ?></a>
+                  </li>
+                <?php } ?>
+                  <li class="">
+                     <a href="#history" class="" id="<?php echo 'test'; ?>" data-toggle="tab" aria-expanded="true"><i class="fa fa-history text-purple"></i><?php echo trans('label.lbl_history'); ?> </a>
+                     </a>
+                  </li>
+               </ul>
+            </ul>
+            <div class="tab-content">
+               <div id="sw_details" class="tab-pane active">
+                  <?php //print_r($softwaredata);?>
+                  <!-- Details START -->
+                  <div class="panel invoice-panel">
+                     <div class="panel-body p20" id="invoice-item">
+                        <div class="row" id="
+                           -info">
+                        </div>
+                        <div class="row" id="invoice-table">
+                           <div class="col-md-12">
+                              <table class="table mbn">
+                                 <tbody>
+                                    <tr>
+                                       <?php
+
+
+//print_r($softwaredata);?>
+                                       <td class="va-m fw600 text-muted" width="15%"><?php echo trans('label.lbl_software_name'); ?>
+                                       </td>
+                                       <td class="fs15 fw500" width="25%"><?php echo $softwaredata['0']['software_name']; ?>
+                                       </td>
+                                       <td class="va-m fw600 text-muted" width="15%"><?php echo trans('label.lbl_software_type'); ?></td>
+                                       <td class="fs15 fw500" width="25%"><?php echo $softwaredata['0']['software_type']; ?></td>
+                                    </tr>
+                                    <tr>
+                                       <td class="va-m fw600 text-muted"><?php echo trans('label.lbl_software_category'); ?></td>
+                                       <td class="fs15 fw500"><?php echo $softwaredata['0']['software_category']; ?></td>
+                                       <td class="va-m fw600 text-muted"><?php echo trans('label.lbl_software_manufacturer'); ?></td>
+                                       <td class="fs15 fw500"><?php echo $softwaredata['0']['software_manufacturer']; ?></td>
+                                    </tr>
+                                    <tr>
+                                       <td class="va-m fw600 text-muted"><?php echo trans('label.lbl_license_type'); ?></td>
+                                       <td class="fs15 fw500"><?php echo $softwaredata['0']['license_type']; ?></td>
+                                       <td class="va-m fw600 text-muted"><?php echo trans('label.lbl_ci_type'); ?></td>
+                                       <td class="fs15 fw500"><?php echo $softwaredata['0']['ci_type']; ?></td>
+                                    </tr>
+                                    <tr>
+                                       <td class="va-m fw600 text-muted"><?php echo trans('label.lbl_version'); ?></td>
+                                       <td class="fs15 fw500"><?php echo $softwaredata['0']['version']; ?></td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Details END -->
+               </div>
+
+               <div id="license" class="tab-pane">
+               <table class="table mbn">
+                  <tbody>
+                  <tr>
+                        <td class="va-m fw600 text-muted" width="15%"><button type="button" class="btn btn-primary swlicense_attach" ><i class="fa fa-plus "></i> <?php echo trans('label.btn_sw_licence'); ?></button>
+                        <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus "></i> <?php echo trans('label.btn_sw_licence_allocate'); ?></button></td>
+                       
+                              </tr>
+                  </tbody>
+                  </table>
+                  <div class="panel panel-visible" id="license_data">
+               <table class="table table-striped table-bordered table-hover">
+                       <?php //print_r($swlicenses);?>
+                       <thead>
+                         <tr>
+                           <th class="text-center"><?php echo trans('label.lbl_srno') ?></th>
+                           <th><?php echo trans('label.lbl_software_manufacturer') ?></th>
+                           <th><?php echo trans('label.lbl_license_type') ?></th>
+                          <th><?php echo trans('label.lbl_license_key') ?></th>
+                           <th><?php echo trans('label.lbl_max_installation') ?></th>
+                           <th><?php echo trans('label.lbl_purchase_cost') ?></th>
+                           <th><?php echo trans('label.lbl_description') ?></th>
+                           <th><?php echo trans('label.lbl_acquisition_date') ?></th>
+                           <th><?php echo trans('label.lbl_expiry_date') ?></th>
+                           <th><?php echo trans('label.lbl_action') ?></th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <?php
+                        
+if (is_array($swlicenses) && count($swlicenses) > 0)
+{
+   
+    foreach ($swlicenses as $i => $swlicense)
+    {
+      $id = $swlicense['software_license_id'];
+      $delete = '';
+          $edit = '<span title = "Click To Edit Record" name="edit_b" id="edit_'.$id.'" type="button" data-id="'.$id.'" class="softwarelicense_edit" id="edit_b"><i class="fa fa-edit mr10 fa-lg"></i></span>'; 
+          
+          $delete = '<span title = "Click To Delete Record" type="button" id="delete_'.$id.'" data-id="'.$id.'" class="softwarelicense_del" id="delete_b"><i class="fa fa-trash-o mr10 fa-lg"></i></span>';  
+      ?>
+                       
+                           <tr>
+
+                             <td class="text-center"><?php echo  $i + 1; ?></td>
+                             <td><?php echo $swlicense['software_manufacturer']; ?></td>
+                             <td><?php echo $swlicense['license_type']; ?></td>
+                             <td><?php echo $swlicense['license_key']; ?></td>
+
+                                                        
+                             <td><?php echo $swlicense['max_installation']; ?></td>
+                             <td><?php echo $swlicense['purchase_cost']; ?></td>
+                             <td><?php echo $swlicense['description']; ?></td>
+                             <td><?php echo $swlicense['acquisition_date']; ?></td>
+                             <td><?php echo $swlicense['expiry_date']; ?></td>
+                             <td><?php echo $edit.' '.$delete; ?></td>
+
+
+                           </tr>
+                           <?php
+                         }
+                       }
+
+else
+echo '<tr><td colspan = "100" class ="text-center">'.trans('label.no_records').'</td></tr>';
+?>
+                       </tbody>
+                   </table><hr>
+                  
+                   <div class="panel-heading br-l br-r br-t">
+   <span class="panel-title"> Allocated License List
+   </span>
+</div>
+                    <table class="table table-striped table-bordered table-hover">
+                       <?php //print_r($swlicenses);?>
+                       <thead>
+                         <tr>
+                           <th class="text-center"><?php echo trans('label.lbl_srno') ?></th>
+                           <th><?php echo trans('label.lbl_device') ?></th>
+                           <th><?php echo trans('label.lbl_display_name') ?></th>
+                         
+                         <th><?php echo trans('label.lbl_action') ?></th>
+                           
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <?php
+                         //dd($swallocations);die;
+                        
+if (is_array($swallocations) && count($swallocations) > 0)
+{
+    
+    foreach ($swallocations as $i => $swallocation)
+    {
+       $id = $swallocation['asset_id'];
+
+      $array = explode(" ",$swallocation['asset_id']);
+      
+        foreach ($array as $item) {
+    //echo "<li>$item</li>";
+}
+          
+         
+      ?>
+                       
+                           <tr>
+                             <td class="text-center"><?php echo  $i + 1; ?></td> 
+                             <td><?php echo $swallocation['asset_tag']?></td>
+                              <td><?php echo $swallocation['display_name']?></td>
+                              <!-- <td><?php $id=$softwaredata[0]['software_id'];?>
+                                        <a name="delete_c" id="delete_<?php echo $id;?>_<?php echo $swallocation['asset_id'];?>" type="button" class="allocate_asset_delete"  data-assetid="'<?php echo $id;?>'" >Deallocate License</a>
+                                      </td>-->
+
+                                      <td class="va-m fw600 text-muted" width="15%"><?php $id=$softwaredata[0]['software_id'];?><button type="button" id="delete_<?php echo $id;?>_<?php echo $swallocation['asset_id'];?>" class="btn btn-danger allocate_asset_delete" data-assetid="'<?php echo $id;?>'"><?php echo trans('label.lbl_deallocate'); ?></button>
+                                        <button type="button" id="delete_<?php echo $id;?>_<?php echo $swallocation['asset_id'];?>" class="btn btn-warning allocate_deallocate" data-assetid="'<?php echo $id;?>'"><?php echo trans('label.lbl_uninstall'); ?></button></td>
+                                                        
+                            </tr>
+                           <?php
+                         }
+                       }
+
+else
+echo '<tr><td colspan = "100" class ="text-center">'.trans('label.no_records').'</td></tr>';
+?>
+                       </tbody>
+                   </table>
+               </div>
+               </div>
+
+               <div id="install" class="tab-pane">
+                  <table class="table mbn">
+                  <tbody>
+                     <tr>
+
+
+                        <table class="table mbn">
+                           <tbody>
+                           <?php
+if (is_array($swinstalldata) && count($swinstalldata) > 0)
+{
+    //echo count($swinstalldata);
+    ?>
+                              <td class="va-m fw600 text-muted" width="15%"><?php echo 'Installation'; ?></td>
+                              <td class="fs15 fw500" width="25%"><?php echo 'Total: '.count($swinstalldata); ?>
+                              </td>
+<?php }
+?>
+                              <!--<td class="va-m fw600 text-muted" width="15%"><?php //echo 'Software Type'; ?></td>
+                              <td class="fs15 fw500" width="25%"><?php //echo $softwaredata['0']['software_type']; ?></td>-->
+                              <tr>
+                                 <td class="va-m fw600 text-muted" width="15%"><button type="button" class="btn btn-primary swasset_attach" ><i class="fa fa-plus "></i> <?php echo trans('label.btn_sw_installation'); ?></button></td>
+                              </tr>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                          <tr>
+                                            <th class="text-center"><?php echo trans('label.lbl_srno') ?></th>
+                                            <th><?php echo trans('label.lbl_device') ?></th>
+                                            <th><?php echo trans('label.lbl_display_name') ?></th>
+                                           <th><?php echo trans('label.lbl_action') ?></th>
+
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+
+                                       
+                                            <?php
+
+if (is_array($swinstalldata) && count($swinstalldata) > 0)
+{
+    //echo count($swinstalldata);
+    foreach ($swinstalldata as $i => $swdata)
+    {
+        $id = $swdata['asset_id'];
+        ?>
+
+                                            <tr>
+
+                                            <td class="text-center"><?php echo $i + 1; ?></td>
+                                              <!--<td><?php //echo $swdata['asset_tag']; ?></td>-->
+                                              <td><?php echo '<a target="_blank" href="'.config('app.site_url').'/assets/'.$id.'/'.$swdata['ci_templ_id'].'" id="'.$id.'" class="assetdash1">'.$swdata['asset_tag'].'</a>'; ?></td>
+                                              <td><?php echo $swdata['display_name']; ?></td>
+                                             <td><?php $id=$softwaredata[0]['software_id'];?>
+                                        <a name="delete_c" id="delete_<?php echo $id;?>_<?php echo $swdata['asset_id'];?>" type="button" class="install_asset_delete"  data-assetid="'<?php echo $id;?>'" ><i class="fa fa-trash"></i></a></td>
+                                             
+                                            </tr>
+                                            <?php
+}
+}
+else
+{
+    echo '<tr><td colspan = "100" class ="text-center">'.trans('label.no_records').'</td></tr>';
+}
+
+?>
+                                        </tbody>
+                                    </table>
+                        </div>
+                        <div id="history" class="tab-pane">
+                       
+                        <table class="table table-striped table-bordered table-hover">
+                       
+                                        <thead>
+                                          <tr>
+                                            <th class="text-center"><?php echo trans('label.lbl_srno') ?></th>
+                                            <th><?php echo trans('label.lbl_message') ?></th>
+                                            <th><?php echo trans('label.lbl_action') ?></th>
+                                            <th><?php echo trans('label.lbl_date') ?></th>
+
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+//print_r($history);die;
+if (is_array($history) && count($history) > 0)
+{
+    
+    foreach ($history as $i => $historydata)
+    {
+        ?>
+                                            <tr>
+
+                                            <td class="text-center"><?php echo $i + 1; ?></td>
+                                              <td><?php echo $historydata['message']; ?></td>
+                                              <td><?php echo $historydata['action']; ?></td>
+                                              <td><?php echo $historydata['created_at']; ?></td>
+
+                                            </tr>
+                                            <?php
+    }
+}else{
+
+echo '<tr><td colspan = "100" class ="text-center">'.trans('label.no_records').'</td></tr>';
+}?>
+                                        </tbody>
+                                    </table>
+                        </div>
+               </div>
+               <!--tab-content -->
+            </div>
+            <!--tab-block mb25-->
+         </div>
+         <!--panel-body pn br-n-->
+      </div>
+      <!--panel-->
+   </div>
+   <!--podetails_page-->
+
+
+   </div>
+
+        <!-- Modal -->
+
+                        <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"><?php echo trans('label.lbl_allocate_license');?></h4>
+                            </div>
+                            <div class="modal-body">
+                            <div>
+                <form name="allocateform" id="allocateform" method="post" >
+                   <table class="table table-striped table-bordered table-hover table-responsive ">
+               
+<?php
+                        
+if (is_array($swlicenses) && count($swlicenses) > 0)
+{
+    
+    foreach ($swlicenses as $i => $swlicense)
+    { 
+      //echo $swlicense['software_license_id'];
+
+      ?>
+         
+                  <input id="software_license_id" name="software_license_id" type="hidden" value="<?php echo $swlicense['software_license_id'];?>">
+                  <?php
+                }
+  }?>
+          
+                <input type="hidden" name="credentialnames" id="credentialnames"> 
+               
+                  
+   
+     <thead>
+        <tr>
+           <!--<th class="checkbox_column">
+                <div class="checkbox-custom mb5 checkbox-info">
+                    <input type="checkbox" class="" id="assetidsCheckAll" value="">
+                    <label for="assetidsCheckAll"></label>
+                </div>
+                </th>-->
+                <th class="checkbox_column">
+          <div class="checkbox-custom mb5 checkbox-info">
+          <input type="checkbox" class="" id="assetidsCheckAll" value="6">
+          <label for="assetidsCheckAll" ></label>
+              </div>
+        </th>
+            <th><?php echo trans('label.lbl_device') ?></th>
+            <th><?php echo trans('label.lbl_display_name') ?></th>
+            
+           
+        </tr>
+    </thead>
+    <tbody>
+                        <tr>
+                
+                    <!--<td class="srno">1</td>-->
+                    <?php
+                    
+                    if (is_array($swinstalldata) && count($swinstalldata) > 0)
+                    {         
+                        foreach($swinstalldata as $i => $swdata)
+                        {       
+                  
+                   ?>
+                    <tr>
+                
+                   <td class="checkbox_column">
+                <div class="checkbox-custom mb5">
+                  <?php $num = $i +  1;  ?>
+                        <!--<input type="checkbox" name="selectassetids[]" class="region_dc selectassetidsChk" id="<?php echo 'credChk'.$num; ?>" value="7" data-temp_name="<?php echo $swdata['asset_tag']?>">-->
+
+                        <input type="checkbox" name="selectassetids[]" class="region_dc selectassetidsChk" id="<?php echo 'credChk'.$num; ?>" value="7" data-temp_name="<?php echo $swdata['asset_id']?>">
+                        <label for="<?php echo 'credChk'.$num; ?>"></label>                       
+                    </div>
+                </td>
+                        
+                         
+                                              <td><?php echo $swdata['asset_tag']; ?></td>
+                                              <td><?php echo $swdata['display_name']; ?></td>
+                                             
+
+                                             
+                    <?php
+                        }
+                    }
+                ?>
+                </tr>   
+
+    </tbody> 
+  
+    
+</table>
+
+
+                </form>
+ 
+        </div>
+               </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" id="swallocate_license"   data-dismiss="modal"><?php echo trans('label.btn_allocate');?></button>
+                            </div>
+                            </div>
+
+                        </div>
+                        </div>
+                        <!--Modal End-->

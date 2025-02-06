@@ -1,0 +1,173 @@
+<?php
+define("CLIENTAREA",true);
+require("includes/functions_general.php");
+require("includes/functions_client.php");
+require_once "vscan/config_vscan.php";
+require_once "vscan/vscan_functions.php";
+require_once "vscan/libs/nusoap.php";
+$newsimple_date = 'j F, Y, g:i a';
+$cookie_data = unserialize(stripslashes($_COOKIE['mtvscan']));
+if(is_array($cookie_data) && count($cookie_data)>0)
+{
+?>
+<?php            		
+	
+	// check domain scan status
+	if(isset($_GET['checkscanstatus']) && $_GET['checkscanstatus'])
+	{
+		/*ini_set('error_reporting', E_ALL);
+		ini_set('display_errors', 'On');
+		ini_set('display_startup_errors', 'On');*/
+		
+		$scan_active      = 1;
+		$update_scan_list = 0;
+		$error            = "";
+		
+		$domain_list          = array();
+		$scan_incomplete_list = array();
+		$scan_complete_list   = array();
+		foreach($cookie_data as $key => $value)
+		{	
+			$domain_id      = decrypt($value["domain_id"]);
+			$is_complete  = decrypt($value["is_complete"]);	
+			//$scan_data_time = decrypt($value["scan_data_time"]);
+			
+			if ($is_complete != 'Yes')
+			{
+				$domain_list[] = $domain_id;   // list of domain scan pending domains
+			}
+		}
+		
+		if (count($domain_list))
+		{
+			$domain_ids_str = implode(",", $domain_list); //echo 'hii'.$domain_ids_str;
+			$report_details = get_openscan_status($domain_ids_str);
+			//print_r($report_details);
+	
+			if($report_details["response"]["error"]!="")
+			{
+				$error = "Error in fetch domain scan status";
+			}
+			else
+			{
+				if($report_details["response"]["result"]!="")
+				{
+					foreach ($report_details["response"]["result"] as $id => $status)
+					{
+						if ($status['scan_status'] != 'n')
+						{
+							$scan_complete_list[] = $status['domain_id'];
+						}
+						else
+						{
+							$scan_incomplete_list[] = $status['domain_id'];	
+						}
+					}
+				}
+			}
+		}
+
+		if ($scan_complete_list)
+		{
+			$update_scan_list = 1;
+
+			// code to update scan flag
+			$newarr = array();
+			foreach($cookie_data as $key => $value)
+			{
+				$newarr[$key] = $value;
+				if(in_array(decrypt($value["domain_id"]), $scan_complete_list))
+				{
+					$newarr[$key]["is_complete"] = encrypt("Yes");
+				}
+			}		
+					
+			setcookie("mtvscan", serialize($newarr), time()+30*24*60*60); // cookie set for 1 Month
+			// EOF code to update scan flag
+		}
+		
+		if (empty($scan_incomplete_list))
+		{
+			$scan_active = 0;
+		}
+		
+		$result = array('scan_active' => $scan_active, 'update_scan_list' => $update_scan_list, 'error' => $error);
+		echo json_encode($result);
+		exit;
+	}
+	// EOF check domain scan status
+	
+	$domain_scan_list = array();	
+	foreach($cookie_data as $key => $value)
+	{
+		$domain =  decrypt($value["domain_name"]);
+		
+		$domain = str_replace("http://","",$domain);
+		$domain = str_replace("https://","",$domain);
+		$domain = str_replace("www.","",$domain);		
+		
+		$domain_id      =  decrypt($value["domain_id"]);
+		$is_complete    =  decrypt($value["is_complete"]);	
+		$scan_data_time =  decrypt($value["scan_data_time"]);
+		
+		$domain_scan_list[$domain][] = array(
+										 //"domain"         => $domain, 
+										 "domain_id"      => $domain_id, 
+										 "is_complete"    => $is_complete,
+										 "scan_data_time" => $scan_data_time,
+										 "domain_name" => decrypt($value["domain_name"])
+									   );
+	}
+	$i=1; 
+	if(count($domain_scan_list) > 0)
+	{
+		
+?>
+    <div class="row borBT pad-top-large">
+		<div class="container">
+			<div class="pad-top-btm-large">
+				<div class="col-sm-12 col-md-12">
+					<div class="mtv-tip alertms">Your Session Scan Reports</div>
+					    <div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								<th class="thbgodd">Scan Date - Time</th>
+								<th class="thbgeven">Scan URL</th>
+								<th class="thbgodd">Scan Status</th>
+								<th class="thbgeven">Report</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php	
+	foreach($domain_scan_list as $domain_name => $scan_details)
+	{
+		
+		foreach ($scan_details as $scan_detail) {
+			
+			
+	?>
+
+						<tr>
+						<td class=" tdbgodd"><?php echo date($newsimple_date,strtotime($scan_detail["scan_data_time"]));?></td>
+						<td class=" tdbgeven"> <?php echo $scan_detail["domain_name"] ?></td>
+						<td id="scan_status" class=" tdbgodd"><?php if ($scan_detail["is_complete"] == 'Yes') { echo "Completed"; } else { echo "Inprogress"; ?><?php } ?>  </td>
+						<td class=" tdbgeven">
+							<a href="scan-report?domainid=<?php echo $scan_detail["domain_id"] ?>&r=<?php echo date('ymdHis'); ?>" class="rptlink" target="_blank">View Report</a>
+						</td>
+						</tr>
+						<?php $i++;}
+
+   	
+   } ?>
+							</tbody>
+						</table>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+<?php
+}
+}
+?>

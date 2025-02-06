@@ -1,0 +1,24 @@
+Auto Upgrades Tasks :
+
+1: Create Autoupgrade button in SSO   
+2: Create Check Upgrade/Downgrade Button in eNSysConfig. Currently eNSysConfig don't have GUI. Need to create GUI with authentication in eNSysConfig. 
+3: Function to fetch available version to upgrade.
+	3.1 : Fetch self version using kubernetes API
+	3.2 : Fetch Verions avaiable on Repo
+	3.3 : Show avaiable version list to upgrade or downgrade, comparing self and repo version. It is expectd that there will be a file in which vesions will be stored in json format.
+	3.4 : Option to select one version from available list.
+	3.5 : Create option to show upgrade process logs
+	3.6 : Create option to show upgrade percentage
+	3.7 : Create Library to call kuberbetes API to fetch current version, update container image, etc.
+
+4: Upgrade eNSysconfig  container image and reload the containeer first.
+5: Execute eNSysconfig DB Migrations only. (** Currently Version is from where migration starts is used hardcoded currently)
+6: Upgrade SSO Container
+7: Execute SSO DB Migrations
+8: Upgrade en360App Container
+9: Execute en360App DB Migrations
+10: UPgrade Pod Container
+11: Execute POD DB Migrations
+12: UPgrade V2 Container
+13: Execute V2 DB Migrations
+

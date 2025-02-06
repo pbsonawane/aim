@@ -1,0 +1,51 @@
+<div>
+	<table class="table table-striped table-bordered table-hover">
+		<thead>
+		  <tr>
+			<th class="text-center"><?php echo trans('label.lbl_srno'); ?></th>
+			<th><?php echo trans('label.lbl_location'); ?></th>
+			<th><?php echo trans('label.lbl_company_name'); ?></th>
+			<th><?php echo trans('label.lbl_address'); ?></th>
+			<th><?php echo trans('label.lbl_pan_no'); ?></th>
+      <th><?php echo trans('label.lbl_gstn'); ?></th>
+			<th><?php echo trans('label.lbl_action'); ?></th>
+		  </tr>
+		</thead>
+		<tbody>
+			<?php
+$billtos = $dbdata;
+/*  echo "<pre>";
+print_r($billtos);*/
+if (is_array($billtos) && count($billtos) > 0) {
+    foreach ($billtos as $i => $billto) {
+        if ($billto) {
+            $id     = isset($billto['billto_id']) ? $billto['billto_id'] : "";
+            $delete = '';
+            $edit   = '';
+            if (canuser('update', 'billto')) {
+                $edit = '<span title = "Click To Edit Record" name="edit_b" id="edit_' . $id . '" type="button" data-billtoid="' . $id . '" class="billto_edit" id="edit_b"><i class="fa fa-edit mr10 fa-lg"></i></span>';
+            }
+            if (canuser('delete', 'billto')) {
+                $delete = '<span title = "Click To Delete Record" type="button" id="delete_' . $id . '" data-billtoid="' . $id . '" class="billto_del" id="delete_b"><i class="fa fa-trash-o mr10 fa-lg"></i></span>';
+            }
+            ?>
+					<tr>
+						<td class="text-center"><?php echo $i + $offset + 1 ?></td>
+						<td><?php echo @$billto['location_name']; ?></td>
+						<td><?php echo @$billto['company_name']; ?></td>
+		        <td><?php echo $billto['address']; ?></td>
+						<td><?php echo $billto['pan_no']; ?></td>
+						<td><?php echo $billto['gstn']; ?></td>
+		        <td><?php echo $edit . ' ' . $delete; ?></td>
+					</tr>
+				<?php
+}
+    }
+} else {
+    echo '<tr><td colspan = "100"> No Records</td></tr>';
+}
+
+?>
+		</tbody>
+	</table>
+</div>

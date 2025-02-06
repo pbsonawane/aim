@@ -1,0 +1,5 @@
+<?php
+	
+	echo "hi index";
+	//redirect('https://www.esds.co.in/security/esds-vtmscan');
+?>

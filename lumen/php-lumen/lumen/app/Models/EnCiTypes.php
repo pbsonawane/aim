@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Spatie\BinaryUuid\HasBinaryUuid;
+
+class EnCiTypes extends Model 
+{	
+	use HasBinaryUuid;
+    public $incrementing = false;
+	// Testing COment
+	protected $table = 'en_ci_types';
+   	public $timestamps = true;	
+    protected $fillable = [
+        'ci_type_id', 'citype', 'status'
+    ];
+	protected $primaryKey = 'ci_type_id';
+
+    /*  
+    * This is model function is used get all Form Template Default's data.
+
+    * @author       Amit Khairnar
+    * @access       public
+    * @param        ci_type_id
+    * @param_type   Integer
+    * @return       array
+    * @tables       en_form_template_custfileds
+    */
+	public function getKeyName()
+    {
+        return 'ci_type_id';
+    }                  
+    
+    /*  
+    * This is model function is used get all Role's data with its foregin key data
+
+    * @author       Amit Khairnar
+    * @access       public
+    * @param        ci_type_id
+    * @param_type   Integer
+    * @return       array
+    * @tables       en_ci_types
+    */
+    protected function getcitypes($ci_type_id, $inputdata=array(), $count=false)
+    {
+        $searchkeyword = _isset($inputdata,'searchkeyword');
+        if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
+        {
+            unset($inputdata["offset"]);
+            unset($inputdata["limit"]);
+        }
+        $query = DB::table('en_ci_types')   
+                ->select(DB::raw('BIN_TO_UUID(ci_type_id) AS ci_type_id'), 'citype', 'status')             
+                ->where('en_ci_types.status', '!=', 'd')
+                ->orderBy('citype','ASC');
+
+                $query->where(function ($query) use ($searchkeyword, $ci_type_id){
+                    $query->where(function ($query) use ($searchkeyword, $ci_type_id) {
+                        $query->when($searchkeyword, function ($query) use ($searchkeyword)
+                            {
+                                return $query->where('en_ci_types.citype', 'like', '%' . $searchkeyword . '%');
+                            });       
+                        });
+                        $query->when($ci_type_id, function ($query) use ($ci_type_id)
+                        {
+                            return $query->where('en_ci_types.ci_type_id', '=', DB::raw('UUID_TO_BIN("'.$ci_type_id.'")'));
+                        });});
+                $query->when(!$count, function ($query) use ($inputdata)
+                        {
+                            if( isset($inputdata["offset"]) && isset($inputdata["limit"]) )
+                            {
+                                return $query->offset($inputdata["offset"])->limit($inputdata["limit"]);
+                            }
+                        });
+                $data = $query->get();                        
+                                            
+        if($count)
+            return   count($data);
+        else      
+            return $data; 
+    }
+        
+}

@@ -1,0 +1,68 @@
+.device_nav, .device_nav ul, .device_nav li {
+    list-style: none;
+}
+
+.device_nav ul {
+    padding: 0;
+    margin: 0 0 0 18px;
+}
+
+.device_nav {
+    padding: 4px;
+    margin-top: 2px;
+	width:300px;
+}
+
+.device_nav > li {
+    padding: 5px;
+	border-bottom:1px solid #f3f3f3;
+}
+
+.device_nav > li li {
+    padding: 1px;
+	border-top:1px solid #f3f3f3;
+}
+
+.device_nav a {
+    display: block;
+    outline: none;
+    text-decoration: none;
+}
+
+.device_nav li > a > span {
+    float: right;
+    font-size: 19px;
+    font-weight: bolder;
+}
+/*
+.device_nav li > a:hover > span {
+    color: #fff;
+}
+*/
+.device_nav li > a > span:after {
+    content: '\25be';
+}
+.device_nav li.open > a > span:after {
+    content: '\25b4';
+}
+/*
+.device_nav a:hover, .device_nav li.active > a {
+    color: #000;
+}
+*/
+.device_nav > li.active > a  {
+	
+}
+
+.device_nav li a {
+    font-size: 12px;
+    line-height: 18px;
+    padding: 2px 10px;
+	color: #595959;
+}
+
+.device_nav > li > a {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 10px;
+}

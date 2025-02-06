@@ -1,0 +1,975 @@
+<?php
+define("CLIENTAREA",true);
+require("includes/functions_general.php");
+require("includes/functions_client.php");
+require_once "vscan/config_vscan.php";
+require_once "vscan/vscan_functions.php";
+require_once "vscan/libs/nusoap.php";
+$newsimple_date   = 'j F, Y, g:i a';
+$alertcolor 	  = array(4 => '#FF6666', 3 => '#FFA400', 2 => '#DFDF00', 1 => '#1697D3', 0 => '#9E9E9E', '' => '');
+$severity 		  = array(0 => 'ERROR', 1 => 'INFO', 2 => 'LOW', 3 => 'MEDIUM', 4 => 'HIGH', '' => '');
+$domain_id 		  = $_REQUEST["domainid"];
+$cookie_data 	  = unserialize(stripslashes($_COOKIE['mtvscan']));
+$falg_user_domain = false;
+$severitylevel 	  = array(4 => 'High', 3 => 'Medium', 2 => 'Low', 1 => 'Info', 0 => 'Error', '' => 'Normal');
+$loading_img_path = "images/preloader.gif";
+
+
+if(count($cookie_data)>0)
+{
+	foreach($cookie_data as $key => $value)
+	{
+		if($domain_id == decrypt($value["domain_id"]))
+			$falg_user_domain = true;		
+	}
+}
+else
+	die('Invalid Request');
+
+if($falg_user_domain)
+{
+	// code to get report
+	$report_details = get_html_openscan_report($domain_id);
+	//echo '<pre>';print_r($report_details);
+	if($report_details["response"]["error"]!="")
+	{
+		$html = $report_details["response"]["error"];
+		$errormessage =  "Requesting report is currently unavailable.";
+	}
+	else
+	{
+		if($report_details["response"]["result"]!="")
+		{
+			
+			$scan_types =  $report_details["response"]["result"]['scan_types'];
+			$scan_details =  $report_details["response"]["result"]['scan_details'][0];
+			$scan_icons =  $report_details["response"]["result"]['scan_icons'];
+			$scan_reputation =  $report_details["response"]["result"]['scan_reputation'];
+			$knowledge_base =  $report_details["response"]["result"]['knowledge_base'];
+			$banners =  $report_details["response"]["result"]['banners'];
+			$user_domain_data =  $report_details["response"]["result"]['user_domain_data'];		
+			$cmsdata =  $report_details["response"]["result"]['cmsdata'];		
+			$project_details =  $report_details["response"]["result"]['project_details'][0];		
+			$total_vaulner_count =  $report_details["response"]["result"]['total_vaulner_count'];		
+			$owasplevel =  $report_details["response"]["result"]['owasplevel'];		
+			$error_count_color =  $report_details["response"]["result"]['error_count_color'];				
+			
+			$scan_result =  $report_details["response"]["result"]['scan_result'];							
+			$level_array =  $report_details["response"]["result"]['level_array'];							
+			$level_array = array(4 => '#FF8989', 3 => '#F9C15E', 2 => '#DFDF00', 1 => '#C7EBFC', 0 => '#9E9E9E', '' => '');
+			$display_scan_types =  $report_details["response"]["result"]['display_scan_types'];				
+			if($report_details["response"]["result"]['scan_details'][0]['scan_status'] == 'i')
+			{
+				$errormessage =  $report_details["response"]["result"]['scan_details'][0]['domain_scan_status'];
+			}
+			
+			$error_icons = $report_details["response"]["result"]['error_icons'];	
+			$max_alerts = $report_details["response"]["result"]['max_alerts'];	
+			$domain_alerts = $report_details["response"]["result"]['domain_alerts'];	
+			$cms_alerts = array();
+			if(is_array($domain_alerts) && count($domain_alerts))
+			{
+				if(isset($domain_alerts[7]))
+				{
+					$cms_result = $domain_alerts[7];
+					foreach($cms_result as $key => $val)
+					{
+						foreach($val as $key1 => $dat)
+						{
+							$cms_alerts[$key1] = $dat;
+						}
+					}
+					unset($domain_alerts[7]);
+				}
+			}
+			
+			$cms_alerts =  $cms_alerts;	
+			$domain_alerts =  $domain_alerts;							
+		}
+	}
+}
+else
+	die('Invalid Request');
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="ESDS VTMScan Security as a Service Helps you to protect your Website, eCommerce Store, Blogs, Forum from Malware, Trojans and other Vulnerabilities.">
+	<?php include 'head-css.php';?>
+	
+	<!------------------------------------------------------>
+	
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+	<!-- Owl Carousel Assets -->
+	<link href="../css/owl.carousel.css" rel="stylesheet">
+	<link href="../css/owl.theme.css" rel="stylesheet">
+	<link href="css/style-3.3.15.css" rel="stylesheet">
+	<!------------------------------------------------------>
+	
+	<link rel="icon" href="images/favicon.ico">
+	<title>Online Malware / Vulnerability Scanner Tool for Website</title>
+	
+	<?php include "header-script.php"; ?>
+	<style type="text/css">
+	.navbar {
+	 min-height: 0px !important;
+	 padding:0px; 
+}
+	  	table .collapse.in 
+	  	{
+	  		display:table-row;
+		}
+		#myTabContent
+		{
+		  border: 1px solid #ccc;
+		  padding: 10px;
+		}
+		.card-head
+		{
+			padding: 0px;
+		}
+		.table-bordered
+		{
+			margin-bottom: 0px;
+			border: 1px solid #ddd!important;
+		}
+		.table td{
+			padding: 10px 0px 10px 30px;
+		}
+		#accordion-tab-head td
+		{
+			background-color: #f7f7f7;
+			font-size: 16px;
+		}
+		
+		#myTabContent .card {
+			float: inherit;
+			width: auto;
+			text-align: inherit;
+			padding: 0px;
+		}
+		
+		#myTabContent .tab-pane {
+			display: none!important;
+		}
+		
+		#myTabContent .tab-pane.active {
+			display: block!important;
+		}
+		
+		.card.effect__hover{
+			background-color: transparent!important;
+			border: none!important;
+			border-radius: unset!important;
+		}
+		
+		.innerpageInfo .nav-item .nav-link{
+			color:#495057;
+			border: 1px solid #e9ecef;
+		}
+		
+		.innerpageInfo .nav-item.active .nav-link {
+			color: #009be1;
+			background-color: #e9ecef;
+		}
+		
+		#myTabContent  #accordion table.table.table-bordered{
+			margin-bottom: 0px!important;
+		}
+		
+		#myTabContent #accordion .card.noborder{
+			margin-left: 0px;
+		}
+footer {margin: 0 auto 65px !important;}
+
+	
+	</style>
+</head>
+<body class="innerpage">
+<?php include "header.php"; ?>
+<div class="clr"></div>
+<?php //include 'menu.php';?>
+
+	<div class="bannerinnerpage">
+	  <h3 class="wow fadeInUp">Scan Report Details</h3>
+	  <p class="wow fadeInUp">&nbsp;</p>
+	</div>
+	<div class="clearfix">&nbsp;</div>
+	<div class="innerpageInfo pt-5 pb-3">
+		<div class="container">
+			<h2>Scan Details</h2>
+			<p style=" margin-bottom:10px;">Thank you for your interest in VTMScan Service. As per your request we've scanned the website using VTMScan. Below is a summarized report based on the observations.</p>
+			<ul class="nav nav-tabs">
+		    	<li class="nav-item">
+		       		<a class="nav-link active" data-toggle="tab" href="#overview">Overview</a>
+		      	</li>
+		      	<li class="nav-item">
+		        	<a class="nav-link" data-toggle="tab" href="#links">Links</a>
+		      	</li>
+	  		</ul>
+	  		
+	  		<div id="myTabContent" class="tab-content">
+		  		<div class="tab-pane fade show active" id="overview">
+		      	<br>
+		      	<div class="card">
+		        	<div class="card-header">Web Server Details</div>
+		          		<div class="card-body">
+		              		<div class="row">
+		                		<div class="col-md-5">                    
+		                  			<div class="row">
+		                    			<div class="col-md-4">Domain</div>
+					                    <div class="col-md-1">:</div>
+					                    <div class="col-md-4"><?php echo $scan_details['domain'] ?></div>
+		                  			</div>
+		                  			<div class="row">
+		                    			<div class="col-md-4">Hostname</div>
+		                   				<div class="col-md-1">:</div>
+		                    			<div class="col-md-4"><?php echo $scan_details['hostname'] != '' ?  "<strong>".$scan_details['hostname']."</strong>" : "Not Detected" ?></div>
+		                  			</div>
+									
+									
+									
+									<?php
+		                      	if (is_array($banners) && count($banners)  > 0)
+		                      	{
+								              foreach($banners as $key => $banner)
+								              {
+									              if($banner['osvulner'] == 'yes')
+												  {
+													  echo '<div class="row">
+																<div class="col-md-4">'.$banner['name'].'</div>
+																<div class="col-md-1">:</div>
+																<div class="col-md-4"><a id="osvulnerlink" href="javascript:void(0)" style="cursor:pointer;" onclick=" javascript: showdiv();"><label class="control-label" style="color:#F06F6F; cursor:pointer;">'.$banner['content'].'</label></a> Version: '.$banner['version'].'</div>
+																
+															</div>';	
+													  
+									              $vulner_os = $banner['osvulnerability'];
+												  $vos = ucfirst($banner['content']);
+												  $vversion = $banner['version'];
+												  }
+												  else
+												  {
+													  if($banner['name'] == 'os' && $banner['version'] != '')
+													  {
+														echo '<div class="row">
+																<div class="col-md-4">'.$banner['name'].'</div>
+																<div class="col-md-1">:</div>
+																<div class="col-md-4">'.$banner['content'].' Version: '.$banner['version'].'</div>
+																
+															</div>';	
+													  }
+													  else
+													  {
+															echo '<div class="row">
+																<div class="col-md-4">'.$banner['name'].'</div>
+																<div class="col-md-1">:</div>
+																<div class="col-md-4">'.$banner['content'].'</div>
+																
+															</div>';	
+													  }
+									             
+									            }
+							              }
+								}
+		                      ?>
+							  
+								</div>
+		                		<div class="col-md-5 ">
+		                  			<div class="row">
+		                    			<div class="col-md-4">IP address</div>
+		                    			<div class="col-md-1">:</div>
+		                    			<div class="col-md-4"><?php echo $scan_details['domain_ip'] ?></div>
+		                    			
+		                  			</div>  
+		                  			<div class="row">
+					                    <div class="col-md-4">Status</div>
+					                    <div class="col-md-1">:</div>
+					                    <div class="col-md-4">
+											<?php if($scan_details['domain_scan_status'] != 'Complete')
+											{?>
+											<label><strong>In Progress</strong></label>
+											<?php } else if ($total_vaulner_count) {?>
+											<label class="control-label txt-alizarin-crimson"><strong>Vulnerable</strong></label>
+											<?php } else{ ?>
+											<label class="control-label txt-bud-green"><strong>Ok</strong></label>
+											<?php } ?>
+										</div>
+		                  			</div>                   
+		                		</div>  
+		                		<div class="col-md-2">
+		                    		<?php if($scan_details['domain_scan_status'] == 'Complete'){
+									 if ($total_vaulner_count) {?>
+										<img style="max-width: 70%" src="images/shield-red.png" class="img-fluid  " alt="danger">
+									<?php } else{ ?>
+										<img src="images/protection.png" class="img-fluid " alt="normal">
+									<?php } }?>
+									
+		                		</div>               
+		              		</div>
+		            	</div>
+		        	</div><!--End of panel-->
+					<div class="card mt-4" style="background-color: #fff;display:none;">
+		        		<div class="card-header">Os Vulnerability Details</div>
+			         	<div class="card-body">
+							<label class="osversiolabel"> <?php echo 'Os: <span style="color:#f00;">'.$vos.'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version: <span style="color:#f00;">'.$vversion.'</span>' ?></label>
+							<div class="table-responsive">
+								<table cellspacing="0" cellpadding="3" style="1px solid #dddddd;width:100%;border-collapse: collapse;line-height: 1.42" >
+									<thead>
+										<th align="center" style="width:5%;">No</th>
+										<th align="center" style="width:20%;">CVE</th>
+										<th align="center" style="width:30%;">Refer URL</th>
+										<th align="center" style="width:45%;">Description</th>
+									</thead>
+								
+								<?php 
+								for($i=0; $i < count($vulner_os); $i++)
+								{
+								?>
+								<tr>
+								<td align="left" valign="top"><?php echo $i+1 ?>.</td>
+								<td width="20%" align="left" valign="top"><?php echo $vulner_os[$i]['cve'] ?></td>
+								<td>
+									<?php if ($vulner_os[$i]['url'] != '' ) 
+									{
+									?>
+										<!--<ul style="margin: 0px; padding-left: 20px; padding-right: 5px;">-->	
+									<?php
+										$urls = explode("##",$vulner_os[$i]['url']);
+										if(is_array($urls)){
+											foreach($urls as $url)
+											{
+												echo '<li style="list-style:outside none disc;">'.$url.'</li>';	
+											}
+									?>
+										<!--</ul>-->
+									<?php
+										}
+									}
+									?>
+								</td>
+								<td>
+								<?php echo $vulner_os[$i]['description'] ?>		
+								</td>
+								</tr>
+								<?php 
+								} ?>
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>	
+						
+					<div id="accordion" class="mt-4">			
+			 			<div class="card noborder">
+			  				<div class="card-head">
+									<div class="table-responsive">
+										<table class="table table-bordered check_scan_status">
+											<tr id='accordion-tab-head'>
+												<td class="cwidth">Scan Type</td>			
+												<td class="cwidth">Status</td>
+												<td class="cwidth">Vulnerability</td>
+												<td class="cwidth">Severity</td>
+											</tr>
+										</table>
+									</div>	
+							</div>		
+						</div>
+				<?php
+					if (is_array($scan_types) && count($scan_types) >  0)
+						{
+							$col_k = 1;
+							
+								foreach( $scan_types as $key => $type)
+								{
+									$vuln = $type['vuln_count'] > 0 ? true : false;
+									if($type['scan_type_id'] == 7)
+									{
+										if($type['cms_id'])	
+										{
+											$vuln = true; 												
+										}	
+									}
+									if($type['scan_type_id'] == 4)
+									{
+										if($type['report_data'])	
+										{
+											$vuln = true; 												
+										}	
+									}
+									
+						?>
+						<div class="card noborder">
+			  				<div class="card-head">
+							<div class="table-responsive">
+						<table class="table table-bordered">
+			<tr class="levelf<?php if($type['scan_type_id'] == 7)
+			{
+				if($type['cms_id'])	
+				{
+					echo $max_alerts[$type['scan_type_id']] ; 												
+				}	
+			}
+			if($type['scan_type_id'] == 4)
+			{
+				if($type['report_data'])	
+				{
+					echo $max_alerts[$type['scan_type_id']] ; 												
+				}	
+			}
+			else {
+			echo $type['vuln_count'] >  0 ?  $max_alerts[$type['scan_type_id']] : "" ;}?>">
+						<td  class="cwidth cpointer" data-toggle="collapse" data-target="#collapse<?php echo $type['scan_id'] ?>" aria-expanded="true" aria-controls="collapse<?php echo $type['scan_id'] ?>"> 
+																		
+						<?php
+						if($scan_details['domain_scan_status'] == 'Complete' && $type['scantype_status'] == 'n'){ echo '<img width="18" border="0" style="display:inline;visibility: hidden;" src="images/checked.png"> '; }
+						 else if($vuln)
+								{ 
+									echo'<img width="17" border="0" src="images/'.$error_icons[$max_alerts[$type['scan_type_id']]].' "> ';
+								}else if($type['scantype_status'] == 'y'){
+									echo '<img width="18" border="0" src="images/checked.png"> ';
+								}?>
+						<?php echo $type['scan_type_desc']; echo $type['scan_type_id'] == '12' ? " (".$type['scan_count'].")" : ''; ?>
+						
+								</td>
+								<td  class="cwidth"><?php 
+							if($scan_details['domain_scan_status'] == 'Complete' && $type['scantype_status'] == 'n')
+							{
+								echo 'Skipped';
+							}
+							else
+							{
+								if($type['scantype_status'] == 'n')
+									{
+										 echo '<img width="35%" src="'.$loading_img_path.'">'; 
+									}
+							
+									else
+									{
+										if($type['scan_type_id'] == 7)
+										{
+											if($type['cms_id'])	
+											{
+												echo "Detected" ; 												
+											}
+											else
+											{
+													echo "Not detected" ; 	
+											}
+										}
+										else
+										{
+											if($type['vuln_count'] > 0) 
+											{
+												echo "Vulnerable" ;	
+											} 
+											else
+											{
+												echo 'Not Vulnerable';	
+											}
+										}
+									}
+							}?>                          
+								</td>
+										<td class="cwidth"><?php if($type['scantype_status'] == 'n') { echo '--'; } else { echo $type['vuln_count'];  } ?></td>
+										
+								<td class="no_top_border text-center cwidth"><?php if($type['scantype_status'] == 'n') { echo 'NA'; } else { echo $severitylevel[$max_alerts[$type['scan_type_id']]]; } ?></td>
+			</tr>
+			</table>
+						</div>
+			</div>
+
+			<div id="collapse<?php echo $type['scan_id'] ?>" class="collapse cardbody" aria-labelledby="headingOne" data-parent="#accordion">
+			  <div class="card-body">
+					<div class="table-responsive">
+					<table width="100%" cellspacing="0" cellpadding="0" border="0" class="table">
+                        <tbody>
+							 <?php
+																			if($type['scan_type_id'] == '7')
+																			{
+																				if ( is_array($cms_alerts) && count($cms_alerts) > 0 )
+																				{
+																					foreach( $cms_alerts[$type['scan_id']] as $num => $alerts ) 
+																					{
+																						
+																	?>
+		                          <tr class="level<?php echo $alerts['level'] ?>">
+									<td class="small flaginfo" align="left"><span style=" color:#fff;
+											background-color:<?php echo $alertcolor[$alerts['level'] ]?>">&nbsp;<?php echo $severity[$alerts['level']] ?>&nbsp;</span>&nbsp;Name:<?php echo $alerts['name'] ?></td> 	
+		                          </tr>
+		                          <tr>
+		                            <td class="small tdpadd"><strong>URL:</strong> <strong><?php echo urldecode($alerts['url']) ?></strong></td>
+		                          </tr>
+		                          <tr>
+		                            <td class="small tdpadd notopborder"><strong>Alert:</strong> <strong><?php echo $alerts['alert_details'] ?></strong></td>
+		                          </tr>
+                          <?php					
+																					}
+																				}
+																																											else if($scan_details['domain_scan_status'] == 'Complete' && $type['scantype_status'] == 'n'){
+					echo '
+						<tr>
+		                            <td class="small"><strong>Skipped</strong> </td>
+		                          </tr>
+					';																																										}
+																				else
+																				{
+																	?>
+		                          <tr>
+		                            <td class="small"><strong>CMS Not Detected</strong> </td>
+		                          </tr>
+                          <?php	
+																					
+																				}
+																			}	                                	
+	                                	
+	                                		if($type['scan_type_id'] != '7')
+																			{
+																				if ( is_array($domain_alerts[$type['scan_type_id']]) && count($domain_alerts[$type['scan_type_id']]) >  0)
+																				{
+																					foreach( $domain_alerts[$type['scan_type_id']] as $num => $alerts)
+																					{
+																						
+																	?>
+								<tr class="level<?php echo $alerts['level'] ?>">
+											<td colspan="2" class="small flaginfo" align="left"><span style=" color:#fff;
+											background-color:<?php echo $alertcolor[$alerts['level'] ]?>">&nbsp;<?php echo $severity[$alerts['level']] ?>&nbsp;</span>&nbsp;Name:<?php echo $alerts['name'] ?></td> 	
+				
+
+							  </tr>										
+		                          
+		                      <?php          
+																						if ($type['scan_type_id'] != '12')
+                          									{	
+                          				?>
+		                          <tr>
+		                            <td class="small tdpadd "><strong>URL:</strong> <strong><?php echo urldecode($alerts['url']) ?></strong></td>
+		                          </tr>
+                          <?php 		}         
+					                         ?>
+		                          <tr>
+		                            <td class="small tdpadd notopborder"><strong>Alert:</strong> <strong><?php echo $alerts['alert_details'] ?></strong></td>
+		                          </tr>
+                          <?php					
+																					}
+																				}
+																				else if($scan_details['domain_scan_status'] == 'Complete' && $type['scantype_status'] == 'n')
+								{?>
+									<tr>
+		                            <td class="small"><strong>Skipped </strong> </td>
+		                          </tr>
+								<?php }
+																				else
+																				{
+																	?>
+		                          <tr>
+		                            <td class="small"><strong>Vulnerability Not Found</strong> </td>
+		                          </tr>
+                          <?php	
+																					
+																				}
+																				if ($type['scan_type_id'] == '12')
+																				{
+																	?>
+		                          <tr>
+		                            <td height="10" class="small" colspan="3" align="left"><br /><strong>Reverse IP List</strong><br />
+		                              -----------------------</br>
+		                              <?php echo $type['report_data'] ?> </td>
+		                          </tr>
+                          <?php				
+																				}
+																				if ($type['scan_type_id'] == '4')
+																				{
+																	?>
+		                          <tr>
+		                            <td height="10" class="small" colspan="3" align="left">
+		                              <?php echo $type['report_data'] ?> </td>
+		                          </tr>
+                          <?php				
+																				}
+								                      }	
+								                      
+								                ?>
+												 </tbody>
+					</table>
+			  
+					</div>
+			</div>		
+			</div>  
+			</div>  
+		  <?php
+								}
+							}else    	
+				                {
+				                	$is_scan_type_empty= 1;
+				                }	
+									if ( is_array($scan_result) && count($scan_result) >  0)
+					                {
+					                	$is_scan_type_empty= 0;
+					                	foreach ($scan_result as $num => $type)
+					                	{
+					                ?>
+					<div class="table-responsive">				
+              <table class="table table-bordered"><tr class="levelf<?php echo $type['level']?>">
+				                      	<td  class="cwidth"> 
+                                        <?php echo '<img width="18" border="0" src="images/'.$error_icons[$type['level']].' "> '?>
+                                        <a style="text-decoration:none"> <?php echo $type['scan_type'];?> </a>
+                </td>
+                <td class="cwidth"><?php echo $type['result'] ?></td>
+                <td class="cwidth"><?php echo '-'  ?></td>
+                <td class="no_top_border text-center cwidth"><?php echo $severitylevel[$type['level']]?></td>
+              </tr></table >
+			  </div>
+              <?php	
+					                	}
+					                }
+					                
+					                if ($is_scan_type_empty)
+					                {
+					                	echo '<table class="table table-bordered"><tr><td>No Result Found</td></tr></table>';
+					                }
+									
+										?>
+										
+			    				
+			    			</div>
+							
+					
+
+
+
+
+
+
+
+
+
+
+
+					
+					<div class="card mt-4" style="background-color: #fff">
+						<div class="card-header">
+							<div class="table-responsive">
+								<table style=" border-collapse:collapse;" class="tbl" width="100%" cellspacing="0" cellpadding="3" border="0">
+									<tbody>
+										<tr class="header-info">
+											<td align="left">Alert Severity : 
+												<span style="color:#FF6666;">High</span>, 
+												<span style="color:#FFA400;">Medium</span>, 
+												<span style="color:#DFDF00;">Low</span>, 
+												<span style="color:#1697D3;">Info</span>, 
+												<span style="color:#9E9E9E;">Error</span>, 
+												<span style="color:#009900;">Normal</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="card mt-4" style="background-color: #fff">
+		        		<div class="card-header">Reputation</div>
+			         	<div class="card-body">
+							
+								<table class="table table-bordered">              
+									<tbody>
+										
+										<tr>
+										
+											<?php
+								if (!(is_array($scan_reputation)) && $scan_details['domain_scan_status'] == 'Complete')
+								{
+									echo 'Skipped';
+								}
+								if ( !(is_array($scan_reputation)))
+								{
+									if($scan_details['domain_scan_status'] != 'Complete')
+									{
+										echo '<img width="20%" src="'.$loading_img_path.'">';	
+									}
+								}
+								else if(count($scan_reputation) >  0)
+								{
+									$repu_k = 1;
+									foreach ( $scan_reputation as $num => $repu )		
+									{
+										?>
+											<td title="<?php echo $repu['black_list'] != 'n' ?  "Your domain is blacklisted." : "" ;?>">
+												<div class="row">
+													<div class="col-md-2">
+														<?php echo $repu['black_list'] != 'n' ?  '<a href="javascript: void(0);" onclick="javascript: reputationshow(&quot;'.$repu["reputation_id"].'&quot;);"><img width="18" border="0" src="images/error-red.png"></a>' : '<img width="18" border="0" src="images/checked.png">';?>
+													</div>
+													<div class="col-md-10"><?php echo $repu['name'] ?></div>
+												</div>
+											</td>
+											<?php
+											if($repu_k % 3 == 0)
+										{
+											echo "</tr><tr>";
+										}
+										$repu_k++;
+									}
+								}
+								
+								?>
+				  </tr>
+				  </tbody>
+								</table>
+						
+			        	</div>
+			        </div><!--End of panel-->
+
+			    	<div class="card mt-4" style="background-color: #fff">
+			    		<div class="card-header">Subdomains</div>
+			     		<div class="card-body check_scan_status">
+			        			<?php
+											if($scan_details['subdomainlist'] == '' || $scan_details['subdomainlist'] == '<strong>No Data</strong>')
+											{
+												$scan_details['subdomainlist'] = $scan_details['subdomainlist'] == '<strong>No Data</strong>' ? 'No Data' : $scan_details['subdomainlist'];
+												if($scan_details['domain_scan_status'] != 'Complete')
+												{
+													echo '<img width="20%" src="'.$loading_img_path.'">';	
+												}
+												else
+												{
+													echo $scan_details['subdomainlist'] == "" ? "Not Found" : $scan_details['subdomainlist'];  
+												}
+											}
+											else 
+											{
+												echo $scan_details['subdomainlist'] == "" ? "Not Found" : $scan_details['subdomainlist'];   
+											}
+								?>
+							  
+			        	</div>
+			    	</div><!--End of panel-->
+
+					<div class="card mt-4" style="background-color: #fff">
+						<div class="card-header">Ports Scan</div>
+					 	<div class="card-body check_scan_status">
+							<div class="table-responsive">
+							<table class="table table-bordered">    
+				
+            <?php
+			if( !(is_array($knowledge_base)))
+			{
+            	if($scan_details['domain_scan_status'] != 'Complete')
+				{
+					echo '<img width="20%" src="'.$loading_img_path.'">';	
+				}
+				else
+				{
+					echo 'No ports found';	
+				}
+			}
+           		else if (count($knowledge_base) >  0)
+				{
+					?>
+								<thead>
+									<tr>
+										<th>Port No.</th>
+										<th>Services</th>
+										<th>Version</th>
+										<th>Product</th>
+										<th>State</th>
+									</tr>
+								</thead>  
+								<tbody>
+				<?php
+				foreach ( $knowledge_base as $num => $port )
+					{  
+			?>						
+					    		
+					      		
+  <td align="center"><div class="col-md-12">
+	  <div class="tip_trigger"><font color="#2a6496"><?php echo $port['port_no'] ?></font> <span class="tip"> <?php echo $port['response'] != '' ? nl2br($port['response']) : 'Payload not found' ?> </span> </div>
+	</div></td>
+  <td align="center"><?php echo $port['content'] ?></td>
+  <td align="center"><?php echo $port['version'] ?></td>
+  <td align="center">
+  <?php if ($port['vulnerable']) { ?>
+	<div class="pro_trigger">
+			<font color="#f00"><?php echo $port['product'] ?></font>
+    		<span id="bv_details<?php echo $port['port_no'] ?>" class="pro" class="col-md-12">
+        				<label class="osversiolabelbanner"> <?php echo 'Product: <span style="color:#f00;">'.$port['product'].'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version: <span style="color:#f00;">'.$port['version'].'</span>' ?>
+                       <table class="table table-bordered" width="100%"> 
+                            <thead>
+                                <th align="center" style="width:5%;">No</th>
+                                <th align="center" style="width:20%;">CVE</th>
+                                <th align="center" style="width:30%;">Refer URL</th>
+                                <th align="center" style="width:45%;">Description</th>
+                            </thead>
+                        <tbody>
+                        <?php 
+                        for($i=0; $i < count($port['bannervulner_details']); $i++)
+                        {
+                        ?>
+                        <tr>
+                        <td align="left" valign="top"><?php echo $i+1 ?>.</td>
+                        <td width="20%" align="left" valign="top"><?php echo $port['bannervulner_details'][$i]['cve'] ?></td>
+                        <td>
+                            <?php if ($port['bannervulner_details'][$i]['url'] != '' ) 
+                            {
+                            ?>
+                                <!--<ul style="margin: 0px; padding-left: 20px; padding-right: 5px;">-->	
+                            <?php
+                                $urls = explode("##",$port['bannervulner_details'][$i]['url']);
+                                if(is_array($urls)){
+                                    foreach($urls as $url)
+                                    {
+                                        echo '<li style="list-style:outside none disc;">'.$url.'</li>';	
+                                    }
+                            ?>
+                                <!--</ul>-->
+                            <?php
+                                }
+                            }
+                            ?>
+                        </td>
+                        <td>
+                        <?php echo $port['bannervulner_details'][$i]['description'] ?>		
+                        </td>
+                        </tr>
+                        <?php 
+                        } ?>
+                        </tbody>
+                        </table>
+                        </span>
+    
+	<?php }else{ ?>
+	<label class=""><?php echo $port['product'] ?></label>
+	<?php } ?>
+	</div>
+  </td>
+  <td align="center"><?php echo $port['name'] ?> </td>
+</tr>
+<?php			
+					}
+				}else{
+	                    			echo "<tr><td colspan='5'>No Port Found</td></tr>";
+	                    		}
+	                    	?>
+              </tbody>
+            </table></div>
+						</div>
+			        </div><!--End of panel-->
+
+			    </div><!--End of TAB 1-->  
+			    <div class="tab-pane fade" id="links">
+					<div class="card mt-4" style="background-color: #fff">
+			    		<div class="card-header">Crawled Links <span class="pull-right">Link Count: <?php echo $scan_details['crawl_link'] ?></span></div>
+			     		<div class="card-body" style="word-break:break-all">
+			        			 <?php echo $scan_details['crawled_links'];  ?> 
+			        	</div>
+			    	</div><!--End of panel-->
+			    </div>
+			</div>
+		</div>
+	</div>
+
+	<div class="clearfix">&nbsp;</div>
+	<?php include 'footer.php';?>
+	<?php include "footer-script.php"; ?>
+</body>
+
+
+<script>
+$(document).ready(function () {
+	$( ".owl-prev").html('<i class="fa fa-chevron-left"></i>');
+	$( ".owl-next").html('<i class="fa fa-chevron-right"></i>');
+
+	bind_tooltip();
+	bind_product();
+});
+</script>
+
+
+<script>
+	new WOW().init();
+</script> 
+
+
+<script type="text/javascript">
+	/** toggle1 **/
+	$('#toggle1').click(function () {
+		$('.toggle1').toggle();
+		return false;
+	});
+
+	$('#toggle2').click(function () {
+		$('.toggle2').toggle();
+		return false;
+	});
+</script>
+
+<script src="js/mtv.js?dada"></script>
+<script src="plugins/tabs/easyResponsiveTabs.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function bind_tooltip() {
+		$(".tip_trigger").hover(function () {
+			tip = $(this).find(".tip"), tip.show();
+			
+			//---------TODO:darshan-------------------
+			var left_pos = $(this)..offset().left;
+			var top_pos = $(this)..offset().left;
+			if($(this).find(".tip").is(':visible')){
+				$(this).find(".tip").css('cssText', function(i, v) {
+				  return this.style.cssText + ';top: '+top_pos+'!important;left: '+left_pos+'!important';
+				});
+			}
+			//----------------------------
+			
+			
+			
+		}, function () {
+			tip.hide()
+		}).mousemove(function (t) {
+			var a = t.pageX + 20, i = t.pageY + 20, e = tip.width(), o = tip.height(), l = $(window).width() - (a + e), n = $(window).height() - (i + o);
+			20 > l && (a = t.pageX - e - 20), 20 > n && (i = t.pageY - o - 20), tip.css({top: 20, left: 20})
+		})
+	}
+	function bind_product() {
+		$(".pro_trigger").hover(function () {
+			pro = $(this).find(".pro"), pro.show()
+		}, function () {
+			pro.hide()
+		}).mousemove(function (t) {
+			var a = t.pageX + 120, i = t.pageY + 20, e = pro.width(), o = pro.height(), l = $(window).width() - (a + e), n = $(window).height() - (i + o);
+			20 > l && (a = t.pageX - e - 120), 20 > n && (i = t.pageY - o - 20), pro.css({top: 20, left: 120})
+		})
+	}
+	var activetab = "";
+	$(document).ready(function () {
+		$("#horizontalTab").easyResponsiveTabs({type: "default", width: "auto", fit: !0, closed: "accordion", activate: function (t) {
+				var a = $(this), i = $("#tabInfo"), e = $("span", i);
+				e.text(a.text()), i.show()
+			}})
+	}), $(document).ready(function () {
+		$("a.expandcollapse").click(function () {
+			var t = $(this);
+			$("ul.hidden-spec").slideToggle(200, function () {
+				$(this).is(":visible") ? t.html(t.attr("data-expanded")) : t.html(t.attr("data-collapsed"))
+			}), scrollToValue = $("#plans").offset().top - 200, $("html, body").animate({scrollTop: scrollToValue}, 400)
+		});
+		$(".innerpageInfo .nav-link.active").trigger("click");
+	});
+</script>
+<script type="text/javascript">
+	setInterval(function() {
+	  getstatus();
+	  if(check_domainscan_flag == true){
+		//if domain scan is inprogress then reload page
+		location.reload();
+	  }else{
+		//if domain scan is completed or interrupted, and if loading icon is still visible then reload page
+		if($(".check_scan_status img[src='<?php echo $loading_img_path; ?>']").length > 0){
+			location.reload();
+		}
+	  }
+	}, 10000);
+</script>
+</html>

@@ -1,0 +1,680 @@
+<?php
+function get_title($title)
+{
+	return ucwords(str_replace("_"," ",$title));
+}
+
+function generate_html($arr, $type=1, $arr_title='')
+{
+	$arr_skip = array("Device Id", "Deployment Id", "Status Id", "Added Date", "Data Center");
+	if($type==1)
+	{
+		$html = '<table width="100%" cellspacing="0"  cellpadding="5"  border="0" class="full_table">';
+		
+		$cnt_row = 1;
+		foreach ($arr as $key => $value)
+		{			
+			if(!in_array(get_title($key),$arr_skip))
+			{
+				if($cnt_row%2==0)
+					$cls = 'class="alternaterow1"';
+				else
+					$cls = 'class="alternaterow2"';
+	
+				$html .= '<tr '.$cls.'><td width=30% align=left><strong>'.get_title($key).'</strong></td><!--<td width=1%>:</td>--><td width=69% align=left>'.$value.'</td></tr>';
+	
+				$cnt_row++;
+			}
+		}
+		$html .= '</table>';
+	}
+	else if($type==2)
+	{
+		
+		$html = '<table width="100%" cellspacing="0"  cellpadding="5"  border="0">';
+		
+		$cnt=0;
+		$cnt_row = 1;
+		foreach ($arr as $key => $value)
+		{
+			if(!in_array(get_title($key),$arr_skip))
+			{
+				if($cnt_row%2==0)
+					$cls = 'class="alternaterow1"';
+				else
+					$cls = 'class="alternaterow2"';
+					
+				$html .= '<tr '.$cls.'><td colspan=2 align=left><strong>'.get_title($key).'</strong></td><td width=5%><a href="#" onclick="toggleDetail('.$cnt.');return false">+/-</a></td></tr>';
+				$html .= '<tr id="'.$cnt.'" style="display:none;"><td colspan=2><table class="table_border" width="100%" cellspacing="0"  cellpadding="5"  border="0">';
+				
+				foreach ($value as $key1 => $value1)
+				{
+					$html .= '<tr><td width=5%>&nbsp;</td><td width=30% align=left><strong>'.get_title($key1).'</strong></td><!--<td width=1%>:</td>--><td width=64% align=left>'.$value1.'</td></tr>';
+				}
+				$html .= '</table></td></tr>';
+				$cnt++;
+				$cnt_row++;
+			}
+		}		
+		$html .= '</table>';
+	}
+
+	return $html;
+}
+
+function api_call($uid, $hid, $action, $param)
+{
+	// global veriables
+	global $bu_v_id;
+	global $api_url;
+	global $api_username;
+	global $api_password;
+	// eof global veriables
+
+	/*$hosting_pid = get_product_id($hid);// get product if from hosting id
+	$config_dtl = get_config_vars($hosting_pid);// get product configuration values
+	$api_url = $config_dtl["api_url"];	
+	*/
+	
+	//print_r($param);
+
+	$wsdl = $api_url."?wsdl";
+
+	// generate request veriables
+	$data = array();
+
+	$options = array(
+				'location'	=> $api_url,
+				'uri'		=> ''
+				);
+	// eof generate request veriables
+
+	//$client = new soap_client($wsdl, $options);// create soap client
+	$client = new nusoap_client($wsdl, 'wsdl');
+	
+	$client->setCredentials($api_username, $api_password);// set crendencials
+
+	//$opt = $client->call($action, $param);// call api function	
+	$opt = $client->call($action, $param, '', '', false, true);	
+
+	$final_opt = json_decode($opt, true);// decode json data
+
+	return $final_opt;
+}
+
+function check_link_crawl($uid, $hid, $domain_id)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'userdomainid' => $domain_id);	
+
+	$data = array();
+	$data = api_call($uid, $hid, "checklinkcrawl", $param);// call api
+	return $data;
+}
+
+function get_domain_directories($uid, $hid, $domain_id)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+
+	$data = array();
+	$data = api_call($uid, $hid, "directories", $param);// call api
+	return $data;
+}
+
+function get_scan_response($uid, $alertid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'alertid' => $alertid);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "scanresponse", $param);// call api
+	return $data;
+}
+
+function get_domin_scan_dtl($uid, $hid, $domain_id)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'udid' => $domain_id);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "userdomain", $param);// call api
+	return $data;
+}
+
+function get_ignore_list($uid, $hid, $domain)
+{
+	global $vscan_user_id;
+	//$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domain_id' => $domain_id);	
+	$param = array ('domain' => $domain);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "ignorelist", $param);// call api
+	return $data;
+}
+
+function get_domain_links($uid, $hid, $domain_id, $type='link')
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id, 'type' => $type);	
+	//$param = array ('domainid' => $domain_id);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "links", $param);// call api
+	return $data;
+}
+
+function get_masters($uid, $hid, $type)
+{
+	global $vscan_user_id;
+	//$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'type' => $type);	
+	$param = array ('type' => $type);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "masters", $param);// call api
+	return $data;
+}
+
+function rescan_domain($uid, $domain_id, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domain_master_id' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "rescan", $param);// call api
+	return $data;
+}
+
+function get_html_report($uid, $domain_id, $hid)
+{
+	global $vscan_user_id,$show_paidreport_to_freeuser;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);
+	
+	$user_type = get_vscan_user_type($_SESSION['uid'], $hid);		
+
+	$data = array();	
+	
+	if($user_type=="paid" || $show_paidreport_to_freeuser)
+		$data = api_call($uid, $hid, "report", $param);// call api
+	else
+		$data = api_call($uid, $hid, "shortreport", $param);// call api		
+	
+	
+	return $data;
+}
+
+function get_pdf_report($uid, $domain_id, $hid)
+{
+	global $vscan_user_id,$show_paidreport_to_freeuser;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);		
+	
+	$user_type = get_vscan_user_type($_SESSION['uid'], $hid);
+	
+	$data = array();	
+	
+	if($user_type=="paid" || $show_paidreport_to_freeuser)
+		$data = api_call($uid, $hid, "pdfreport", $param);// call api
+	else
+		$data = api_call($uid, $hid, "shortpdfreport", $param);// call api
+	
+	return $data;
+}
+
+function get_scan_stat($uid, $domain_id, $id, $status, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);		
+
+	$data = array();
+	$data = api_call($uid, $hid, "scancount", $param);// call api
+	return $data;
+}
+
+function update_ignore_status($uid, $domain_id, $id, $status, $hid)
+{
+	global $vscan_user_id;
+	//$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id, 'alertid' => $id, 'status' => $status);	
+	//$param = array ('alertid' => $id, 'ignore' => $status);	
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'alertid' => $id, 'ignore' => $status);	
+	
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "ignorestatus", $param);// call api
+	return $data;
+}
+
+function get_scan_log($uid, $domain_id, $scan_type, $scan_id, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id, 'scanid' => $scan_id, 'scantype' => $scan_type);	
+	//$param = array ('domainid' => $domain_id, 'scanid' => $scan_id, 'scantype' => $scan_type);	
+
+	$data = array();
+	$data = api_call($uid, $hid, "reportlog", $param);// call api
+	return $data;
+}
+
+function get_scan_details($uid, $domain_id, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);
+	//$param = array ('domainid' => $domain_id);
+
+	$data = array();
+	$data = api_call($uid, $hid, "scandetails", $param);// call api
+	return $data;
+}
+
+function get_scan_list($uid, $domain, $hid)
+{
+	global $vscan_user_id;	
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domain_master_id' => $domain);
+
+	$data = array();
+	$data = api_call($uid, $hid, "domainscanlist", $param);// call api
+	return $data;
+}
+
+function get_domain_list($uid, $hid)
+{	
+	global $vscan_user_id;	
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid);	
+		
+	$data = array();
+	$data = api_call($uid, $hid, "domainlist", $param);// call api
+	return $data;
+}
+
+function get_scan_form($uid, $hid)
+{
+	$param = array ();
+
+	$data = array();
+	$data = api_call($uid, $hid, "scanform", $param);// call api
+	return $data;
+}
+
+/*function save_scan_form($uid, $hid, $domain, $scan_type, $intelli, $scan_folder, $link_crawl, $depth_value, $skipcms, $ignorelist, $schedule_type, $scan_time, $skiptraversal)
+{
+	global $vscan_user_id;
+
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domain' => $domain, 'scantypes' => $scan_type, 'schedule_type' => strtolower($schedule_type), 'scan_time' => $scan_time, 'folder_path' => $scan_folder, 'link_crawl' => $link_crawl, 'skiptraversal' => $skiptraversal, 'searchdepth' => $depth_value, 'skipcms' => $skipcms, 'ignorelist' => $ignorelist);	
+
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "scanformsubmit", $param);// call api	
+	return $data;
+}*/
+
+function get_vscan_user_type ($uid, $hid)
+{
+	global $free_domain_count;
+	$hid = $_SESSION["hid"];
+
+	/*$domain_count = get_hosting_count_limit($uid, $hid, 'domain');
+
+	if($domain_count>$free_domain_count)
+		$user_type = "paid";
+	else
+		$user_type = "free";	
+
+	return $user_type;	
+}
+
+function edit_scan_form($uid, $hid, $post_string)
+{
+	global $vscan_user_id;		
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'post_string' => $post_string);	
+
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "editdomain", $param);// call api	
+	return $data;
+}
+
+function save_scan_form($uid, $hid, $post_string)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'post_string' => $post_string);
+
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "scanformsubmit", $param);// call api	
+	return $data;
+}
+
+function validate_user($uid=0,$hid=0)
+{   
+	$sql = "select t1.id,t1.userid from tblcustomerhostings t1 where t1.id = '".$hid."' and t1.userid = '".$uid."' and domainstatus = 'Active'";
+	$res = mysql_query($sql);
+	if(mysql_num_rows($res)<=0)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+function get_hosting_count_limit($uid, $hid, $type='')
+{
+	global $domain_count_optname;
+	global $scan_frequency_optname;
+
+	if($type=="domain")
+	{
+		$filed_name = $domain_count_optname;
+
+		$cnt = 0;
+
+		$sql_sel = "select t4.optionname from tblcustomerhostings t1, tblproductoptioncategories t2, tblhostingconfigoptions t3, tblproductoptions t4 where t1.packageid = t2.productid and t1.id = '".$hid."' and t2.optionname like '".$filed_name."' and t3.relid=t1.id and t3.configid = t2.id and t4.id = t3.optionid";
+
+		$res_sel = mysql_query($sql_sel);
+		if(mysql_num_rows($res_sel)>0)
+		{
+			while($row_sel = mysql_fetch_array($res_sel))
+			{
+				$addon_port = str_replace($filed_name,"",$row_sel["optionname"]);
+				$cnt += $addon_port;
+			}
+		}
+	}
+	else
+	{
+		$filed_name = $scan_frequency_optname;
+
+		$cnt = 'daily';
+
+		$sql_sel = "select t4.optionname from tblcustomerhostings t1, tblproductoptioncategories t2, tblhostingconfigoptions t3, tblproductoptions t4 where t1.packageid = t2.productid and t1.id = '".$hid."' and t2.optionname like '".$filed_name."' and t3.relid=t1.id and t3.configid = t2.id and t4.id = t3.optionid";
+
+		$res_sel = mysql_query($sql_sel);
+		if(mysql_num_rows($res_sel)>0)
+		{
+			$row_sel = mysql_fetch_array($res_sel);
+			$addon_port = str_replace($filed_name,"",$row_sel["optionname"]);
+
+			$cnt = $addon_port;
+		}
+	}
+
+	return $cnt;
+}
+// code to get domain details
+function get_domain_details($uid, $userdomainid,$hid)
+{	
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'userdomainid' => $userdomainid);
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "getdomaindetails", $param);// call api
+	return $data;
+}
+function get_banner_details($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	//$param = array ('domainid' => $domain_id, 'scanid' => $scan_id, 'scantype' => $scan_type);	
+
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "getbannerdetails", $param);// call api
+	return $data;
+}
+function get_scanreportlog($uid, $domainid, $id,$scantype, $cmstype)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'id' => $id, 'scantype' => $scantype, 'cmstype' => $cmstype);	
+	$data = array();
+	$data = api_call($uid, $hid, "scanreportlog", $param);// call api
+	return $data;
+}
+function get_scanreportdetails($uid, $domainid, $id,$scantype, $cmstype)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'id' => $id, 'scantype' => $scantype, 'cmstype' => $cmstype);	
+	$data = array();
+	$data = api_call($uid, $hid, "scanreportdetails", $param);// call api
+	return $data;
+}
+function get_sensitiveurls($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "getsensitiveurls", $param);// call api
+	return $data;
+}
+// get application audit details
+function getappaudit($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "getappaudit", $param);// call api
+	return $data;
+}
+function getpagecontentscan($domainid, $id,$scantype, $cmstype)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'id' => $id, 'scantype' => $scantype, 'cmstype' => $cmstype);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], $hid, "getpagecontentscan", $param);// call api
+	return $data;
+}
+// get vunerabilities_count
+function get_vunerabilities_count($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "vunerabilities_count", $param);// call api
+	return $data;
+}
+// get scan type details
+function get_scan_type_details($scantypeid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'scantypeid' =>$scantypeid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "getscantypedetails", $param);// call api
+	return $data;
+}
+function scanlinks_pdfreport($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domainid);	
+	$data = api_call($uid, $hid, "scanlinkreport", $param);// call api
+	
+	return $data;
+}
+function scanlinks_report($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domainid);	
+	$data = api_call($uid, $hid, "scanlinkstextreport", $param);// call api
+	
+	return $data;
+}
+// get scan type details
+function changecontentmonitoring($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "changecontentmonitoring", $param);// call api
+	return $data;
+}
+// get scan type details
+function viewchangecontent($domainid,$linenumber)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'linenumber' =>$linenumber);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "viewchangecontent", $param);// call api
+	return $data;
+}
+
+function pagesourcescan($domainid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "pagesourcescan", $param);// call api
+	return $data;
+}
+function allowchangepercent($domainid, $linenumber,$allowablechange)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'linenumber' =>$linenumber, 'allowablechange' => $allowablechange);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "allowchangepercent", $param);// call api
+	return $data;
+}
+function createsnapshot($user_domain_id)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'userdomainid' =>$user_domain_id);	
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "createsnapshot", $param);// call api
+	return $data;
+}
+function changecontenttextreport($uid, $domain_id, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);
+	
+	//$user_type = get_vscan_user_type($_SESSION['uid'], $hid);		
+
+	$data = array();	
+	$data = api_call($uid, $hid, "changecontenttextreport", $param);// call api
+	/*if($user_type=="paid")
+		$data = api_call($uid, $hid, "report", $param);// call api
+	else
+		$data = api_call($uid, $hid, "shortreport", $param);// call api		*/
+	return $data;
+}
+function changecontentpdfreport($uid, $domain_id, $hid)
+{
+	global $vscan_user_id;
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domain_id);	
+	//$param = array ('domainid' => $domain_id);		
+	
+	//$user_type = get_vscan_user_type($_SESSION['uid'], $hid);
+	
+	$data = array();	
+	$data = api_call($uid, $hid, "changecontentpdfreport", $param);// call api
+	
+	return $data;
+}
+function show_banner_vulner($domainid,$banoyid)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' =>$domainid, 'banoyid' => $banoyid);	
+	//$param = array ('domainid' => $domain_id, 'scanid' => $scan_id, 'scantype' => $scan_type);	
+
+	$data = array();
+	$data = api_call($_SESSION['uid'], '', "show_banner_vulner", $param);// call api
+	return $data;
+}
+function viewchangecontentpdfreport($domainid,$linenumber)
+{
+	global $vscan_user_id;
+	$uid = $_SESSION['uid'];
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'domainid' => $domainid,'linenumber' => $linenumber);	
+	$data = api_call($uid, $hid, "viewchangecontentpdfreport", $param);// call api
+	
+	return $data;
+}
+function add_domain_openscan($domain, $ipaddress)
+{
+	$param = array ('domain' =>$domain, 'ipaddress' => $ipaddress);
+
+	$data = array();
+	$data = api_call($uid, $hid, "openscan", $param);// call api	
+	return $data;
+}
+function get_html_openscan_report($domain_id)
+{
+	$param = array ('domainid' => $domain_id);	
+
+	$data = array();
+	$data = api_call($uid, $hid, "openscanreport", $param);// call api		
+	
+	return $data;
+}
+
+function update_vscan_package($uid, $hid, $scheduletype, $expiredate)
+{		
+	// global veriables
+	global $bu_v_id;
+	global $api_url;
+	global $api_username;
+	global $api_password;
+	global $vscan_user_id;
+	// eof global veriables
+	
+	if($vscan_user_id=="")		
+		require "config_vscan.php";
+	
+	$param = array ('userid' =>$vscan_user_id, 'clientid' => $uid, 'scheduletype' => $scheduletype, 'expiredate' => $expiredate);
+
+	$data = array();
+	$data = api_call($uid, $hid, "updatepackage", $param);// call api		
+	
+	return $data;
+}
+
+function get_openscan_status($domain_ids)
+{
+	$param = array ('domainids' => $domain_ids);	
+
+	$data = array();
+	$data = api_call($uid, $hid, "getscanstatus", $param);// call api		
+	
+	return $data;
+}
+function create_user($username, $password)
+{
+	global $vscan_user_id;
+	$param = array ('userid' => $vscan_user_id, 'emailid' => $username, 'password' => $password);
+
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "createuser", $param);// call api	
+	return $data;
+}
+function userlogin($username, $password)
+{
+	global $vscan_user_id;
+	$param = array ('userid' => $vscan_user_id, 'emailid' => $username, 'password' => $password);
+
+	//print_r($param);
+
+	$data = array();
+	$data = api_call($uid, $hid, "login", $param);// call api	
+	return $data;
+}
+?>

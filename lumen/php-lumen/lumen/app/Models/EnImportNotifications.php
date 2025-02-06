@@ -1,0 +1,76 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use DB;
+use Spatie\BinaryUuid\HasBinaryUuid;
+
+class EnImportNotifications extends Model 
+{
+	use HasBinaryUuid;
+    public $incrementing    = false;
+    public $timestamps = true;  
+	protected $table        = 'en_import_notifications';	
+    protected $fillable     = [
+        'notification_id','import_name','result','importdata','filename','user_id','read','read_at','status'
+    ];
+	protected $primaryKey   = 'notification_id';
+	public function getKeyName()
+    {
+        return 'notification_id';
+    }
+
+
+     protected function getnotifications($inputdata=array(), $count=false)
+    {
+        $notification_id = _isset($inputdata,'notification_id');
+        $searchkeyword = _isset($inputdata,'searchkeyword');
+        if(isset($inputdata["limit"]) && $inputdata["limit"] < 1)
+        {
+            unset($inputdata["offset"]);
+            unset($inputdata["limit"]);
+        }
+        $query = DB::table('en_import_notifications')   
+                ->select(DB::raw('BIN_TO_UUID(notification_id) AS notification_id'),DB::raw('BIN_TO_UUID(user_id) AS user_id'),'import_name','read','read_at','importdata','status','result','created_at',DB::raw('"import_asset" as notification_type'))
+                ->where('en_import_notifications.status', '!=', 'd')
+                ->where('en_import_notifications.read', '!=', 'y');
+                
+                $query->where(function ($query) use ($searchkeyword, $notification_id){
+                    $query->where(function ($query) use ($searchkeyword, $notification_id) {
+                        $query->when($searchkeyword, function ($query) use ($searchkeyword)
+                            {
+                                
+                                return $query->where('en_import_notifications.import_name', 'like', '%' . $searchkeyword . '%');
+                            });       
+                        });
+                        $query->when($notification_id, function ($query) use ($notification_id)
+                        {
+                            return $query->where('en_import_notifications.notification_id', '=', DB::raw('UUID_TO_BIN("'.$notification_id.'")'));
+                        });});
+                   //user Acessiblity
+                    $user_id    = isset($inputdata['loggedinuserid']) ? $inputdata['loggedinuserid'] : '';
+                    $is_admin   = isset($inputdata['ENMASTERADMIN']) ? $inputdata['ENMASTERADMIN'] : '';
+                    if($is_admin !="" && $is_admin !="y")
+                    {   
+                        if ($user_id != "") 
+                        {
+                           $query->where('en_import_notifications.user_id', '=', DB::raw('UUID_TO_BIN("'.$user_id.'")'));
+                        }
+                    }
+                $query->when(!$count, function ($query) use ($inputdata)
+                        {
+                            if( isset($inputdata["offset"]) && isset($inputdata["limit"]) )
+                            {
+                                return $query->offset($inputdata["offset"])->limit($inputdata["limit"]);
+                            }
+                        });
+        $data = $query->get();
+        if($count)
+            return   count($data);
+        else      
+            return $data;
+    }
+
+    
+
+}

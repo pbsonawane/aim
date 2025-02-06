@@ -1,0 +1,998 @@
+authenticate.php
+=======================================================================================
+<?php
+class Authenticate
+{
+    function Authenticate()
+    {
+        $CI = &get_instance();
+		
+		
+//		$CI->session->unset_userdata('access_token');
+//		$CI->session->unset_userdata('domainkey');
+//		$CI->session->unset_userdata('callfrom');
+//		$CI->session->unset_userdata('userfullname');
+//		$CI->session->unset_userdata('token');
+//		$CI->session->unset_userdata('displayname');
+//		echo '<pre>'; print_r($CI->session->all_userdata());die;
+		
+		
+		$CI->enlicense->license_check();
+		
+		//echo base_url(uri_string());
+		//echo "<br>";
+		//echo "<br>";
+		//print_r($CI->uri);
+		//die;
+		
+		//iam_integration
+		$tot_seg = $CI->uri->total_segments();
+		if($tot_seg > 0){
+			$last_seg = $CI->uri->segment($tot_seg);
+			if($last_seg === 'setdomainaccess'){
+				setdomainaccess();
+				die;
+			}
+			if($last_seg === 'loginsubmit' && $CI->session->userdata('callfrom') == 'iam'){
+				//die('gooo tooo login submit');
+				$CI->session->unset_userdata('access_token');
+				$CI->session->unset_userdata('domainkey');
+				$CI->session->unset_userdata('callfrom');
+				$CI->session->unset_userdata('userfullname');
+				$CI->session->unset_userdata('token');
+				$CI->session->unset_userdata('displayname');
+				
+				ob_start();
+				redirect("http://172.16.7.38:30151/index.php/user/manage/loginsubmit");
+			}
+		}
+		
+        // sample error logging
+        $error_data['function'] = "function_name";
+        $error_data['url'] = "url";
+        $error_data['ref_url'] = "ref_url";
+        $error_data['ipaddress'] = "ipaddress";
+        $error_data['agent'] = "agent";
+        $error_data['user_id'] = "user_id";
+        $error_data['username'] = "username";
+        $error_data['functionality'] = "dadA";
+        $error_data['command'] = "dadA";
+        $error_data['parameters'] = "dada";
+        $error_data['error'] = "error unexpateed error";
+        //log_error($error_data);
+        unset($error_data['error']);
+        $error_data['response'] = "command response";
+        //log_response($error_data);
+        $CI->apiresponse = '';
+        $CI->output->set_header('Last-Modified: '.gmdate("D, d M Y H:i:s").' GMT');
+        $CI->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        $CI->output->set_header('Pragma: no-cache');
+        $CI->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        $CI->load->helper('sso_helper');
+        $callfrom = sso_decrypt($CI->input->post('from'));
+        $sso_curl = $CI->input->post('sso_curl');
+            $from_portal = $CI->input->cookie('from_portal',TRUE);
+        $CI->load->model('common_model');
+		
+//		if(!(isset($_REQUEST['callfrom']) && $_REQUEST['callfrom'] == 'iam')){
+		if(!($CI->session->userdata('callfrom') && $CI->session->userdata('callfrom') != 'sso')){
+			if ($CI->config->item('sso_enable'))
+			{
+				if ($CI->session->userdata('callfrom') == 'sso' && $CI->session->userdata('token_id') != '')
+				{
+					delete_cookie_php('from_portal');
+					$token_id = $CI->session->userdata('token_id');
+					// check in database ssion is active
+					$ssotoken = $CI->common_model->select_all_where_records('sso_session', "token_id = '".$token_id."'", '', '');
+					if (!is_array($ssotoken) || (is_array($ssotoken) && count($ssotoken) < 1))
+					{
+						if ($CI->uri->segment(3) == "ssoauth")
+						{
+						}
+						else if ($CI->uri->segment(3) != "logout")
+						{
+							delete_cookie_php('from_portal');
+							$redirectlink = $CI->config->item('user_controller_path').'manage/logout/';
+							redirect($redirectlink);
+							exit;
+						}
+					}
+				}
+				else if ($from_portal == "true")
+					$redirectlink = $CI->config->item('user_controller_path').'manage/login/';
+				else
+					$redirectlink = $CI->sso->sso_base_url."user/manage/logout";
+				}
+			else
+			{
+				$redirectlink = $CI->config->item('user_controller_path').'manage/login/';
+			}
+			if ($callfrom == 'sso')
+			{
+				$CI->session->set_userdata('callfrom', 'sso');
+				$CI->session->unset_userdata('LAST_URL');
+			}
+			if ($_GET['sso_login'])
+			{
+					$CI->session->set_userdata('sso_enabled',TRUE);
+			}
+			$segment2_array = array('set_timer', 'invalid_access');
+			$segment3_array = array('syslogdata', 'devicealerts', 'devicedasbboard', 'syslastupdate', 'logsdata', 'resetpassword', 'resetpasswordsubmit', 'forgotsubmit', 'forgot');
+			// $exclude_auth = array('resetpassword', 'resetpasswordsubmit', 'forgotsubmit', 'forgot', 'downloadupdate', 'generateagent', 'downloadagent', 'fetch_data_');
+			$exclude_auth = array('resetpassword', 'resetpasswordsubmit', 'forgotsubmit', 'forgot', 'downloadupdate', 'generateagent', 'downloadagent', 'fetch_data_', "add", "addusersubmit");
+			if ($CI->session->userdata('LAST_URL') == '' && $callfrom == '')
+			{
+				if (!in_array($CI->uri->segment(2), $segment2_array) && !in_array($CI->uri->segment(3), $segment3_array))
+					$CI->session->set_userdata('LAST_URL', uri_string());
+				}
+			if ($CI->uri->segment(3) != "login" && $CI->uri->segment(3) != "loginsubmit" && !strstr($CI->config->item('ws_folder'), $CI->uri->segment(1)) && !in_array($CI->uri->segment(3), $exclude_auth) && $callfrom != "sso" && !$_GET['sso_login'] && $sso_curl == '' && $CI->uri->segment(3) != "ssologout")
+			{
+				if ($CI->session->userdata('EMUSERID') == "")
+				{
+					delete_cookie_php('from_portal');
+					redirect($redirectlink);
+					exit;
+				}
+			}
+        }
+//		else if((isset($_REQUEST['callfrom']) && $_REQUEST['callfrom'] == 'iam')){	//iam_integration
+		else if(($CI->session->userdata('callfrom')) && ($CI->session->userdata('access_token') != '') && $CI->session->userdata('callfrom') == 'iam'){	 //iam_integration
+			$access_token = $CI->session->userdata('access_token');
+			if(isset($access_token) && $access_token!="")
+			{
+				if($access_token != '')
+				{
+					$is_valid_call =  setaccess();
+					
+					if ($is_valid_call) 
+					{
+						redirect($CI->config->item('user_controller_path').'manage/');
+					}
+					else
+					{
+						redirect($CI->config->item('user_controller_path').'manage/logout/');
+					}
+				}
+				else
+				{
+					redirect($CI->config->item('user_controller_path').'manage/logout/');
+				}
+			}
+			else
+			{
+				die("Session token not set.");
+				//return $next($request);    
+			}
+		}
+    }
+        function _addUser($user)
+    {
+        $CI = &get_instance();
+        $user_data["username"] = $user["username"];
+        $user_data["password"] = $user["password"];
+        $user_data["name"] = $user["name"];
+        $user_data["email"] = $user["email"];
+        $user_data["full_name"] = $user["full_name"];
+        $user_data["confirm_password"] = $user["password"];
+        $user_data["expiry_option"] = "n";
+        $user_data["role"] = 2; // $user["role"]; // take id from ui comma seperated string
+        $user_data["bu_vert_sel"] = '1,2,3'; // $user["bu_vert_sel"]; // take id from ui comma seperated string
+        $user_data["datacenters"] = '1,92,103,106'; // $user["datacenters"]; // take id from ui comma seperated string
+        $user_data["v2_group"] = $user["v2_group"];
+        $user_data["v2_role"] = $user["role"]; //v2_role
+        $user_data["cms_rpt_intimation"] = ""; // $user["cms_rpt_intimation"]; // ""
+        $user_data["manager"] = ""; // $user["manager"]; // ""
+        $user_data["categ"] = ""; // $user["categ"]; // ""
+        $user_data["access_pass"] = $user["access_pass"]; // same as password
+        $user_data["device_auto_assign"] = "n"; // $user["device_auto_assign"]; // n
+        $user_data["expiry_date"] = ""; // $user["expiry_date"]; // ""
+        $user_data["devicegroups"] = ""; // $user["devicegroups"];
+        $url = $CI->config->item('user_controller_path')."manage/addusersubmit";
+        $this->_doPostCurl($url, $user_data);
+        $response_user_add = $this->apiresponse;
+        $this->apiresponse = '';
+    }
+        function _doPostCurl($url, $post_data) 
+    {
+        error_reporting(E_ALL);
+            $post_data["sso"] = TRUE;
+        $curl_options = array(
+            CURLOPT_RETURNTRANSFER => true, // return web page
+            CURLOPT_HEADER => false, // don't return headers
+            CURLOPT_AUTOREFERER => true, // set referer on redirect
+            CURLOPT_CONNECTTIMEOUT => 180, // timeout on connect
+            CURLOPT_TIMEOUT => 180, // timeout on response
+            CURLOPT_POST => 1, // i am sending post data
+                CURLOPT_POSTFIELDS => $post_data
+        );
+        $curl = curl_init($url);
+        curl_setopt_array($curl, $curl_options);
+        $response = curl_exec($curl);
+        $this->apiresponse = $response;
+        curl_close($curl);
+    }
+
+        /*
+        | CP-Author: Sagar Sainkar / Darshan Chaure
+        */
+        function checkobject($objectid,$redirect=true)
+    {
+        if (trim($objectid) == '')
+        {
+            redirect(site_url().'/manage/invalid_userobject/');
+        }
+        else
+        {
+            $CI = &get_instance();
+            if ($this->is_superadmin())
+            {
+                /* $objects = $this->users_all_objects('', $filter);
+                if ($objects != '')
+                {
+                $objects_array = explode(',', $objects);
+                if (!in_array($objectid, $objects_array))
+                {
+                redirect(site_url().'/manage/invalid_userobject/');
+                }
+                } */
+                return true;
+            }
+            else
+            {
+                $userid = $CI->session->userdata('EMUSERID') != '' ? $CI->session->userdata('EMUSERID') : '';
+                $CI->db->select('object_id');
+                $CI->db->from($CI->config->item('table_prefix').'user_objects');
+                $CI->db->where('status', 'y');
+                $CI->db->where('user_id', $userid);
+                $CI->db->where('object_id', $objectid);
+                $query = $CI->db->get();
+                if ($query->num_rows() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    // check objects from assinged device groups
+                    $objectsbyusergrp = $this->userobjectsbygroup();
+                    $objectsbyusergrp_arr = $objectsbyusergrp != '' ? explode(",", $objectsbyusergrp) : array();
+                    if ($objectid != '' && in_array($objectid, $objectsbyusergrp_arr))
+                    {
+                        return true;
+                    }
+                    /* // check device is syslog server?
+                    if( $this->checksyslogaccess() )
+                    {
+                    return true;
+                    } */
+                    if ($redirect)
+                    {
+                        redirect(site_url().'/manage/invalid_userobject/');
+                    }
+                    else
+                    {
+							return false;
+                    }
+                }
+            }
+        }
+    }
+
+        function checksyslogaccess($objectid = "")
+    {
+        $CI = &get_instance();
+        $CI->load->model('common_model');
+        $objects = 0;
+        $where = "status = 'y'";
+        if ($objectid != '')
+            $where .= " AND object_id IN (".$objectid.") ";
+        $all_syslog_obj = $CI->common_model->valuestring(array('table_name' => $CI->tbl_prefix.'syslog_status', 'field' => 'object_id', 'where' => $where));
+        if ($all_syslog_obj != '')
+        {
+            $filter = array('allow_obj_ids' => $all_syslog_obj, 'skip_user_level' => 1);
+            $objects = $this->users_all_objects('', $filter);
+        }
+        return $objects;
+    }
+		
+		/*CP_Author: Darshan Chaure*/
+        function users_all_objects($userid = "", $filter = array())
+    {
+        $ids_str = '';
+        $ids = array();
+        $CI = &get_instance();
+        $CI->load->model('common_model');
+        $ids = '';
+        $allow_obj_ids = isset($filter['allow_obj_ids']) ? $filter['allow_obj_ids'] : '';
+        $vert_id = isset($filter['vert_id']) ? $filter['vert_id'] : '';
+        $dc = isset($filter['dc']) ? $filter['dc'] : '';
+        $dep_type = isset($filter['dep_type']) ? $filter['dep_type'] : '';
+        $status_id = isset($filter['status_id']) ? $filter['status_id'] : '';
+        $ownership = isset($filter['ownership']) ? $filter['ownership'] : '';
+        $device_group = isset($filter['device_group']) ? $filter['device_group'] : '';
+        $skip_user_level = isset($filter['skip_user_level']) ? $filter['skip_user_level'] : 0;
+        $bu_id = isset($filter['bu_id']) ? $filter['bu_id'] : '';
+		$terminate_devices = isset($filter['terminate_devices']) ? $filter['terminate_devices'] : 'n'; // To lsit terminated devices
+		
+        if ((trim($vert_id) == '' || trim($vert_id) == 0) && $bu_id != '')
+        {
+            $bu_where = "status = 'y' AND bu_id IN (".trim($bu_id, ",").")";
+            //if (!$this->is_superadmin())
+            if (1)
+            {
+                $vert_id = $this->userbusinessvertical(array("bu_id" => $bu_id));
+                $vert_id = $vert_id != '' ? $vert_id : 0;
+                $bu_where .= " AND bu_v_id IN (".$vert_id.")";
+            }
+            $vert_id = $CI->common_model->get_field_value('GROUP_CONCAT(bu_v_id)', $CI->tbl_prefix."business_verticle_master", $bu_where);
+        }
+        //echo "<pre>";print_r($filter);
+        $userid = $userid == '' ? $CI->session->userdata('EMUSERID') : $userid;
+        $objids_str = $objids_by_dc = $objids_by_bv = $where_cond = $all_objids = '';
+        $objids_by_dc_arr = $objids_by_bv_arr = $user_objects_arr = $all_objids_arr = array();
+        $where_cond = "object_id > 0";
+        $objectsbyusergrp = $this->userobjectsbygroup($userid, $device_group);
+			
+        if ($status_id != '' && $status_id != 'undefined')
+        {
+            if ($status_id > 0)
+            {
+                $where_cond .= " AND status_id IN (".$status_id.")";
+            }
+            elseif ($status_id == 'all')
+            {
+					$skipped_status_ids = $CI->config->item('skipped_status_ids');
+                    if(trim($skipped_status_ids) != "")
+						$where_cond .= " AND status_id  NOT IN ($skipped_status_ids) ";
+            }
+        }
+        if ($dep_type != '' && $dep_type != 'undefined' && $dep_type > 0)
+            $where_cond .= " AND dep_type_id IN (".$dep_type.")";
+        if ($ownership != '' && $ownership != 'undefined' && $ownership > 0)
+            $where_cond .= " AND ownership_id IN (".$ownership.")";
+        if ($this->is_superadmin())
+        {
+            $user_data_center = $dc;
+            if ($user_data_center != '' && $user_data_center != 'undefined' & $user_data_center > 0)
+                $where_cond .= " AND location_id IN (".$user_data_center.")";
+            if (($vert_id != '' && $vert_id != 'undefined') && $vert_id > 0)
+                $where_cond .= " AND bu_v_id IN (".$vert_id.")";
+            $all_objids = $CI->common_model->valuestring(array('table_name' => $CI->config->item('table_prefix').'object_master', 'field' => 'object_id', 'where' => $where_cond));
+            if ($all_objids != '')
+            {
+                $all_objids = trim($all_objids, ",");
+                $all_objids_arr = explode(",", $all_objids);
+            }
+            // Add objects assigned to user device groups
+            if ($objectsbyusergrp != '' && $device_group)
+            {
+                $user_assigned_objs_arr = $all_objids_arr;
+                $objectsbyusergrp_arr = $objectsbyusergrp != '' ? explode(",", $objectsbyusergrp) : array();
+                if ($device_group != '' && $device_group)
+                    $temp = array_intersect($user_assigned_objs_arr, $objectsbyusergrp_arr);
+                else
+                    $temp = array_merge($user_assigned_objs_arr, $objectsbyusergrp_arr);
+                //$all_objids_arr = is_array($temp ) && count($temp) > 0 ? implode(",",$temp) : '';
+                $all_objids_arr = $temp;
+            }
+            if ($allow_obj_ids != '')
+            {
+                $temp = explode(",", $allow_obj_ids);
+                $all_objids_arr = array_intersect($all_objids_arr, $temp);
+            }
+            $all_objids_arr = array_unique($all_objids_arr);
+            if (is_array($all_objids_arr) && count($all_objids_arr) > 0)
+                return implode(",", $all_objids_arr);
+            else
+                return '0';
+            }
+        else
+        {
+            if ($vert_id == '' || $vert_id < 1)
+                $vert_id = $this->userbusinessvertical();
+            if ($dc == '' || $dc < 1)
+                $user_data_center = $CI->common_model->userdatacenters($userid);
+            else
+                $user_data_center = $dc;
+            if ($user_data_center != '' && $user_data_center != 'undefined')
+                $where_cond .= " AND location_id IN (".$user_data_center.")";
+            if ($vert_id != '' && $vert_id != 'undefined')
+                $where_cond .= " AND bu_v_id IN (".$vert_id.")";
+            $all_objids = $CI->common_model->valuestring(array('table_name' => $CI->config->item('table_prefix').'object_master', 'field' => 'object_id', 'where' => $where_cond));
+            //echo $CI->db->last_query();
+            $all_objids = $all_objids != '' ? trim($all_objids, ',') : '';
+            $all_objids_arr = $all_objids != '' ? explode(",", $all_objids) : array();
+            $CI->db->select('object_id');
+            $CI->db->from($CI->config->item('table_prefix').'user_objects');
+           
+			if($terminate_devices == 'y')
+			{
+				 $CI->db->where('status', 'y');
+				 $CI->db->or_where('object_terminate', 'y');
+			}
+			else
+				 $CI->db->where('status', 'y');
+			
+            $CI->db->where('user_id', $userid);
+            $query = $CI->db->get();
+            //echo $CI->db->last_query();
+            if ($query->num_rows() > 0)
+            {
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['object_id'] > 0)
+                        $ids .= $row['object_id'].",";
+                    }
+                $ids = trim($ids, ',');
+                $user_objects_arr = explode(",", $ids);
+                //return $ids;
+            }
+            // Add objects assigned to user device groups
+            if ($objectsbyusergrp != '')
+            {
+                $user_assigned_objs_arr = $user_objects_arr;
+                $objectsbyusergrp_arr = $objectsbyusergrp != '' ? explode(",", $objectsbyusergrp) : array();
+                if ($device_group != '' && $device_group > 0)
+                {
+                    //$temp = array_intersect($user_assigned_objs_arr,$objectsbyusergrp_arr);
+                    $temp = $objectsbyusergrp_arr;
+                }
+                else
+                {
+                    $temp = array_merge($user_assigned_objs_arr, $objectsbyusergrp_arr);
+                }
+                $user_objects_arr = $temp;
+            }
+            // skip user level objects checking
+            if (!$skip_user_level)
+            {
+                $all_objids_arr = array_intersect($all_objids_arr, $user_objects_arr);
+            }
+            $all_objids_arr = array_unique($all_objids_arr);
+            if ($allow_obj_ids != '')
+            {
+                $temp = explode(",", $allow_obj_ids);
+                $all_objids_arr = array_intersect($all_objids_arr, $temp);
+            }
+            $all_objids_arr = array_unique($all_objids_arr);
+            if (is_array($all_objids_arr) && count($all_objids_arr) > 0)
+                return implode(",", $all_objids_arr);
+            else
+                return '0';
+            }
+        }
+        function userobjects()
+    {
+        $CI = &get_instance();
+        if ($this->is_superadmin())
+        {
+            $CI->db->select('object_id');
+            $CI->db->from($CI->config->item('table_prefix').'object_master');
+            $statusid = $CI->myconfig->getconfig('status','unrackterminate');
+            $CI->db->where("status_id NOT IN ('.$statusid.') ");
+            $query = $CI->db->get();
+            if ($query->num_rows() > 0)
+            {
+                $ids = '';
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['object_id'] > 0)
+                        $ids .= $row['object_id'].",";
+                    }
+                $ids = trim($ids, ',');
+                return $ids;
+            }
+            else
+                return false;
+            }
+        else
+        {
+            $ids = '';
+            $objectsbyusergrp = $this->userobjectsbygroup();
+            $userid = $CI->session->userdata('EMUSERID') != '' ? $CI->session->userdata('EMUSERID') : '';
+            $CI->db->select('object_id');
+            $CI->db->from($CI->config->item('table_prefix').'user_objects');
+            $CI->db->where('status', 'y');
+            $CI->db->where('user_id', $userid);
+            $query = $CI->db->get();
+            //echo $CI->db->last_query();
+            if ($query->num_rows() > 0)
+            {
+                $ids = '';
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['object_id'] > 0)
+                        $ids .= $row['object_id'].",";
+                    }
+                $ids = trim($ids, ',');
+            }
+            // Add objects assigned to user device groups
+            if ($objectsbyusergrp != '')
+            {
+                $user_assigned_objs_arr = $ids != '' ? explode(",", $ids) : array();
+                $objectsbyusergrp_arr = $objectsbyusergrp != '' ? explode(",", $objectsbyusergrp) : array();
+                $temp = array_merge($user_assigned_objs_arr, $objectsbyusergrp_arr);
+                $temp = array_unique($temp);
+                $ids = is_array($temp) && count($temp) > 0 ? implode(",", $temp) : '';
+            }
+            if ($ids != '')
+                return $ids;
+            else
+                return false;
+            }
+        }
+        function categorypermissions()
+    {
+    }
+        function rolepermissions($userid)
+    {
+        $CI = &get_instance();
+        $perm_arr = array();
+        $user_roles = $this->userroles($userid);
+            $CI->db->where("role_id IN ($user_roles)", '', FALSE);
+        $CI->db->where('status', 'y');
+        $CI->db->select('perm_id');
+        $role_permissions = $CI->db->get($CI->config->item('table_prefix').'role_permissions');
+        if ($role_permissions->num_rows() > 0)
+        {
+            $role_permissions_arr = $role_permissions->result_array();
+            $str_arr = '';
+            foreach ($role_permissions_arr as $rarr)
+            {
+                if ($rarr['perm_id'] > 0 && $rarr['perm_id'] != "")
+                    array_push($perm_arr, $rarr['perm_id']);
+                }
+            }
+        return $perm_arr;
+    }
+        function extrapermissions($userid)
+    {
+        $extra_permissions = array();
+        $CI = &get_instance();
+            $CI->db->where('user_id', $userid, FALSE);
+        $CI->db->where('status', 'y');
+        $CI->db->select('perm_id');
+        $permissions = $CI->db->get($CI->config->item('table_prefix').'user_extrapermissions');
+        //echo $CI->db->last_query();
+        if ($permissions->num_rows() > 0)
+        {
+            $permissions_arr = $permissions->result_array();
+            $str_arr = '';
+            foreach ($permissions_arr as $rarr)
+            {
+                if ($rarr['perm_id'] > 0 && $rarr['perm_id'] != "")
+                    array_push($extra_permissions, $rarr['perm_id']);
+                }
+            }
+        return $extra_permissions;
+    }
+        function allpermissionids($userid)
+    {
+        $extra_permissions = array();
+        $role_permissions = array();
+        $all_permissions = array();
+        $extra_permissions = $this->extrapermissions($userid);
+        $role_permissions = $this->rolepermissions($userid);
+        if (count($role_permissions) > 0 && count($extra_permissions) > 0)
+            $all_permissions = array_unique(array_merge($role_permissions, $extra_permissions));
+        else if (count($role_permissions) > 0 && count($extra_permissions) <= 0)
+            $all_permissions = $role_permissions;
+        else if (count($extra_permissions) > 0 && count($role_permissions) <= 0)
+            $all_permissions = $extra_permissions;
+        if (is_array($all_permissions) && count($all_permissions) > 0)
+            return array_values(array_unique($all_permissions));
+        else
+            return array();
+        }
+        function checkpermission($permid, $flag = '')
+    {
+        $CI = &get_instance();
+        if ($this->is_superadmin())
+        {
+            return true;
+        }
+        $permissionstr = $CI->session->userdata('PERMISSIONS');
+        $permissions = explode(",", $permissionstr);
+        if (is_array($permissions) && count($permissions) > 0 && $permid > 0)
+        {
+            if (in_array($permid, $permissions))
+                return true;
+            else if ($flag == 'redirect')
+                redirect(site_url().'/manage/invalid_userobject/');
+            else if ($flag == 'message')
+                return '<div style="font-family:Verdana; font-size:12px; color:#FF0000; width:100%; padding:30px 0 0 0; text-align:center;">You do not have enough permissions to view current page</div>';
+            else
+                return false;
+            }
+        else if ($flag == 'message')
+            return '<div style="font-family:Verdana; font-size:12px; color:#FF0000; width:100%; padding:30px 0 0 0; text-align:center;">You do not have enough permissions to view current page</div>';
+        else if ($flag == 'redirect')
+            redirect(site_url().'/manage/invalid_userobject/');
+        else if ($flag == 'access')
+            redirect(site_url().'/manage/invalid_access/');
+        else
+            return false;
+        }
+		function modulepermissions($module_permissions=array())
+    {
+        if ($this->is_superadmin())
+        {
+            return true;
+        }
+        $CI = &get_instance();
+        $usrpermissions = $common_perm = array();
+        $usrpermissionstr = $CI->session->userdata('PERMISSIONS');
+        $usrpermissions = explode(",", $usrpermissionstr);
+        if ((is_array($usrpermissions) && count($usrpermissions) > 0) && (is_array($module_permissions) && count($module_permissions) > 0))
+        {
+            $common_perm = array_intersect($usrpermissions, $module_permissions);
+            if (is_array($common_perm) && count($common_perm) > 0)
+                return true;
+            else
+                return false;
+            }
+        return false;
+    }
+        function requestcount()
+    {
+        $CI = &get_instance();
+        $sessuser = $CI->session->userdata('EMUSERID');
+            $CI->db->where('to_user_id', $sessuser, FALSE);
+        $CI->db->where('current_status', 'y');
+        $CI->db->where('status_id', '5');
+        $cnt = $CI->db->count_all_results($CI->config->item('table_prefix').'itil_crf_details');
+        return $cnt;
+    }
+        function userbusinessvertical($filter=array())
+    {
+        $CI = &get_instance();
+        $vert_id = '';
+        $userid = $CI->session->userdata('EMUSERID') != '' ? $CI->session->userdata('EMUSERID') : '';
+        $userid = isset($filter['userid']) ? $filter['userid'] : $userid;
+        $bu_id = isset($filter['bu_id']) ? $filter['bu_id'] : '';
+        if ($this->is_superadmin())
+        {
+            $sql_adm = "";
+            if ($bu_id != '')
+                $sql_adm = " AND bu_id IN (".trim($bu_id, ",").")";
+            $vert_id = $CI->common_model->get_field_value('GROUP_CONCAT(bu_v_id)', $CI->tbl_prefix."business_verticle_master", "status = 'y'");
+            $vert_id = $vert_id != '' ? $vert_id : 0;
+            return $vert_id;
+        }
+        if ($bu_id != '')
+        {
+            $bu_where = "status = 'y' AND bu_id IN (".trim($bu_id, ",").")";
+            $vert_id = $CI->common_model->get_field_value('GROUP_CONCAT(bu_v_id)', $CI->tbl_prefix."business_verticle_master", $bu_where);
+            $vert_id = $vert_id != '' ? $vert_id : 0;
+            //myconsole($vert_id);
+        }
+        //myconsole($vert_id,'639');
+        $CI->db->select('bu_v_id');
+        $CI->db->from($CI->config->item('table_prefix').'user_bv_relation');
+        $CI->db->where('status', 'y');
+        $CI->db->where('user_id', $userid);
+        if ($vert_id != '')
+        {
+            $wherecon = "bu_v_id IN ($vert_id)";
+            $CI->db->where($wherecon);
+        }
+        $query = $CI->db->get();
+        //echo $CI->db->last_query();
+        if ($query->num_rows() > 0)
+        {
+            $ids = '';
+            foreach ($query->result_array() as $row)
+            {
+                $ids .= $row['bu_v_id'].",";
+            }
+            $ids = trim($ids, ',');
+            return $ids;
+        }
+        else
+            return 0;
+        }
+        function userdatacenter()
+    {
+        $CI = &get_instance();
+        $userid = $CI->session->userdata('EMUSERID') != '' ? $CI->session->userdata('EMUSERID') : '';
+        $CI->db->select('location_id');
+        $CI->db->from($CI->config->item('table_prefix').'user_dc_relation');
+        $CI->db->where('status', 'y');
+        $CI->db->where('user_id', $userid);
+        $query = $CI->db->get();
+        if ($query->num_rows() > 0)
+        {
+            $ids = '';
+            foreach ($query->result_array() as $row)
+            {
+                if ($row['location_id'] > 0)
+                    $ids .= $row['location_id'].",";
+                }
+            $ids = trim($ids, ',');
+            return $ids;
+        }
+        else
+            return "0";
+        }
+        function userroles($userid)
+    {
+        $CI = &get_instance();
+        $CI->db->select('role_id');
+        $CI->db->from($CI->config->item('table_prefix').'user_master');
+        $CI->db->where('user_id', $userid);
+        $query = $CI->db->get();
+        //echo $CI->db->last_query();
+        if ($query->num_rows() > 0)
+        {
+            $user_roles = $query->result_array();
+            return trim($user_roles[0]['role_id'], ',');
+        }
+        else
+            return 0;
+        }
+        function getusersbyrole($roleids,$issuperadmin="n")
+    {
+        $CI = &get_instance();
+        $roleids = trim($roleids, ",");
+        $users_ids = array();
+        if ($roleids != '' && $issuperadmin == 'n')
+        {
+            $roleids = explode(",", $roleids);
+            $query = "SET SESSION GROUP_CONCAT_MAX_LEN = 6000000;";
+            for ($i = 0; $i < count($roleids); ++$i)
+            {
+                $role = $roleids[$i];
+                $CI->db->select('GROUP_CONCAT(user_id ORDER BY full_name) as val');
+                $CI->db->from($CI->config->item('table_prefix').'user_master');
+                $CI->db->where('role_id LIKE "%,'.$role.',%" AND status="y" ', null, false);
+                $query = $CI->db->get();
+                if ($query->num_rows() > 0)
+                {
+                    $user_roles = $query->result_array();
+                    if ($user_roles[0]['val'] != '')
+                        $users_ids[] = trim($user_roles[0]['val'], ',');
+                    }
+                }
+            }else	if ($issuperadmin == 'y') //superadmin
+        {
+            $CI->db->select('GROUP_CONCAT(user_id ORDER BY full_name) as val');
+            $CI->db->from($CI->config->item('table_prefix').'user_master');
+            $CI->db->where('status = "y" ', null, false);
+            $query = $CI->db->get();
+            if ($query->num_rows() > 0)
+            {
+                $user_roles = $query->result_array();
+                if ($user_roles[0]['val'] != '')
+                    $users_ids[] = trim($user_roles[0]['val'], ',');
+                }
+            }
+        return count($users_ids) > 0 ? implode(",", $users_ids) : '0';
+    }
+		
+		/* CP-Author: Darshan Chaure */
+        function userdevicegroups($filter = "")
+    {
+        $user_device_grps = $bu_v_id = $productids = '';
+        if (is_array($filter))
+        {
+            $userid = isset($filter['user_id']) ? $filter['user_id'] : '';
+            $bu_v_id = isset($filter['bu_v_id']) ? $filter['bu_v_id'] : '';
+			}else
+            $userid = $filter;
+        $CI = &get_instance();
+        $userid = $userid == "" ? $CI->session->userdata('EMUSERID') : $userid;
+        if ($this->is_superadmin())
+        {
+            $CI->db->select('product_id');
+            $CI->db->from($CI->config->item('table_prefix').'object_product_master');
+            $CI->db->where('status', 'y');
+            if ($bu_v_id != '')
+            {
+                $CI->db->where('bu_v_id', $bu_v_id);
+            }
+            $query = $CI->db->get();
+            //echo $CI->db->last_query();
+            if ($query->num_rows() > 0)
+            {
+                $ids = '';
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['product_id'] > 0)
+                        $ids .= $row['product_id'] != '' ? trim($row['product_id'], ",")."," : '';
+                    }
+                $user_device_grps = trim($ids, ',');
+            }
+        }
+        else
+        {
+            if ($bu_v_id != '')
+            {
+                $productids = $CI->common_model->get_field_value('GROUP_CONCAT(product_id)', $CI->tbl_prefix.'object_product_master', "bu_v_id IN (".$bu_v_id.") AND status = 'y'");
+            }
+            $CI->db->select('device_groups_ids');
+            $CI->db->from($CI->config->item('table_prefix').'user_master');
+            $CI->db->where('user_id', $userid);
+            $CI->db->where('status', 'y');
+            $query = $CI->db->get();
+            //echo $CI->db->last_query();
+            if ($query->num_rows() > 0)
+            {
+                $ids = '';
+                foreach ($query->result_array() as $row)
+                {
+                    $ids .= $row['device_groups_ids'] != '' ? trim($row['device_groups_ids'], ",")."," : '';
+                }
+                $user_device_grps = trim($ids, ',');
+                if ($user_device_grps != '' && $productids != '')
+                {
+                    $user_device_grps_arr = explode(",", $user_device_grps);
+                    $productids_arr = explode(",", $productids);
+                    $user_device_grps_arr = array_intersect($user_device_grps_arr, $productids_arr);
+                    $user_device_grps = implode(",", $user_device_grps_arr);
+                }
+            }
+        }
+        $user_device_grps = $user_device_grps != '' ? $user_device_grps : "''";
+        return $user_device_grps;
+    }
+		function objectbysupportcategory($support_category)
+    {
+        $objects_arr = array();
+        $objects = '';
+        $CI = &get_instance();
+        if (trim($support_category) != '')
+        {
+            $support_category = "'".str_replace(",", "','", trim($support_category))."'";
+            $CI->db->select('om.object_id');
+            $CI->db->from($CI->config->item('table_prefix').'object_master om, '.$CI->config->item('table_prefix').'client_master cm');
+            $statusid = $this->myconfig->getconfig('status','unrackterminate');
+            $CI->db->where("om.client_id = cm.client_id AND cm.status_id = 1 AND om.status_id NOT IN '.$statusid.' AND cm.support_category IN (".$support_category.")");
+            $query = $CI->db->get();
+            if ($query->num_rows() > 0)
+            {
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['object_id'] > 0)
+                        array_push($objects_arr, $row['object_id']);
+                    }
+                $objects = implode(",", array_unique($objects_arr));
+            }
+        }
+        return $objects;
+    }
+		
+		/* CP-Author: Darshan Chaure */
+        function userobjectsbygroup($userid = "", $device_group = "")
+    {
+        if ($device_group == '' || $device_group < 1)
+            $acc_groups = $this->userdevicegroups($userid);
+        else
+            $acc_groups = $device_group;
+        $CI = &get_instance();
+        $objidsbygrp = '';
+        if ($acc_groups != '')
+        {
+            $CI->db->select('object_id');
+            $CI->db->from($CI->config->item('table_prefix').'object_product_master');
+            $CI->db->where('status', 'y');
+            $CI->db->where('product_id IN ('.$acc_groups.')', null, false);
+            $query = $CI->db->get();
+            //echo $CI->db->last_query();
+            if ($query->num_rows() > 0)
+            {
+                $ids = '';
+                foreach ($query->result_array() as $row)
+                {
+                    if ($row['object_id'] > 0)
+                        $ids .= $row['object_id'] != '' ? trim($row['object_id'], ",")."," : '';
+                    }
+                $objidsbygrp = trim($ids, ',');
+            }
+        }
+        return $objidsbygrp;
+    }
+		
+		/* CP-Author: Darshan Chaure */
+        function is_superadmin($userid = "")
+    {
+        $CI = &get_instance();
+        if ($userid == '')
+        {
+            $userid = $CI->session->userdata('EMUSERID');
+        }
+
+        if ($userid != '')
+        {
+            //$is_sys_super_admin = $CI->common_model->get_field_value('super_admin', $CI->tbl_prefix.'user_master', "user_id = '".$userid."'");
+            $is_sys_super_admin = $CI->session->userdata('EMSUPERADMIN');
+                
+            if ($is_sys_super_admin == 'y')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            }
+
+        return false;
+    }
+
+        function getIPs($objectids)
+    {
+        $CI = &get_instance();
+        $ips = '';
+        if ($objectids != '')
+        {
+            $CI->common_model->executequery("SET SESSION GROUP_CONCAT_MAX_LEN = 6000000");
+            $ips = $CI->common_model->get_field_value('GROUP_CONCAT(ip)', $CI->tbl_prefix.'object_ips', "object_id IN (".$objectids.") AND (type = 'primary' OR type = 'management' ) AND status = 'y'");
+        }
+        return $ips;
+    }
+        function getAccessibleGroups($filter=array())
+    {
+        $CI = &get_instance();
+        $userid = $CI->session->userdata('EMUSERID') != '' ? $CI->session->userdata('EMUSERID') : '';
+        if ($this->is_superadmin())
+        {
+            $devicesgroups = $CI->common_model->select_all_where_records($CI->tbl_prefix.'object_product_master', "status = 'y' ORDER BY name ASC ", '', '');
+	        }else
+        {
+            $userid = isset($filter['userid']) ? $filter['userid'] : $userid;
+            $user_bv = $this->userbusinessvertical(array("userid" => $userid));
+            $user_bv = $user_bv != '' ? "'','".str_replace(",", "','", $user_bv)."'" : "''";
+            $devicesgroups = $CI->common_model->select_all_where_records($CI->tbl_prefix.'object_product_master', "status = 'y' AND bu_v_id IN (".$user_bv.") ORDER BY name ASC ", '', '');
+        }
+        return $devicesgroups;
+    }
+        function checksupport_agentbased_mon($deptypeid)
+    {
+        $CI = &get_instance();
+        $dep_type_id = $CI->myconfig->getconfig('deptype','dep_type_id_auth');
+        $deptauth = $CI->myconfig->getconfig('deptype','deptauth');
+        $dep_type_ids = $CI->common_model->select_all_where_records($CI->tbl_prefix.'deployment_type_master', "status = 'y' AND dep_type IN '.$deptauth.' AND dep_type_id NOT IN $dep_type_id", '', '');
+        $dep_type_ids = $CI->common_model->keytoarray($dep_type_ids, 'dep_type_id');
+        if (isset($dep_type_ids[$deptypeid]))
+        {
+            return true;
+			}else
+        {
+            return false;
+        }
+    }
+	
+	/*CP-Author: darshan*/
+	function v2rolecheck($rolearr = array())
+    {
+        $CI			 = &get_instance();
+        $sessrole	 = strtolower(trim($CI->session->userdata("EMV2ROLE")));
+        $role_master = array("superadmin" => 1, "admin" => 2, "user" => 3);
+        if (is_array($rolearr) && count($rolearr) > 0)
+        {
+            if (in_array($role_master[$sessrole], $rolearr))
+			{
+				return TRUE;
+			}
+            else
+			{
+				return FALSE;
+			}
+        }
+        else
+		{
+			return FALSE;
+		}
+	}
+		public function is_v2admin()
+            {
+			$CI = &get_instance();
+			if ($CI->session->userdata("EMV2ROLE") == "superadmin")
+			{
+				return true;
+            }
+            return false;
+        }
+    }    
+/* End of file authenticate.php */
+/* Location: .pds/application/library/authenticate.php */
+?>

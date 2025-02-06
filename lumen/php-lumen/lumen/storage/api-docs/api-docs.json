@@ -1,0 +1,1895 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "eNlight 360 API",
+        "contact": {
+            "email": "enlightapi@esds.co.in"
+        },
+        "version": "1.0.0"
+    },
+    "host": "10.99.99.235",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/businessunits/{bu_id}": {
+            "get": {
+                "tags": [
+                    "BU"
+                ],
+                "summary": "Get BU",
+                "operationId": "businessunits",
+                "parameters": [
+                    {
+                        "name": "bu_id",
+                        "in": "path",
+                        "description": "BU",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_business_units"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessunitadd": {
+            "post": {
+                "tags": [
+                    "BU"
+                ],
+                "summary": "Add a new BU",
+                "operationId": "businessunitadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new BU",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_business_units"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BU created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_business_units"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/businessunitdelete/{bu_id}": {
+            "delete": {
+                "tags": [
+                    "BU"
+                ],
+                "summary": "Delete a BU ",
+                "operationId": "businessunitdelete",
+                "parameters": [
+                    {
+                        "name": "bu_id",
+                        "in": "path",
+                        "description": "BUId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessunitedit/{bu_id}": {
+            "get": {
+                "tags": [
+                    "BU"
+                ],
+                "summary": "Fetch BU by Id for Edit Window",
+                "operationId": "businessunitedit",
+                "parameters": [
+                    {
+                        "name": "bu_id",
+                        "in": "path",
+                        "description": "bu_id :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessunitupdate": {
+            "put": {
+                "tags": [
+                    "BU"
+                ],
+                "summary": "Update a BU",
+                "operationId": "businessunitupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a BU",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_business_units"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BU Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/businessverticals/{bv_id}": {
+            "get": {
+                "tags": [
+                    "BV"
+                ],
+                "summary": "Get BV",
+                "operationId": "businessverticals",
+                "parameters": [
+                    {
+                        "name": "bv_id",
+                        "in": "path",
+                        "description": "BV",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_business_verticals"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessverticaladd": {
+            "post": {
+                "tags": [
+                    "BV"
+                ],
+                "summary": "Add a new BV",
+                "operationId": "businessverticaladd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new BV",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_business_verticals"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BV created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_business_verticals"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/businessverticaldelete/{bv_id}": {
+            "delete": {
+                "tags": [
+                    "BV"
+                ],
+                "summary": "Delete a BV ",
+                "operationId": "businessverticaldelete",
+                "parameters": [
+                    {
+                        "name": "bv_id",
+                        "in": "path",
+                        "description": "RoleId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessverticaledit/{bv_id}": {
+            "get": {
+                "tags": [
+                    "BV"
+                ],
+                "summary": "Fetch BV by Id for Edit Window",
+                "operationId": "businessverticaledit",
+                "parameters": [
+                    {
+                        "name": "bv_id",
+                        "in": "path",
+                        "description": "bv_id :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/businessverticalupdate": {
+            "put": {
+                "tags": [
+                    "BV"
+                ],
+                "summary": "Update a BV",
+                "operationId": "businessverticalupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a BV",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_business_verticals"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BV Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/bvregions/{bv_id}": {
+            "get": {
+                "tags": [
+                    "BVRegion"
+                ],
+                "summary": "Get BVRegionn",
+                "operationId": "bvregions",
+                "parameters": [
+                    {
+                        "name": "bv_id",
+                        "in": "path",
+                        "description": "Business Vertical Region",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_bv_regions"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/assignbvregions": {
+            "post": {
+                "tags": [
+                    "BVRegion"
+                ],
+                "summary": "Add a new BVRegionn",
+                "operationId": "assignbvregions",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new BVRegionn",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_bv_regions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BVRegionn created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_bv_regions"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/datacenters/{dc_id}": {
+            "get": {
+                "tags": [
+                    "DC"
+                ],
+                "summary": "Get DC",
+                "operationId": "datacenters",
+                "parameters": [
+                    {
+                        "name": "dc_id",
+                        "in": "path",
+                        "description": "DC",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_datacenters"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/datacenteradd": {
+            "post": {
+                "tags": [
+                    "DC"
+                ],
+                "summary": "Add a new DC",
+                "operationId": "datacenteradd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new DC",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_datacenters"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DC created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_datacenters"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/datacenterdelete/{dc_id}": {
+            "delete": {
+                "tags": [
+                    "DC"
+                ],
+                "summary": "Delete a DC ",
+                "operationId": "datacenterdelete",
+                "parameters": [
+                    {
+                        "name": "dc_id",
+                        "in": "path",
+                        "description": "DCId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/datacenteredit/{dc_id}": {
+            "get": {
+                "tags": [
+                    "DC"
+                ],
+                "summary": "Fetch DC by Id for Edit Window",
+                "operationId": "datacenteredit",
+                "parameters": [
+                    {
+                        "name": "dc_id",
+                        "in": "path",
+                        "description": "DcId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/datacenterupdate": {
+            "put": {
+                "tags": [
+                    "DC"
+                ],
+                "summary": "Update a DC",
+                "operationId": "datacenterupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a DC",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_datacenters"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DC Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/dcregions/{region_id}": {
+            "get": {
+                "tags": [
+                    "RegionDCs"
+                ],
+                "summary": "Get RegionDCs",
+                "operationId": "dcregions",
+                "parameters": [
+                    {
+                        "name": "region_id",
+                        "in": "path",
+                        "description": "Region Datacenters",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_regions_dc"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/assigndcregions": {
+            "post": {
+                "tags": [
+                    "RegionDCs"
+                ],
+                "summary": "Add a new RegionDCs",
+                "operationId": "assigndcregions",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new RegionDCs",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_regions_dc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "RegionDCs created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_regions_dc"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/devicetypes/{device_type_id}": {
+            "get": {
+                "tags": [
+                    "DType"
+                ],
+                "summary": "Get DType",
+                "operationId": "devicetypes",
+                "parameters": [
+                    {
+                        "name": "device_type_id",
+                        "in": "path",
+                        "description": "DType",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_device_types"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/devicetypeadd": {
+            "post": {
+                "tags": [
+                    "DType"
+                ],
+                "summary": "Add a new DType",
+                "operationId": "devicetypeadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new DType",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_device_types"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DType created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_device_types"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/devicetypedelete/{device_type_id}": {
+            "delete": {
+                "tags": [
+                    "DType"
+                ],
+                "summary": "Delete a DType ",
+                "operationId": "devicetypedelete",
+                "parameters": [
+                    {
+                        "name": "device_type_id",
+                        "in": "path",
+                        "description": "DeviceTypeId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/devicetypeedit/{device_type_id}": {
+            "get": {
+                "tags": [
+                    "DType"
+                ],
+                "summary": "Fetch DType by Id for Edit Window",
+                "operationId": "devicetypeedit",
+                "parameters": [
+                    {
+                        "name": "device_type_id",
+                        "in": "path",
+                        "description": "DcId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/devicetypeupdate": {
+            "put": {
+                "tags": [
+                    "DType"
+                ],
+                "summary": "Update a DType",
+                "operationId": "devicetypeupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a DType",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_device_types"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DType Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/modules/{module_id}": {
+            "get": {
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Get Module",
+                "operationId": "modules",
+                "parameters": [
+                    {
+                        "name": "module_id",
+                        "in": "path",
+                        "description": "Module",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_modules"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/moduleadd": {
+            "post": {
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Add a new Module",
+                "operationId": "moduleadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new Module",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_modules"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Module created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_modules"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/moduledelete/{module_id}": {
+            "delete": {
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Delete a Module ",
+                "operationId": "moduledelete",
+                "parameters": [
+                    {
+                        "name": "module_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/moduleedit/{module_id}": {
+            "get": {
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Fetch Module by Id for Edit Window",
+                "operationId": "moduleedit",
+                "parameters": [
+                    {
+                        "name": "module_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/moduleupdate": {
+            "put": {
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Update a Module",
+                "operationId": "moduleupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a Module",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_modules"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Module Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/permissioncategories/{perm_category_id}": {
+            "get": {
+                "tags": [
+                    "PermissionCat"
+                ],
+                "summary": "Get PermissionCat",
+                "operationId": "permissioncategories",
+                "parameters": [
+                    {
+                        "name": "perm_category_id",
+                        "in": "path",
+                        "description": "PermissionCat",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_permission_categories"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissioncategoryadd": {
+            "post": {
+                "tags": [
+                    "PermissionCat"
+                ],
+                "summary": "Add a new PermissionCat",
+                "operationId": "permissioncategoryadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new PermissionCat",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_permission_categories"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PermissionCat created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_permission_categories"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/permissioncategorydelete/{perm_category_id}": {
+            "delete": {
+                "tags": [
+                    "PermissionCat"
+                ],
+                "summary": "Delete a PermissionCat ",
+                "operationId": "permissioncategorydelete",
+                "parameters": [
+                    {
+                        "name": "perm_category_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissioncategoryedit/{perm_category_id}": {
+            "get": {
+                "tags": [
+                    "PermissionCat"
+                ],
+                "summary": "Fetch PermissionCat by Id for Edit Window",
+                "operationId": "permissioncategoryedit",
+                "parameters": [
+                    {
+                        "name": "perm_category_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissioncategoryupdate": {
+            "put": {
+                "tags": [
+                    "PermissionCat"
+                ],
+                "summary": "Update a PermissionCat",
+                "operationId": "permissioncategoryupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a PermissionCat",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_permission_categories"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PermissionCat Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/permissions/{permission_id}": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get Permission",
+                "operationId": "permissions",
+                "parameters": [
+                    {
+                        "name": "permission_id",
+                        "in": "path",
+                        "description": "Permission",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_permissions"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissionadd": {
+            "post": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Add a new Permission",
+                "operationId": "permissionadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new Permission",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_permissions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Permission created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_permissions"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/permissiondelete/{permission_id}": {
+            "delete": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Delete a Permission ",
+                "operationId": "permissiondelete",
+                "parameters": [
+                    {
+                        "name": "permission_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissionedit/{permission_id}": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Fetch Permission by Id for Edit Window",
+                "operationId": "permissionedit",
+                "parameters": [
+                    {
+                        "name": "permission_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/permissionupdate": {
+            "put": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Update a Permission",
+                "operationId": "permissionupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a Permission",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_permission_categories"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Permission Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/pods/{pod_id}": {
+            "get": {
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "Get Pod",
+                "operationId": "pods",
+                "parameters": [
+                    {
+                        "name": "pod_id",
+                        "in": "path",
+                        "description": "Pod",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_pods"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/podadd": {
+            "post": {
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "Add a new Pod",
+                "operationId": "podadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new Pod",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_pods"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pod created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_pods"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        },
+        "/poddelete/{pod_id}": {
+            "delete": {
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "Delete a Pod ",
+                "operationId": "poddelete",
+                "parameters": [
+                    {
+                        "name": "pod_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/podedit/{pod_id}": {
+            "get": {
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "Fetch Pod by Id for Edit Window",
+                "operationId": "podedit",
+                "parameters": [
+                    {
+                        "name": "pod_id",
+                        "in": "path",
+                        "description": "Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/podupdate": {
+            "put": {
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "Update a Pod",
+                "operationId": "podupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a Pod",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_pods"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pod Udated Successfully"
+                    },
+                    "400": {
+                        "description": "Record Not Found."
+                    }
+                }
+            }
+        },
+        "/roles/{role_id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get all Roles or Get role by ID",
+                "operationId": "roles",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "description": "RoleID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_roles"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/roleadd": {
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Add a new Role",
+                "operationId": "roleadd",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new Role",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_roles"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_roles"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert."
+                    }
+                }
+            }
+        },
+        "/roledelete/{role_id}": {
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete a role ",
+                "operationId": "roledelete",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "description": "RoleId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/roleedit/{role_id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Fetch Role by Id for Edit Window",
+                "operationId": "roleedit",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "description": "RoleId :Only Numbers are allowed",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/roleupdate": {
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update a Role",
+                "operationId": "roleupdate",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Update a Role",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_roles"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found"
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/rolepermissions/{role_id}": {
+            "get": {
+                "tags": [
+                    "RolePerm"
+                ],
+                "summary": "Get Role Permission",
+                "operationId": "rolepermissions",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "description": "Role Permission",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record Found",
+                        "schema": {
+                            "$ref": "#/definitions/en_role_permissions"
+                        }
+                    },
+                    "400": {
+                        "description": "No Record Found."
+                    }
+                }
+            }
+        },
+        "/assignrolepermissions": {
+            "post": {
+                "tags": [
+                    "RolePerm"
+                ],
+                "summary": "Add a new Role Permission",
+                "operationId": "assignrolepermissions",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add a new Role Permission",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/en_role_permissions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role Permission created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/en_role_permissions"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to Insert"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "en_business_units": {
+            "required": [
+                "bu_id",
+                "bu_name",
+                "bu_description"
+            ],
+            "properties": {
+                "bu_id": {
+                    "description": "The Id of BU",
+                    "type": "integer"
+                },
+                "bu_name": {
+                    "description": "The Name of BU",
+                    "type": "string"
+                },
+                "bu_description": {
+                    "description": "The Description of BU ",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of BU ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_business_verticals": {
+            "required": [
+                "bv_id",
+                "bv_name",
+                "bu_id",
+                "bv_description"
+            ],
+            "properties": {
+                "bv_id": {
+                    "description": "The Id of BV",
+                    "type": "integer"
+                },
+                "bv_name": {
+                    "description": "The Name of BV",
+                    "type": "string"
+                },
+                "bu_id": {
+                    "description": "The Id of BU",
+                    "type": "integer"
+                },
+                "bv_description": {
+                    "description": "The Description of BV",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of BV",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_bv_regions": {
+            "required": [
+                "bv_id",
+                "region_id"
+            ],
+            "properties": {
+                "bv_id": {
+                    "description": "The Id of BVRegion",
+                    "type": "integer"
+                },
+                "region_id": {
+                    "description": "The Id of BVRegion",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "en_datacenters": {
+            "required": [
+                "dc_id",
+                "dc_name",
+                "dc_description"
+            ],
+            "properties": {
+                "dc_id": {
+                    "description": "The Id of Datacenter",
+                    "type": "integer"
+                },
+                "dc_name": {
+                    "description": "The Name of Datacenter",
+                    "type": "string"
+                },
+                "dc_description": {
+                    "description": "The Description of Datacenter ",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of Datacenter ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_regions_dc": {
+            "required": [
+                "region_id",
+                "dc_id"
+            ],
+            "properties": {
+                "region_id": {
+                    "description": "The Id of DCRegion",
+                    "type": "integer"
+                },
+                "dc_id": {
+                    "description": "The Id of DCRegion",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "en_device_types": {
+            "required": [
+                "device_type_id",
+                "device_type",
+                "device_type_key"
+            ],
+            "properties": {
+                "device_type_id": {
+                    "description": "The Id of Device Type",
+                    "type": "integer"
+                },
+                "device_type": {
+                    "description": "The Type of Device Type",
+                    "type": "string"
+                },
+                "device_type_key": {
+                    "description": "The Key of Device Type ",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of Device Type ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_modules": {
+            "required": [
+                "module_id",
+                "module_name",
+                "module_key"
+            ],
+            "properties": {
+                "module_id": {
+                    "description": "The Id of Module",
+                    "type": "integer"
+                },
+                "module_name": {
+                    "description": "The Name of Module",
+                    "type": "string"
+                },
+                "module_key": {
+                    "description": "The Description of Module ",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of Mopdule ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_permission_categories": {
+            "required": [
+                "perm_category_id",
+                "perm_category_name",
+                "perm_description",
+                "module_id"
+            ],
+            "properties": {
+                "perm_category_id": {
+                    "description": "The Id of Permission Category",
+                    "type": "integer"
+                },
+                "perm_category_name": {
+                    "description": "The Name of Permission Category",
+                    "type": "string"
+                },
+                "perm_description": {
+                    "description": "The Description of Permission Category",
+                    "type": "string"
+                },
+                "module_id": {
+                    "description": "The Description of Permission Category",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "The Status of Permission Category",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_permissions": {
+            "required": [
+                "permission_id",
+                "permission_name",
+                "permission_key",
+                "permission_description",
+                "perm_category_id",
+                "module_id"
+            ],
+            "properties": {
+                "permission_id": {
+                    "description": "The Id of Permissions",
+                    "type": "integer"
+                },
+                "permission_name": {
+                    "description": "The Name of Permissions",
+                    "type": "string"
+                },
+                "permission_key": {
+                    "description": "The Key of Permissions",
+                    "type": "string"
+                },
+                "permission_description": {
+                    "description": "The Description of Permissions",
+                    "type": "string"
+                },
+                "perm_category_id": {
+                    "description": "The Category of Permissions",
+                    "type": "string"
+                },
+                "module_id": {
+                    "description": "The Module id of Permissions",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The Status of Permissions",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_pods": {
+            "required": [
+                "pod_id",
+                "pod_name",
+                "pod_description",
+                "dc_id",
+                "region_id"
+            ],
+            "properties": {
+                "pod_id": {
+                    "description": "The Id of Datacenter",
+                    "type": "integer"
+                },
+                "pod_name": {
+                    "description": "The Name of Datacenter",
+                    "type": "string"
+                },
+                "pod_description": {
+                    "description": "The Description of Datacenter ",
+                    "type": "string"
+                },
+                "dc_id": {
+                    "description": "The Dc Id of Datacenter ",
+                    "type": "integer"
+                },
+                "region_id": {
+                    "description": "The region Id of Datacenter ",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "The Status of Datacenter ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_roles": {
+            "required": [
+                "role_key",
+                "role_name",
+                "role_type"
+            ],
+            "properties": {
+                "role_id": {
+                    "description": "The Id of Role",
+                    "type": "integer"
+                },
+                "role_name": {
+                    "description": "The Name of Role",
+                    "type": "string",
+                    "pattern": "/^[a-zA-Z][a-zA-Z ]*$/"
+                },
+                "role_key": {
+                    "description": "The Key of Role",
+                    "type": "string"
+                },
+                "role_description": {
+                    "description": "The Description of Role ",
+                    "type": "string"
+                },
+                "role_type": {
+                    "description": "The Type of Role ",
+                    "type": "string",
+                    "enum": [
+                        "consumer",
+                        "operator"
+                    ]
+                },
+                "status": {
+                    "description": "The Status of Role ",
+                    "type": "string",
+                    "default": "y",
+                    "enum": [
+                        "y",
+                        "n",
+                        "d"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "en_role_permissions": {
+            "required": [
+                "role_id",
+                "permission_id"
+            ],
+            "properties": {
+                "role_id": {
+                    "description": "The Id of RolePermission",
+                    "type": "integer"
+                },
+                "permission_id": {
+                    "description": "The id of RolePermission",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "tags": [
+        {
+            "name": "BU",
+            "description": "Businesss Units"
+        },
+        {
+            "name": "BV",
+            "description": "Businesss Units"
+        },
+        {
+            "name": "BVRegion",
+            "description": "Business Vertical Regions"
+        },
+        {
+            "name": "DC",
+            "description": "Datacenter"
+        },
+        {
+            "name": "RegionDCs",
+            "description": "Region Datacenters"
+        },
+        {
+            "name": "DType",
+            "description": "Device Types"
+        },
+        {
+            "name": "Module",
+            "description": "Module"
+        },
+        {
+            "name": "PermissionCat",
+            "description": "Permission Category"
+        },
+        {
+            "name": "Permission",
+            "description": "Permission"
+        },
+        {
+            "name": "Pod",
+            "description": "Pod"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
+            "name": "RolePerm",
+            "description": "Role Permission"
+        }
+    ]
+}

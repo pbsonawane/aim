@@ -1,0 +1,24 @@
+<?php 
+    $file_dir = $_GET['file_dir'];
+    $idfile = $_GET['idfile'];
+    $file = $_GET['file'];
+    $fp = fopen($file_dir . '/' . $file, 'rb');
+            if ($idfile == 6 || $idfile == 9 || $idfile == 12) {
+                header('Content-Description: File Transfer');
+                header('Content-Type:application/vnd.openxmlformats-officedocument.presentationml.presentation');
+            } else {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+            }
+            header('Content-Disposition: attachment; filename="' . basename($file_dir . '/' . $file) . '"');
+            header('Accept-Ranges: bytes');
+            header('Content-Transfer-Encoding: binary');
+            header('Pragma: public');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Content-transfer-encoding: binary');
+            header("Content-Length: " . filesize($file_dir . '/' . $file));
+            header("Content-Length: " . filesize($file_dir . '/' . $file));
+            ob_clean();
+            readfile($file_dir . '/' . $file);
+?>
